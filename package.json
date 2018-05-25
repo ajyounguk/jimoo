@@ -1,0 +1,22 @@
+{
+  "name": "jimoo",
+  "version": "1.0.0",
+  "description": "the feedback tool",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ajyounguk/jimoo.git"
+  },
+  "author": "Andrew Young",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ajyounguk/jimoo/issues"
+  },
+  "homepage": "https://github.com/ajyounguk/jimoo#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}

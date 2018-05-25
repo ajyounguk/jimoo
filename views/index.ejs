@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="/assets/styles.css" />
+    <title>Jimoo</title>
+    
+</head>
+
+<body class="simple-style" onLoad=displayOption(<%=ui.menuitem %>)>
+
+    <div class="titlediv">
+        <h2>Jimoo</h2>
+        <span class="small">the feedback tool</span>
+        <hr>
+    </div>
+
+    <% include ./navbar.ejs %>
+    <% include ./feedback-forms.ejs %>
+</body>
+
+</html>
