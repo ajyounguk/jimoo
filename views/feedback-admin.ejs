@@ -1,0 +1,62 @@
+<!-- 1. Create Event -->
+<div id="1" class="menu-div" style="display:none">
+    <form method="POST" action="/admin/event">
+        <span>Create Event</span>
+        <hr>
+        <br>
+        <label>Event Name:</label>
+        <input size=100 class="field-long" placeholder="Event Name" id="eventname" type="text" name="eventname" value="<%= ui.def_ %>"
+            required>
+        <br>
+        <br>
+        <label>Location:</label>
+        <input size=100 class="field-long" placeholder="Event Location" id="bucketname" type="text" name="bucketname" value="<%= ui.def_ %>"
+            required>
+        <br>
+        <br>
+        <label>Presenter:</label>
+        <input size=100 class="field-long" placeholder="Event Presenter" id="bucketname" type="text" name="bucketname" value="<%= ui.def_ %>"
+            required>
+        <br>
+        <br>
+
+        <table width="50%">
+            <tr>
+                <td width="50">
+                    <label>Start Date &amp Time:</label>
+                </td>
+                <td width="50%">
+                    <label>End Date &amp Time</label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input id="startdate" type="date" name="startdate" value="<%= ui.def_todayd %>" required>
+                </td>
+                <td>
+                    <input id="enddate" type="date" name="enddate"value="<%= ui.def_todayd %>" required>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                 <input id="starttime" type="time" name="starttime" value="<%= ui.def_todayt %>" required>
+                </td>
+                <td>
+                 <input id="endtime" type="time" name="endtime" value="<%= ui.def_todayt %>" required>
+                </td>
+            </tr>
+
+        </table>
+
+        <br>
+        <label>Event Notes:</label>
+        <textarea class="small" placeholder="Event Notes" id="eventnotes" type="text" name="eventnotes" value="<%= ui.def_ %>" required>
+        </textarea>
+        <br>
+
+        <input type="submit" value="Create Event">
+        <br>
+        <br>
+
+    </form>
+</div>

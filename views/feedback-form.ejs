@@ -1,0 +1,49 @@
+<!-- 1. Create Event -->
+<div id="1" class="menu-div" style="display:none">
+    <form method="POST" action="/admin/event">
+        <span>Create Event</span>
+        <hr>
+        <br>
+        <label>Event Name:</label>
+        <input size=100 placeholder="Bucket Name" id="bucketname" type="text" name="bucketname" value="<%= ui.def_bucket %>" required>
+        <br>
+        <label>Event Location:</label>
+        <input size=100 placeholder="Bucket Name" id="bucketname" type="text" name="bucketname" value="<%= ui.def_bucket %>" required>
+        <br>
+        <label>Event Presenter:</label>
+        <input size=100 placeholder="Bucket Name" id="bucketname" type="text" name="bucketname" value="<%= ui.def_bucket %>" required>
+        <br>
+        <label>Event Date:</label>
+
+        <table width="50%">
+                <tr>
+                    <td width="50"><label>From:</label></td>
+                    <td width="50%"><label>To:</label></td>
+                </tr>
+                <tr>
+                    <td><input id ="startdate" type="datetime-local" name="startdate" value ='2017-12-01T13:00' required></td>
+                    <td><input id ="enddate" type="datetime-local" name="enddate" value ='2018-01-01T13:00' required></td>
+                <tr>
+                <tr><td><br></td><td><br></td></tr>
+    
+        </table>
+        <input size=100 placeholder="Bucket Name" id="bucketname" type="text" name="bucketname" value="<%= ui.def_bucket %>" required>
+        <br>
+        <br>
+        <label>Event Notes:</label>
+        <input size=100 placeholder="Bucket Name" id="bucketname" type="text" name="bucketname" value="<%= ui.def_bucket %>" required>
+        <br>
+
+
+
+
+        <input type="submit" value="Create Bucket">
+        <br>
+        <br>
+        <label>Response:</label>
+        <textarea name="response" id="response" class="medium" readonly>
+<%= JSON.stringify(ui.data[1],null, 3) %>
+        </textarea>
+
+    </form>
+</div>
