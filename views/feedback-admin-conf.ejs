@@ -1,17 +1,31 @@
-<!-- 1. Create Event -->
+
+
+<!-- 1. Create Event Confirmation -->
 <div id="1" class="menu-div" style="display:none">
     <form method="POST" action="/admin/event">
-        <span>Create Event</span><hr><br>
+        <span>Create Event</span>
+        <hr>
+        <br>
         <label>Event Name</label>
-        <input size=100 class="field-long" placeholder="Event Name" id="name" type="text" name="name" value="<%= ui.def_ %>" required><br><br>
+        <input size=100 class="field-long" placeholder="Event Name" id="name" type="text" name="name" value="<%= ui.def_ %>"
+            required>
+        <br>
+        <br>
         <label>Location</label>
-        <input size=100 class="field-long" placeholder="Event Location" id="location" type="text" name="location" value="<%= ui.def_ %>" required><br><br>
-        <label>Presenter</label>
-        <input size=100 class="field-long" placeholder="Event Presenter" id="presenter" type="text" name="presenter" value="<%= ui.def_ %>" required><br><br>
-        <label>Contact Email</label>
-        <input size=100 class="field-long" placeholder="Contact Email" id="email" type="text" name="email" value="<%= ui.def_ %>" required>
-        <br><br>
-        
+        <input size=100 class="field-long" placeholder="Event Location" id="location" type="text" name="location" value="<%= ui.def_ %>"
+            required>
+        <br>
+        <br>
+        <label>Presenter:</label>
+        <input size=100 class="field-long" placeholder="Event Presenter" id="presenter" type="text" name="presenter" value="<%= ui.def_ %>"
+            required>
+        <br>
+        <br>
+        <label>Contact Email:</label>
+        <input size=100 class="field-long" placeholder="Contact email" id="presenter" type="text" name="presenter" value="<%= ui.def_ %>"
+            required>
+        <br>
+
         <table width="50%">
             <tr>
                 <td width="50">
@@ -37,20 +51,18 @@
                  <input id="endtime" type="time" name="endtime" value="<%= ui.def_todayt %>" required>
                 </td>
             </tr>
-        </table><br>
-        
+
+        </table>
+
+        <br>
         <label>Event Notes:</label>
         <textarea class="small" placeholder="Event Notes" id="notes" type="text" name="notes" value="<%= ui.def_ %>" required>
-        </textarea><br>
+        </textarea>
+        <br>
 
-        <input type="submit" value="Create Event"><br><br>
+        <input type="submit" value="Create Event">
+        <br>
+        <br>
 
-        <label>Feedback PIN for attendees</label>
-        <% if ( typeof ui.data[1] == 'object' && ui.data[1] ) { %>
-            <input size=100 class="field-long" placeholder="" id="pin" type="text" name="pin" value="<%= ui.data[1].pin %>" readonly>
-        <% } else { %>
-            <input size=100 class="field-long" placeholder="" id="pin" type="text" name="pin" value="" readonly>
-        <% } %><br><br>
     </form>
 </div>
-

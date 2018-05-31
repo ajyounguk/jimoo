@@ -139,9 +139,9 @@
     font: 14px;
     width: 95%;
     height: 25em;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
 }
 
 .simple-style textarea[readonly] {
@@ -153,9 +153,9 @@
     background-color: rgb(235, 235, 235);
     width: 80%;
     height: 60em;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
 }
 
 .simple-style textarea[readonly].small {
@@ -167,9 +167,9 @@
     background-color: rgb(235, 235, 235);
     width: 80%;
     height: 14em;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
 }
 
 .simple-style textarea[readonly].medium {
@@ -181,9 +181,9 @@
     background-color: rgb(235, 235, 235);
     width: 80%;
     height: 20em;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
 }
 
 .simple-style form {
@@ -217,9 +217,9 @@ select {
     outline: none;
     font-size: 16px;
     width: 45%;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
 }
 
 /* input focus */
@@ -238,9 +238,9 @@ select {
     box-shadow: 0 0 8px #41477e;
     border: 1px solid #41477e;
     font-size: 16px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
 }
 
 /* date */
@@ -265,9 +265,9 @@ select {
     outline: none;
     font-size: 16px;
     width: 170PX;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
 }
 
 .simple-style input[type=date]:focus,
@@ -280,9 +280,9 @@ select {
     box-shadow: 0 0 8px #41477e;
     border: 1px solid #41477e;
     font-size: 16px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
 }
 
 /* radio */
@@ -302,37 +302,37 @@ select {
 
 .simple-style input.field-long {
     width: 95%;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
 }
 
 .simple-style input.field-small {
     width: 170PX;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
 }
 
 .simple-style input.menu-button[type=submit] {
     margin: 5px 0px 5px 0px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
 }
 
 .simple-style input.submenu-button[type=submit] {
     margin: 5px 0px 5px 0px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
 }
 
 .simple-style field-textarea {
     height: 100px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
 }
 
 .simple-style input[type=submit],
@@ -343,9 +343,9 @@ select {
     margin: 5px;
     font-size: 16px;
     color: #fff;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
 }
 
 .simple-style input[type=submit]:disabled,
@@ -356,9 +356,9 @@ select {
     margin: 5px;
     font-size: 16px;
     color: rgb(129, 164, 172);
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
 }
 
 .simple-style input[type=submit]:hover,
@@ -367,9 +367,9 @@ select {
     box-shadow: none;
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
 }
 
 .simple-style .required {
@@ -378,9 +378,9 @@ select {
 
 input[readonly] {
     background-color: rgb(235, 236, 243);
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
 }
 
 /* dropdown menu styles */

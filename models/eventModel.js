@@ -8,7 +8,9 @@ var eventSchema = new Schema({
         name: String,
         location: String,
         presenter: String,
-        notes: String,
+        start: Date,
+        end: Date,
+        notes: String
     },
     feedback: {
         starRating: Number,
@@ -21,6 +23,6 @@ var eventSchema = new Schema({
 
 
 // person schema for mongo 
-var event = mongoose.model('Event', eventSchema)
+var Event = mongoose.model('Event', eventSchema)
 
 module.exports = Event
