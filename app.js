@@ -19,7 +19,13 @@ var mongoConfig = JSON.parse(fs.readFileSync(__dirname + '/config/mongo-config.j
 var mongourl = mongoConfig.mongourl
 
 // connect to mongo
-mongoose.connect(mongourl)
+mongoose.connect(mongourl, function (err) {
+    if (err) {
+        console.log('MongoDB connection error')
+        console.log( JSON.stringify(err),null,3)
+        throw err
+    }
+})
 
 
 
