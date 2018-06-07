@@ -24,6 +24,8 @@ mongoose.connect(mongourl, function (err) {
         console.log('MongoDB connection error')
         console.log( JSON.stringify(err),null,3)
         throw err
+    } else {
+        console.log("Jimoo connected to MongoDB")
     }
 })
 
@@ -31,11 +33,14 @@ mongoose.connect(mongourl, function (err) {
 
 // load the controllers
 var feedbackController = require('./controllers/feedbackController')
+var setupController = require('./controllers/setupController')
 
 feedbackController(app, mongoose)
+setupController(app, mongoose)
+
 
 // Start server.
-console.log('Jimoo server listening on port', port);
+console.log('Jimoo web server listening on port', port);
 
 app.listen(port)
 

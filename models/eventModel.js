@@ -12,13 +12,16 @@ var eventSchema = new Schema({
         end: Date,
         notes: String
     },
-    feedback: {
+    feedback: [{
         starRating: Number,
         engaging: Number,
         inspiring: Number,
         informative: Number,
-        notes: String
-    }
+        notes: String,
+        name: String,
+        email: String,
+        date: Date
+    }]
 })
 
 
