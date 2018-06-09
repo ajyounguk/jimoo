@@ -20,7 +20,9 @@ module.exports = function (app, mongoose) {
                     presenter: "Andrew Young",
                     start: "2018-06-01 15:00:00",
                     end: "2018-06-01 17:00:00",
-                    notes: "really iteresting things will be discussed here"
+                    email: "aj@myemail.com",
+                    notes: "really iteresting things will be discussed here",
+                    pin: "AJFIE"
                 },
                 feedback: [{
                         starRating: 5,
@@ -61,7 +63,9 @@ module.exports = function (app, mongoose) {
                     presenter: "Jack Mayselles",
                     start: "2018-04-01 11:00:00",
                     end: "2018-04-01 13:00:00",
-                    notes: "shhhhh"
+                    email: "jakm@liftingcars.com",
+                    notes: "shhhhh",
+                    pin: "EFIEN"
                 },
                 feedback: [{
                     starRating: 4,
@@ -78,7 +82,9 @@ module.exports = function (app, mongoose) {
                     presenter: "Martino Slavino Mangos",
                     start: "2018-01-01 11:00:00",
                     end: "2018-01-01 13:00:00",
-                    notes: "this is going to be su-eet"
+                    email: "martino.mangos@fruit.com",
+                    notes: "this is going to be su-eet",
+                    pin: "113TG"
                 },
                 feedback: [{
                         starRating: 5,
@@ -119,7 +125,9 @@ module.exports = function (app, mongoose) {
                     presenter: "Enis Boughdough",
                     start: "2018-03-01 09:00:00",
                     end: "2018-03-01 13:00:00",
-                    notes: "come see me nail things down in thi sone"
+                    email: "ensb@bready.co.uk",
+                    notes: "come see me nail things down in thi sone",
+                    pin: "PEKKM"
                 },
                 feedback: [{
                     starRating: 4,
@@ -139,7 +147,9 @@ module.exports = function (app, mongoose) {
                     presenter: "Dan Buster",
                     start: "2018-02-03 17:00:00",
                     end: "2018-02-03 18:00:00",
-                    notes: "you spin me right round baby right round"
+                    email: "dan.buster@lancaster.co.uk",
+                    notes: "you spin me right round baby right round",
+                    pin: "EUD6N"
                 },
                 feedback: [{
                         starRating: 5,
@@ -188,7 +198,9 @@ module.exports = function (app, mongoose) {
                     presenter: "Const Alation",
                     start: "2018-06-09 10:00:00",
                     end: "2018-06-09 11:00:00",
-                    notes: "come see us rock about planets"
+                    email: "consty@alation.com",
+                    notes: "come see us rock about planets",
+                    pin: "FE2FB"
                 },
                 feedback: [{
                     starRating: 1,
@@ -217,7 +229,9 @@ module.exports = function (app, mongoose) {
                     presenter: "Monica Louinska",
                     start: "2018-01-01 23:59:58",
                     end: "2018-01-01 23:59:59",
-                    notes: "snaking at it's best"
+                    email: "monica@whiteroom.com",
+                    notes: "snaking at it's best",
+                    pin: "A3GIE"
                 },
                 feedback: [{
                     starRating: 3,
@@ -226,8 +240,8 @@ module.exports = function (app, mongoose) {
                     informative: 5,
                     notes: "snacking at it's best",
                     name: "",
-                        email: "",
-                        date: "2018-10-10 11:00:00"
+                    email: "",
+                    date: "2018-10-10 11:00:00"
                 }, {
                     starRating: 3,
                     engaging: 3,
@@ -235,8 +249,8 @@ module.exports = function (app, mongoose) {
                     informative: 3,
                     notes: "was ok, average snacks in the fridge",
                     name: "Davido Moon",
-                        email: "d.moon@off.com",
-                        date: "2018-04-02 13:10:00"
+                    email: "d.moon@off.com",
+                    date: "2018-04-02 13:10:00"
                 }]
             }
         ]

@@ -1,3 +1,8 @@
+// event model for mongo
+//
+// event is our main domain object to capture feedback on
+// (not some fancy event handling thing)
+
 var mongoose = require('mongoose')
 
 // data 
@@ -8,9 +13,11 @@ var eventSchema = new Schema({
         name: String,
         location: String,
         presenter: String,
+        email: String,
         start: Date,
         end: Date,
-        notes: String
+        notes: String,
+        pin: String
     },
     feedback: [{
         starRating: Number,

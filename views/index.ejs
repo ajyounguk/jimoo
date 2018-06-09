@@ -9,26 +9,55 @@
 
 <body class="simple-style" onLoad=displayOption(<%=ui.menuitem %>)>
 
-    <div class="titlediv">
-    <!--
-        <table width="100%">
+
+    <div class="title groupdiv">
+        <table class="title">
             <tr>
-                <td width="50%">
-                    <h2>Jimoo</h2>
+                <td>
+                    <h1 class="title">Jimoo</h1>
                 </td>
-                <td width="50%" align="right" valign="bottom">
-                    <div align="right">
-                        <br><span>easy feedback</span>
-                    </div>
+                <td class="subtitle">
+                    <span class="subtitle">easy feedback</span>
                 </td>
             </tr>
         </table>
-        -->
+    
         <hr>
+
+        <div class="buttons">
+        <input class="menu-button" type="submit" value="Create Event" onclick="displayOption('1')">
+        <input class="menu-button" type="submit" value="List Events" onclick="displayOption('2')">
+        <input class="menu-button" type="submit" value="Modify Event" onclick="displayOption('3')">
+        <input type="button" onclick="location.href='/';" value="Reset" />
+        </div>
+
+
     </div>
 
-    <% include ./navbar.ejs %>
-        <% include ./feedback-admin.ejs %>
-</body>
+    <!-- Form Partials -->
+    <% include ./feedback-admin-form.ejs %>
 
+
+    <!-- navbar buttons control  -->
+    <!-- toggles div sections for the forms and the buttons) -->
+    <script>
+        function displayOption(activeOption) {
+
+            activeOption--;
+            var i;
+            var activediv = document.getElementsByClassName("menu-div");
+            var activebutton = document.getElementsByClassName("menu-button");
+
+            for (i = 0; i < activediv.length; i++) {
+                if (i == activeOption) {
+                    activediv[i].style.display = "block";
+                    activebutton[i].style.background = "rgb(0, 9, 12)";
+                } else {
+                    activediv[i].style.display = "none";
+                    activebutton[i].style.background = "";
+                }
+            }
+        }
+    </script>
+</body>
 </html>

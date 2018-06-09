@@ -1,60 +1,158 @@
 .simple-style {
     margin: 10px;
-    background-color: rgb(220, 244, 247);
+    background-color: rgb(237, 247, 248);
     font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
 
 .simple-style body, input {
-
     font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+/* show menu contents */
+.simple-style .show {
+    display: block;
+}
+
+/* enabled menu button */
+.simple-style .enabled {
+    background-color: rgb(4, 25, 36);
+}
+
+/* menu divs are padded */
+.simple-style div.menu-div {
+    padding: 10px;
+}
+
+.simple-style div.padded {
+    padding: 10px;
+}
+
+
+.simple-style div.title {
+    margin: 5px 10px 5px 10px;
+    padding: 8px 16px;
+    background-color: rgb(31, 104, 122);
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+}
+
+.simple-style div.buttons {
+    padding: 10px 0 0 0;
+}
+
+
+.simple-style div.groupdiv {
+    border: 2px solid #57a3ac;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    padding: 10px;
+}
+
+.simple-style .groupdiv-list {
+    border: 2px solid #57a3ac;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    padding: 2 px;
+}
+
+.simple-style option {
+    width: 225px;
+}
+
+.simple-style .darker {
+    background-color: rgb(200, 238, 243)
+}
+
+.simple-style .fullw {
+    width: 100%;
+}
+
+.simple-style .halfw {
+    width: 50%;
+}
+
+.simple-style .quarterw {
+    width: 25%;
+}
+
+.simple-style .tenw {
+    width: 10%;
 }
 
 .simple-style p {
     font-size: 16px;
-
-    margin: 5px;
-    color: rgb(2, 48, 59);
+    margin: 10px 10px 10px 10px;
 }
+
+.simple-style a.button {
+    text-decoration: none;
+    background: rgb(31, 104, 122);
+    padding: 8px 12px 8px 12px;
+    border: none;
+    margin: 5px;
+    font-size: 16px;
+    color: #fff;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+}
+
+.simple-style a.button:hover {
+    background: rgb(0, 9, 12);
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+}
+
 .simple-style table {
     border: 0px solid #e41e1e;
     text-align: left;
     padding: 0px;
-    /* border: 1px solid; */
+}
+
+.simple-style table.title {
+    border: 0px solid #e41e1e;
+    text-align: left;
+    width: 100%;
+    padding: 8px, 10px, 10px, 10px;
 }
 
 .simple-style tr {
-    border: 1px solid #18e06b;
     text-align: left;
     padding: 0px;
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
     border-radius: 6px;
-    
 }
 
 .simple-style td {
-    border: 1px solid #9fd9e7;
+    border: 0px solid #9fd9e7;
     text-align: left;
     padding: 0px;
     vertical-align: top;
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
     border-radius: 6px;
-    
 }
 
-.simple-style .titlediv {
-    padding: 8px 16px;
-    background-color: rgb(31, 104, 122);
-}
-
-.simple-style .groupdiv {
-    border: 1px solid #9bc9ce;
+.simple-style td.subtitle {
+    border: 0px solid #9fd9e7;
+    text-align: left;
+    padding: 0px;
+    vertical-align: top;
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
     border-radius: 6px;
-    padding: 8px 16px;
-    background-color: rgb(244, 248, 248);
+    width: 50%;
+    text-align: right;
+    vertical-align: bottom;
+    
 }
 
 .simple-style hr {
@@ -71,7 +169,14 @@
     font-size: 20px;
     font-weight: bold;
     margin: 5px;
-    color: rgb(117, 169, 182);
+    color: rgb(118, 166, 179);
+}
+
+.simple-style span.subtitle {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 5px;
+    color: rgb(150, 195, 207);
 }
 
 .simple-style span.menu {
@@ -93,7 +198,15 @@
     padding: 12px;
     display: block;
     font-weight: bold;
-    color: rgb(197, 227, 228);
+
+}
+
+.simple-style h1.title {
+    margin: 0 0 3px 0;
+    padding: 12px;
+    display: block;
+    font-weight: bold;
+    color: rgb(188, 229, 240)
 }
 
 .simple-style h2 {
@@ -101,7 +214,14 @@
     padding: 5px;
     display: block;
     font-weight: bold;
-    color: rgb(197, 227, 228);
+}
+
+
+.simple-style h2.title {
+    margin: 0 0 3px 0;
+    padding: 5px;
+    display: block;
+    font-weight: bold;
 }
 
 .simple-style h3 {
@@ -147,9 +267,9 @@
     margin: 5px;
     padding: 0;
     display: block;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
-    color: rgb(14, 72, 87)
+    color: rgb(41, 125, 146)
 }
 
 .simple-style label.light {
@@ -222,7 +342,6 @@
 }
 
 /* input */
-
 .simple-style input[type=text],
 .simple-style input[type=datetime],
 .simple-style input[type=number],
@@ -252,7 +371,6 @@ select {
 }
 
 /* input focus */
-
 .simple-style input[type=text]:focus,
 .simple-style input[type=datetime]:focus,
 .simple-style input[type=number]:focus,
@@ -273,7 +391,6 @@ select {
 }
 
 /* date */
-
 .simple-style input[type=date],
 .simple-style input[type=datetime],
 .simple-style input[type=datetime-local],
@@ -314,7 +431,6 @@ select {
 }
 
 /* radio */
-
 .simple-style input[type=radio],
 select {
     margin: 5px;
@@ -322,7 +438,6 @@ select {
 }
 
 /* input focus */
-
 .simple-style input[type=radio]:focus,
 .simple-style select:focus {
     font-size: 16px;
@@ -343,7 +458,7 @@ select {
 }
 
 .simple-style input.menu-button[type=submit] {
-    margin: 5px 0px 5px 0px;
+    margin: 5px 5px 5px 5px;
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
     border-radius: 6px;
@@ -365,7 +480,7 @@ select {
 
 .simple-style input[type=submit],
 .simple-style input[type=button] {
-    background: rgb(31, 104, 122);
+    background:  rgb(31, 104, 122);
     padding: 8px 12px 8px 12px;
     border: none;
     margin: 5px;
@@ -412,9 +527,8 @@ input[readonly] {
 }
 
 /* dropdown menu styles */
-
 .simple-style .dropbtn {
-    background-color: rgb(14, 72, 87);
+    background-color: rgb(31, 104, 122);
     color: white;
     padding: 8px 12px 8px 12px;
     margin: 5px 0px 0px 0px;
@@ -451,28 +565,4 @@ input[readonly] {
 .simple-style .dropdown a:hover {
     background-color: rgb(4, 25, 36);
     color: rgb(255, 255, 255);
-}
-
-/* show menu contents */
-
-.simple-style .show {
-    display: block;
-}
-
-/* enabled menu button */
-
-.simple-style .enabled {
-    background-color: rgb(4, 25, 36);
-}
-
-/* menu divs are padded */
-
-.simple-style .menu-div {
-    padding: 25px;
-}
-
-/* menu divs are padded */
-
-.simple-style option {
-    width: 225px;
 }
