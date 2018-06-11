@@ -5,7 +5,24 @@
 module.exports = function (app, mongoose) {
 
     // init vars
-    var ui = {}
+    var ui = {
+        flow: {
+            activateDiv: null,
+            activateButton: null,
+        },
+        prepop: {
+            todayDate: null,
+            todayTime: null,
+            listStartDate: null,
+            listEndDate: null
+        },
+        data: {
+            create: null,
+            list: null,
+            modify: null
+            }
+        }
+
 
     // load Event model for mongo
     var Event = require('../models/eventModel')
@@ -16,9 +33,6 @@ module.exports = function (app, mongoose) {
     app.use(bodyParser.urlencoded({
         extended: true
     })); // support encoded bodies
-
-
-     
 
 
     // serve up main test page 
@@ -33,16 +47,15 @@ module.exports = function (app, mongoose) {
         var listStartDate = new Date(thisYear, thisMonth, 2 ).toISOString().split('T')[0]
         var listEndDate = new Date(thisYear, thisMonth +1 , 2).toISOString().split('T')[0]
 
-        ui = {
-            menuitem: 1,
-            data: [],
-            def_today_date: dateNow,
-            def_today_time: timeNow,
-            def_list_start: listStartDate,
-            def_list_end: listEndDate
-        }
+        // init ui
+        ui.flow.activateDiv = 'create-div'
+        ui.flow.activateButton = 'create-button'
 
-        ui.menuitem = 1
+        ui.prepop.todayDate = dateNow
+        ui.prepop.todayTime = timeNow
+        ui.prepop.listStartDate = listStartDate
+        ui.prepop.listEndDate = listEndDate
+        
 
         res.setHeader('Content-Type', 'text/html');
         res.render('./index', {
@@ -61,10 +74,9 @@ module.exports = function (app, mongoose) {
         function makePin (attempts, callback) {
 
             if (attempts >= 20) {
+                console.log('ERROR, pin generation failed after too many collisions (20)')
                 callback('too may attempts at pin generation', null)
             }
-
-            console.log('try', attempts)
 
             var text = ""
             var possible = "ABCDEFGHIJKLMNPQRSTUVWXYZ123456789";
@@ -81,7 +93,9 @@ module.exports = function (app, mongoose) {
                 } else {
                     if (result.length) {
                         attempts++
+                        console.log ('WARNING, collision detected in pin generation attempt', 1)
                         makePin(attempts, callback)
+                        
                     } else {
                         callback (null, text) // no pin collision all good
                     }
@@ -94,18 +108,17 @@ module.exports = function (app, mongoose) {
 
         // get & format dates from form
         var startd = new Date(req.body.startdate + " " + req.body.starttime)
-        var endd = new Date(req.body.enddate + "    " + req.body.endtime)
+        var endd = new Date(req.body.enddate + " " + req.body.endtime)
 
-        // init UI
-        ui.menuitem = 1
-        ui.data[ui.menuitem] = {
+        // init UI        
+        ui.flow.activateDiv = 'create-confirmation-div'
+        ui.flow.activateButton = 'create-button'
+        ui.data.create = {
             timestamp: date,
-            status: '',
-            response: '',
-            pin: ''
+            status: null,
+            response: null
         }
             
-        
         var pin = null
         
         makePin (0, function (err, pincode) {
@@ -132,21 +145,19 @@ module.exports = function (app, mongoose) {
                 event.save(function (err) {
                     if (err) {
                         res.status = 500
-                        ui.data[ui.menuitem].status = '500'
-                        ui.data[ui.menuitem].response = err
+                        ui.data.create.status = '500'
+                        ui.data.create.response = err
                     } else {
                         res.status = 201
-                        ui.data[ui.menuitem].status = '201'
-                        ui.data[ui.menuitem].response = event
+                        ui.data.create.status = '201'
+                        ui.data.create.response = event
                     }
 
+                    // redirect to confirmation screen
                     res.render('./index.ejs', {
                         ui: ui
                     })
                 })
-
-              
-
             }
         })
     })
@@ -160,12 +171,12 @@ module.exports = function (app, mongoose) {
         var startdate = new Date(req.body.lstartdate +' 00:00:00')
         var enddate = new Date(req.body.lenddate +' 24:00:00')
 
-
-        ui.menuitem = 2
-        ui.data[ui.menuitem] = {
+        ui.flow.activateDiv = 'list-div'
+        ui.flow.activateButton=  'list-button'
+        ui.data.list = {
             timestamp: date,
-            status: '',
-            response: ''
+            status: null,
+            response: null
         }
 
         Event.find({
@@ -176,11 +187,11 @@ module.exports = function (app, mongoose) {
 
 
             if (err) {
-                ui.data[ui.menuitem].status = '500'
-                ui.data[ui.menuitem].response = err
+                ui.data.list.status = '500'
+                ui.data.list.response = err
             } else {
-                ui.data[ui.menuitem].status = '200'
-                ui.data[ui.menuitem].response = events
+                ui.data.list.status = '200'
+                ui.data.list.response = events
             }
 
             res.render('./index.ejs', {

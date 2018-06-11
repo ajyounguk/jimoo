@@ -7,9 +7,10 @@
 
 </head>
 
-<body class="simple-style" onLoad=displayOption(<%=ui.menuitem %>)>
+<body class="simple-style" onLoad="activateUI('<%= ui.flow.activateDiv %>','<%= ui.flow.activateButton %>')">
 
 
+<!--
     <div class="title groupdiv">
         <table class="title">
             <tr>
@@ -21,14 +22,14 @@
                 </td>
             </tr>
         </table>
-    
+    -->
         <hr>
 
         <div class="buttons">
-        <input class="menu-button" type="submit" value="Create Event" onclick="displayOption('1')">
-        <input class="menu-button" type="submit" value="List Events" onclick="displayOption('2')">
-        <input class="menu-button" type="submit" value="Modify Event" onclick="displayOption('3')">
-        <input type="button" onclick="location.href='/';" value="Reset" />
+        <input id='create-button' class="menu-button" type="submit" value="Create Event" onclick="activateUI('create-div','create-button')">
+        <input id='list-button' class="menu-button" type="submit" value="List Events" onclick="activateUI('list-div','list-button')">
+        <input id='modify-button' class="menu-button" type="submit" value="Modify Event" onclick="activateUI('modify-div','modify-button')">
+        <input id='reset-button' type="button" onclick="location.href='/';" value="Reset" />
         </div>
 
 
@@ -41,22 +42,29 @@
     <!-- navbar buttons control  -->
     <!-- toggles div sections for the forms and the buttons) -->
     <script>
-        function displayOption(activeOption) {
+        function activateUI(activateDiv, activateButton) {
 
-            activeOption--;
+            // enable divs
             var i;
-            var activediv = document.getElementsByClassName("menu-div");
-            var activebutton = document.getElementsByClassName("menu-button");
 
-            for (i = 0; i < activediv.length; i++) {
-                if (i == activeOption) {
-                    activediv[i].style.display = "block";
-                    activebutton[i].style.background = "rgb(0, 9, 12)";
-                } else {
-                    activediv[i].style.display = "none";
-                    activebutton[i].style.background = "";
-                }
+            var divs = document.getElementsByClassName("menu-div");
+            var buttons = document.getElementsByClassName("menu-button");
+
+            // reset/disable all divs
+            for (i = 0; i < divs.length; i++) {
+                divs[i].style.display = "none";
             }
+
+           
+            // disable all buttons
+            for (i = 0; i < buttons.length; i++) {
+                buttons[i].style.background = "";
+            }
+
+            // activate requested button and div
+
+            document.getElementById(activateDiv).style.display = "block";          
+            document.getElementById(activateButton).style.background = "rgb(0, 9, 12)";
         }
     </script>
 </body>

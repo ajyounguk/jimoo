@@ -1,5 +1,5 @@
-<!-- 1. Create Event -->
-<div id="1" class="menu-div padded" style="display:none">
+<!-- 1a. Create Event -->
+<div id="create-div" class="menu-div padded" style="display:none">
 
 
     <form method="POST" action="/admin/event">
@@ -9,16 +9,93 @@
         <div class="groupdiv">
 
             <label>Event Name</label>
-            <input size=100 class="field-long" placeholder="Event Name" id="name" type="text" name="name" value="<%= ui.def_ %>" required><br><br>
+            <input class="field-long" placeholder="Event Name" id="name" type="text" name="name" value="" required><br><br>
             
             <label>Location</label>
-            <input size=100 class="field-long" placeholder="Event Location" id="location" type="text" name="location" value="<%= ui.def_ %>" required><br><br>
+            <input class="field-long" placeholder="Event Location" id="location" type="text" name="location" value=""" required><br><br>
             
             <label>Presenter</label>
-            <input size=100 class="field-long" placeholder="Event Presenter" id="presenter" type="text" name="presenter" value="<%= ui.def_ %>" required><br><br>
+            <input class="field-long" placeholder="Event Presenter" id="presenter" type="text" name="presenter" value="" required><br><br>
             
             <label>Contact Email</label>
-            <input size=100 class="field-long" placeholder="Contact Email" id="email" type="text" name="email" value="<%= ui.def_ %>" required>
+            <input class="field-long" placeholder="Contact Email" id="email" type="text" name="email" value="" required>
+            <br><br>
+            
+            <table class="halfw">
+                <tr>
+                    <td class="halfw">
+                        <label>Start Date &amp; Time</label>
+                    </td>
+                    <td class="halfw">
+                        <label>End Date &amp; Time</label>
+                    </td>
+                </tr>
+                <tr>
+
+
+                
+                    <td>
+                        <input id="startdate" type="date" name="startdate" value="<%= ui.prepop.todayDate %>" required>
+                    </td>
+                    <td>
+                        <input id="enddate" type="date" name="enddate" value="<%= ui.prepop.todayDate %>" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    <input id="starttime" type="time" name="starttime" value="<%= ui.prepop.todayTime %>" required>
+                    </td>
+                    <td>
+                    <input id="endtime" type="time" name="endtime" value="<%= ui.prepop.todayTime %>" required>
+                    </td>
+                </tr>
+          
+            </table><br>
+        
+        
+            <label>Event Notes</label>
+            <textarea class="small" placeholder="Event Notes" id="notes" name="notes" required>
+            </textarea><br>
+
+            <input type="submit" value="Create Event"><br><br>
+
+            
+        </div>
+    </form>
+
+</div>
+
+
+
+<!-- 1b. Create Confirmation Event -->
+<div id="create-confirmation-div" class="menu-div padded" style="display:none">
+
+
+    <% if ( typeof ui.data.create == 'object' && ui.data.create ) { %>
+
+    <form method="POST" action="/admin/event">
+
+        <span>Create Event</span><hr><br>
+
+        <div class="groupdiv">
+            <label>Event PIN</label>
+            <input class="field-small" placeholder="pin" id="pin" type="text" name="pin" value="<%= ui.data.create.response.event.pin %>" readonly><br><br>
+        </div>
+        <br><br>
+        
+        <div class="groupdiv">
+
+            <label>Event Name</label>
+            <input class="field-long" id="location" type="text" name="name" value="<%= ui.data.create.response.event.name %>" readonly><br><br>
+            
+            <label>Location</label>
+            <input class="field-long" id="location" type="text" name="location" value="<%= ui.data.create.response.event.location %>" readonly><br><br>
+            
+            <label>Presenter</label>
+            <input  class="field-long" id="presenter" type="text" name="presenter" value="<%= ui.data.create.response.event.presenter %>" readonly><br><br>
+            
+            <label>Contact Email</label>
+            <input class="field-long" id="email" type="text" name="email" value="<%= ui.data.create.response.event.email %>" readonly>
             <br><br>
             
             <table class="halfw">
@@ -32,44 +109,43 @@
                 </tr>
                 <tr>
                     <td>
-                        <input id="startdate" type="date" name="startdate" value="<%= ui.def_today_date %>" required>
+                        <input class="field-long" id="startdate" type="text" name="startdate" value ="<%= new Date(ui.data.create.response.event.start).toDateString() %>" readonly>
+                        <input class="field-long" id="starttime" type="text" name="starttime" value ="<%= new Date(ui.data.create.response.event.start).toTimeString().substring(0,8) %>" readonly>
                     </td>
                     <td>
-                        <input id="enddate" type="date" name="enddate" value="<%= ui.def_today_date %>" required>
+                       <input class="field-long" id="startdate" type="text" name="startdate" value ="<%= new Date(ui.data.create.response.event.end).toDateString() %>" readonly>
+                        <input class="field-long" id="starttime" type="text" name="starttime" value ="<%= new Date(ui.data.create.response.event.end).toTimeString().substring(0,8) %>" readonly>
                     </td>
                 </tr>
-                <tr>
-                    <td>
-                    <input id="starttime" type="time" name="starttime" value="<%= ui.def_today_time %>" required>
-                    </td>
-                    <td>
-                    <input id="endtime" type="time" name="endtime" value="<%= ui.def_today_time %>" required>
-                    </td>
-                </tr>
+               
           
             </table><br>
         
         
             <label>Event Notes</label>
-            <textarea class="small" placeholder="Event Notes" id="notes" name="notes" required>
+            <textarea class="small" placeholder="Event Notes" id="notes" name="notes" readonly>
+            <%= ui.data.create.response.event.notes %>
             </textarea><br>
 
             <input type="submit" value="Create Event"><br><br>
 
-            <label>Feedback PIN</label>
-            <% if ( typeof ui.data[1] == 'object' && ui.data[1] ) { %>
-                <input size=100 class="field-long" placeholder="" id="pin" type="text" name="pin" value="<%= ui.data[1].response.event.pin %>" readonly>
-            <% } else { %>
-                <input size=100 class="field-long" placeholder="" id="pin" type="text" name="pin" value="" readonly>
-            <% } %><br><br>
+            <textarea>
+            <%= JSON.stringify(ui.data.create,null,3) %>
+            </textarea>
+
+            
         </div>
     </form>
+
+    <% } %>
 
 </div>
 
 
+
+
 <!-- 2. List Events -->
-<div id="2" class="menu-div padded" style="display:none">
+<div id="list-div" class="menu-div padded" style="display:none">
     <form method="POST" action="/admin/events">
         
         <span>List Events</span><hr><br>
@@ -81,8 +157,8 @@
                 <td class="halfw"><label>End Date</label></td>
             </tr>
             <tr>
-                <td><input id="lstartdate" type="date" name="lstartdate" value="<%= ui.def_list_start %>" required></td>
-                <td><input id="lenddate" type="date" name="lenddate" value="<%= ui.def_list_end %>" required></td>
+                <td><input id="lstartdate" type="date" name="lstartdate" value="<%= ui.prepop.listStartDate %>" required></td>
+                <td><input id="lenddate" type="date" name="lenddate" value="<%= ui.prepop.listEndDate    %>" required></td>
             </tr>
         </table>
         <br>
@@ -90,14 +166,12 @@
         <input type="submit" value="Get Events"><br>
         </div>
 
-        
-
-         <% if ( typeof ui.data[2] == 'object' && ui.data[2] ) { %>
+         <% if ( typeof ui.data.list == 'object' && ui.data.list ) { %>
 
             <br>
             <span>Events</span><hr><br>
 
-            <% for ( i=0; i< ui.data[2].response.length; i++ ) { %>
+            <% for ( i=0; i< ui.data.list.response.length; i++ ) { %>
 
             <div class="groupdiv-list">
             
@@ -105,32 +179,32 @@
               
                     <tr class="darker">
                     <td><label>Event</label>
-                    <p><%= ui.data[2].response[i].event.name %></p><hr></td></tr>
+                    <p><%= ui.data.list.response[i].event.name %></p><hr></td></tr>
                     
                     <tr>
                     <td><label>Presenter</label>
-                    <p><%= ui.data[2].response[i].event.presenter %></p><hr></td></tr>
+                    <p><%= ui.data.list.response[i].event.presenter %></p><hr></td></tr>
                     
                     <tr class="darker">
                     <td><label>Email</label> 
-                    <p><%= ui.data[2].response[i].event.email %></p><hr></td></tr>
+                    <p><%= ui.data.list.response[i].event.email %></p><hr></td></tr>
 
                     <tr>
                     <td><label>Location</label>
-                    <p><%= ui.data[2].response[i].event.location %></p><hr></td></tr>
+                    <p><%= ui.data.list.response[i].event.location %></p><hr></td></tr>
 
                     <tr class="darker">
                     <td><label>Time</label>
-                    <p><%= new Date(ui.data[2].response[i].event.start).toString().split('GMT')[0] %></p>
-                    <p><%= new Date(ui.data[2].response[i].event.end).toString().split('GMT')[0] %></p><hr></td></tr>
+                    <p><%= new Date(ui.data.list.response[i].event.start).toString().split('GMT')[0] %></p>
+                    <p><%= new Date(ui.data.list.response[i].event.end).toString().split('GMT')[0] %></p><hr></td></tr>
 
                     <tr>
-                    <td><label>Notes</label><p><%= ui.data[2].response[i].event.notes %></p></td></tr>
+                    <td><label>Notes</label><p><%= ui.data.list.response[i].event.notes %></p></td></tr>
                     
                                         
                     <tr class="darker">
                     <td><label>Feedback PIN</label> 
-                    <p><%= ui.data[2].response[i].event.pin %></p><hr></td></tr>
+                    <p><%= ui.data.list.response[i].event.pin %></p><hr></td></tr>
 
                     <tr class="darker">
                     <td><br><a href="http://0.0.0.0:3000/modifythis" class="button">Modify</a>
@@ -144,16 +218,14 @@
 
         <% } %>
 
-        <textarea>
-        <%= JSON.stringify(ui.data[2], null, 3) %>
-        </textarea>
+ 
 
     </form>
 </div>
 
 
 <!-- 3. modify Event -->
-<div id="3" class="menu-div" style="display:none">
+<div id="modify-div" class="menu-div" style="display:none">
     <form method="POST" action="/admin/event/update">
 
         <span>Modify Event</span><hr><br>
@@ -161,16 +233,16 @@
         <div class="groupdiv">
 
             <label>Event Name</label>
-            <input size=100 class="field-long" placeholder="Event Name" id="name" type="text" name="name" value="<%= ui.def_ %>" required><br><br>
+            <input class="field-long" placeholder="Event Name" id="name" type="text" name="name" value="<%= ui.def_ %>" required><br><br>
             
             <label>Location</label>
-            <input size=100 class="field-long" placeholder="Event Location" id="location" type="text" name="location" value="<%= ui.def_ %>" required><br><br>
+            <input class="field-long" placeholder="Event Location" id="location" type="text" name="location" value="<%= ui.def_ %>" required><br><br>
             
             <label>Presenter</label>
-            <input size=100 class="field-long" placeholder="Event Presenter" id="presenter" type="text" name="presenter" value="<%= ui.def_ %>" required><br><br>
+            <input class="field-long" placeholder="Event Presenter" id="presenter" type="text" name="presenter" value="<%= ui.def_ %>" required><br><br>
             
             <label>Contact Email</label>
-            <input size=100 class="field-long" placeholder="Contact Email" id="email" type="text" name="email" value="<%= ui.def_ %>" required>
+            <input class="field-long" placeholder="Contact Email" id="email" type="text" name="email" value="<%= ui.def_ %>" required>
             <br><br>
             
             <table class="halfw">
@@ -210,10 +282,12 @@
 
             <label>Feedback PIN for attendees</label>
             <% if ( typeof ui.data[1] == 'object' && ui.data[1] ) { %>
-                <input size=100 class="field-long" placeholder="" id="pin" type="text" name="pin" value="<%= ui.data[1].pin %>" readonly>
+                <input class="field-long" placeholder="" id="pin" type="text" name="pin" value="<%= ui.data[1].pin %>" readonly>
             <% } else { %>
-                <input size=100 class="field-long" placeholder="" id="pin" type="text" name="pin" value="" readonly>
+                <input class="field-long" placeholder="" id="pin" type="text" name="pin" value="" readonly>
             <% } %><br><br>
         </div>
     </form>
 </div>
+
+

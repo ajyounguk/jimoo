@@ -1,0 +1,69 @@
+
+<!-- 1b. Create Event Confirmation  -->
+<div id="create-conf-div" class="menu-div padded" style="display:none">
+
+<% if ( typeof ui.data.create == 'object' && ui.data.create ) { %>
+
+    <form method="GET" action="/">
+        
+        <span>Event Created</span><hr><br>
+
+        <br>
+        <span>Events</span><hr><br>
+
+    
+
+        <div class="groupdiv-list">
+
+            <table class="fullw">
+
+                <tr>
+                <td><label>Feedback PIN (take note for attendees)</label> 
+                <h3><%= ui.data.create.response.event.pin %></h3><hr></td></tr>
+
+            
+                <tr class="darker">
+                <td><label>Event</label>
+                <p><%= ui.data.create.response.event.name %></p><hr></td></tr>
+                
+                <tr>
+                <td><label>Presenter</label>
+                <p><%= ui.data.create.response.event.presenter %></p><hr></td></tr>
+                
+                <tr class="darker">
+                <td><label>Email</label> 
+                <p><%= ui.data.create.response.event.email %></p><hr></td></tr>
+
+                <tr>
+                <td><label>Location</label>
+                <p><%= ui.data.create.response.event.location %></p><hr></td></tr>
+
+                <tr class="darker">
+                <td><label>Time</label>
+                <p><%= new Date(ui.data.create.response.event.start).toString().split('GMT')[0] %></p>
+                <p><%= new Date(ui.data.create.response.event.end).toString().split('GMT')[0] %></p><hr></td></tr>
+
+                <tr>
+                <td><label>Notes</label><p><%= ui.data.create.response.event.notes %></p></td></tr>
+                
+                                    
+               
+
+                <tr class="darker">
+                    <td><br>
+                        <a href="http://0.0.0.0:3000/modifythis" class="button">Modify</a>
+                        <a href="http://0.0.0.0:3000/modifythis" class="button">Delete</a>
+                        <input type="submit" value="Submit">
+                    </td>
+                </tr>
+
+                
+            </table>
+        </div>
+        <br>
+        <br>    
+    </form>
+
+<% } %>
+
+</div>

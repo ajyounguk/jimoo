@@ -66,6 +66,11 @@
     background-color: rgb(200, 238, 243)
 }
 
+.simple-style .highlight {
+    background-color: rgb(151, 206, 228)
+}
+
+
 .simple-style .fullw {
     width: 100%;
 }
@@ -84,6 +89,10 @@
 
 .simple-style p {
     font-size: 16px;
+    margin: 10px 10px 10px 10px;
+}
+.simple-style p.conf {
+    font-size: 20px;
     margin: 10px 10px 10px 10px;
 }
 
@@ -226,7 +235,7 @@
 
 .simple-style h3 {
     margin: 0 0 3px 0;
-    padding: 0;
+    padding: 5px;
     display: block;
     font-weight: bold;
 }
@@ -293,13 +302,26 @@
     border-radius: 6px;
 }
 
+.simple-style textarea.small {
+    font-family: "Lucida Console", Monaco, monospace;
+    padding: 7px;
+    display: block;
+    margin: 5px;
+    font: 14px;
+    width: 95%;
+    height: 15em;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+}
+
 .simple-style textarea[readonly] {
     font-family: "Lucida Console", Monaco, monospace;
     padding: 7px;
     display: block;
     font: 14px;
     margin: 5px;
-    background-color: rgb(235, 235, 235);
+    background-color: rgb(230, 251, 252);
     width: 80%;
     height: 60em;
     -webkit-border-radius: 6px;
@@ -313,7 +335,7 @@
     display: block;
     font: 14px;
     margin: 5px;
-    background-color: rgb(235, 235, 235);
+    background-color: rgb(230, 251, 252);
     width: 80%;
     height: 14em;
     -webkit-border-radius: 6px;
@@ -327,7 +349,7 @@
     display: block;
     font: 14px;
     margin: 5px;
-    background-color: rgb(235, 235, 235);
+    background-color:rgb(230, 251, 252);
     width: 80%;
     height: 20em;
     -webkit-border-radius: 6px;
@@ -450,6 +472,13 @@ select {
     border-radius: 6px;
 }
 
+.simple-style input.field-medium {
+    width: 50%;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+}
+
 .simple-style input.field-small {
     width: 170PX;
     -webkit-border-radius: 6px;
@@ -520,7 +549,7 @@ select {
 }
 
 input[readonly] {
-    background-color: rgb(220, 244, 247);
+    background-color: rgb(230, 251, 252);
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
     border-radius: 6px;
