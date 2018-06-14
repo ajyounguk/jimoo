@@ -5,23 +5,63 @@
 module.exports = function (app, mongoose) {
 
     // init vars
+    
+    // create prepop dates = todays date and time
+    var dateNow = new Date(Date.now()).toISOString().split('T')[0]
+    var timeNow = new Date(Date.now()).toTimeString().split(' ')[0].substr(0, 5)
+
+    // list prepop dates = todays date & todays date + 1 month
+    var thisYear = new Date(Date.now()).getFullYear()
+    var thisMonth = new Date(Date.now()).getMonth() 
+    var listStartDate = new Date(thisYear, thisMonth, 2 ).toISOString().split('T')[0]
+    var listEndDate = new Date(thisYear, thisMonth +1 , 2).toISOString().split('T')[0]
+
+
+    // ui = data object holds all data required by the UI
+    //
+    // set debug for json ouput of the data
+    //
+    // flow.activateDiv = div to be enabled when form loads
+    // flow.activateButton = button to be enabled when form loads
+
+    // set timestamp 
+    var date = new Date(Date.now())
+
     var ui = {
+        debug: true,
+        timestamp: date,
         flow: {
-            activateDiv: null,
-            activateButton: null,
-        },
-        prepop: {
-            todayDate: null,
-            todayTime: null,
-            listStartDate: null,
-            listEndDate: null
+            activateDiv: 'create-div',
+            activateButton: 'create-button',
         },
         data: {
-            create: null,
-            list: null,
-            modify: null
+            create: {
+                response: {
+                    event: {
+                        name: '',
+                        location: '',
+                        presenter: '',
+                        start: null,
+                        end: null,
+                        email: '',
+                        notes: '',
+                        pin: ''
+                    },
+                },
+                prepop: {
+                    todayDate: dateNow,
+                    todayTime: timeNow
+                },
+            },
+            list: {
+                response: {},
+                prepop: {
+                    startDate: listStartDate,
+                    endDate: listEndDate
+                }
             }
         }
+    }
 
 
     // load Event model for mongo
@@ -35,40 +75,60 @@ module.exports = function (app, mongoose) {
     })); // support encoded bodies
 
 
-    // serve up main test page 
+
+
+
+    // serve up admin form
     app.get('/', function (req, res) {
-
-        var dateNow = new Date(Date.now()).toISOString().split('T')[0]
-        var timeNow = new Date(Date.now()).toTimeString().split(' ')[0].substr(0, 5)
-
-        var thisYear = new Date(Date.now()).getFullYear()
-        var thisMonth = new Date(Date.now()).getMonth() 
-
-        var listStartDate = new Date(thisYear, thisMonth, 2 ).toISOString().split('T')[0]
-        var listEndDate = new Date(thisYear, thisMonth +1 , 2).toISOString().split('T')[0]
-
-        // init ui
-        ui.flow.activateDiv = 'create-div'
-        ui.flow.activateButton = 'create-button'
-
-        ui.prepop.todayDate = dateNow
-        ui.prepop.todayTime = timeNow
-        ui.prepop.listStartDate = listStartDate
-        ui.prepop.listEndDate = listEndDate
-        
 
         res.setHeader('Content-Type', 'text/html');
         res.render('./index', {
             ui: ui
         })
-
     })
 
 
-    // 1. create event
-    app.post('/admin/event', function (req, res) { 
 
 
+
+
+    // 1a. create event + display confirm screen
+    app.post('/admin/event/create', function (req, res) { 
+
+
+        //var startd = new Date(req.body.startdate + " " + req.body.starttime)
+        //var endd = new Date(req.body.enddate + " " + req.body.endtime)
+
+        // init UI        
+        ui.flow.activateDiv = 'create-confirmation-div'
+        ui.flow.activateButton = 'create-button'        
+
+        ui.data.create.response.event.name = req.body.name
+        ui.data.create.response.event.location = req.body.location
+        ui.data.create.response.event.presenter = req.body.presenter
+        ui.data.create.response.event.email = req.body.email
+        ui.data.create.response.event.notes = req.body.notes
+        ui.data.create.response.event.startdate = req.body.startdate
+        ui.data.create.response.event.starttime = req.body.starttime
+        ui.data.create.response.event.enddate = req.body.enddate
+        ui.data.create.response.event.endtime = req.body.endtime
+
+
+        
+
+        // redirect to confirmation screen
+        res.render('./index.ejs', {
+            ui: ui
+        })
+    
+    })
+
+    
+
+    // 1c. save event
+    app.post('/admin/event/save', function (req, res) { 
+
+        
         // PIN maker helper function
         // generates random 5 char code + checks if collision exists in mongo
         function makePin (attempts, callback) {
@@ -79,7 +139,7 @@ module.exports = function (app, mongoose) {
             }
 
             var text = ""
-            var possible = "ABCDEFGHIJKLMNPQRSTUVWXYZ123456789";
+            var possible = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
             
             for (var i = 0; i < 5; i++) {
                 text += possible.charAt(Math.floor(Math.random() * possible.length))
@@ -105,21 +165,16 @@ module.exports = function (app, mongoose) {
 
         // set timestamp 
         var date = new Date(Date.now())
+        ui.date = date
 
-        // get & format dates from form
         var startd = new Date(req.body.startdate + " " + req.body.starttime)
         var endd = new Date(req.body.enddate + " " + req.body.endtime)
 
         // init UI        
-        ui.flow.activateDiv = 'create-confirmation-div'
+        ui.flow.activateDiv = 'create-save-div'
         ui.flow.activateButton = 'create-button'
-        ui.data.create = {
-            timestamp: date,
-            status: null,
-            response: null
-        }
             
-        var pin = null
+
         
         makePin (0, function (err, pincode) {
             if (err) {
@@ -131,8 +186,8 @@ module.exports = function (app, mongoose) {
                 // setup data in the model
                 var event = Event({
                     event: {
-                        name: req.body.name,
-                        location: req.body.location,
+                        name: ui.data.create.response.event.name,
+                        location:  ui.data.create.response.event.name,
                         presenter: req.body.presenter,
                         email: req.body.email,
                         notes: req.body.notes,
@@ -173,17 +228,13 @@ module.exports = function (app, mongoose) {
 
         ui.flow.activateDiv = 'list-div'
         ui.flow.activateButton=  'list-button'
-        ui.data.list = {
-            timestamp: date,
-            status: null,
-            response: null
-        }
-
+      
         Event.find({
             'event.start': {
                 $gte: startdate,
                 $lte: enddate
-            }   }, function (err, events) {
+            }
+        }, function (err, events) {
 
 
             if (err) {

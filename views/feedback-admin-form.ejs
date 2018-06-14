@@ -1,27 +1,27 @@
 <!-- 1a. Create Event -->
-<div id="create-div" class="menu-div padded" style="display:none">
+<div id="create-div" class="menu-div padded">
 
 
-    <form method="POST" action="/admin/event">
+    <form method="POST" action="/admin/event/create">
 
         <span>Create Event</span><hr><br>
         
         <div class="groupdiv">
 
             <label>Event Name</label>
-            <input class="field-long" placeholder="Event Name" id="name" type="text" name="name" value="" required><br><br>
+            <input class="field-long" placeholder="Event Name" id="name" type="text" name="name" value="<%= ui.data.create.response.event.name %>" required><br><br>
             
             <label>Location</label>
-            <input class="field-long" placeholder="Event Location" id="location" type="text" name="location" value=""" required><br><br>
+            <input class="field-long" placeholder="Event Location" id="location" type="text" name="location" value="<%= ui.data.create.response.event.location %>" required><br><br>
             
             <label>Presenter</label>
-            <input class="field-long" placeholder="Event Presenter" id="presenter" type="text" name="presenter" value="" required><br><br>
+            <input class="field-long" placeholder="Event Presenter" id="presenter" type="text" name="presenter" value="<%= ui.data.create.response.event.presenter %>" required><br><br>
             
             <label>Contact Email</label>
-            <input class="field-long" placeholder="Contact Email" id="email" type="text" name="email" value="" required>
+            <input class="field-long" placeholder="Contact Email" id="email" type="text" name="email" value="<%= ui.data.create.response.event.email %>" required>
             <br><br>
             
-            <table class="halfw">
+            <table class="fullw">
                 <tr>
                     <td class="halfw">
                         <label>Start Date &amp; Time</label>
@@ -30,113 +30,108 @@
                         <label>End Date &amp; Time</label>
                     </td>
                 </tr>
-                <tr>
-
-
-                
+                    <tr>                
                     <td>
-                        <input id="startdate" type="date" name="startdate" value="<%= ui.prepop.todayDate %>" required>
+                        <input id="startdate" type="date" name="startdate" value="<%= ui.data.create.prepop.todayDate %>" required>
                     </td>
                     <td>
-                        <input id="enddate" type="date" name="enddate" value="<%= ui.prepop.todayDate %>" required>
+                        <input id="enddate" type="date" name="enddate" value="<%= ui.data.create.prepop.todayDate %>" required>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                    <input id="starttime" type="time" name="starttime" value="<%= ui.prepop.todayTime %>" required>
+                        <input id="starttime" type="time" name="starttime" value="<%= ui.data.create.prepop.todayTime %>" required>
                     </td>
                     <td>
-                    <input id="endtime" type="time" name="endtime" value="<%= ui.prepop.todayTime %>" required>
+                        <input id="endtime" type="time" name="endtime" value="<%= ui.data.create.prepop.todayTime %>" required>
                     </td>
                 </tr>
-          
             </table><br>
         
-        
             <label>Event Notes</label>
-            <textarea class="small" placeholder="Event Notes" id="notes" name="notes" required>
-            </textarea><br>
+<textarea class="small" placeholder="Event Notes" id="notes" name="notes" required>
+</textarea><br>
 
-            <input type="submit" value="Create Event"><br><br>
-
-            
+            <input type="submit" value="OK">
         </div>
     </form>
 
+    <!-- debug -->
+    <% if (ui.debug) { %>
+    <textarea>
+    <%= JSON.stringify(ui.data,null,3) %>
+    </textarea>
+    <% } %>
 </div>
 
 
 
 <!-- 1b. Create Confirmation Event -->
-<div id="create-confirmation-div" class="menu-div padded" style="display:none">
-
+<div id="create-confirmation-div" class="menu-div padded">
 
     <% if ( typeof ui.data.create == 'object' && ui.data.create ) { %>
 
-    <form method="POST" action="/admin/event">
+        <form method="POST" action="/admin/event">
 
-        <span>Create Event</span><hr><br>
-
-        <div class="groupdiv">
-            <label>Event PIN</label>
-            <input class="field-small" placeholder="pin" id="pin" type="text" name="pin" value="<%= ui.data.create.response.event.pin %>" readonly><br><br>
-        </div>
-        <br><br>
-        
-        <div class="groupdiv">
-
-            <label>Event Name</label>
-            <input class="field-long" id="location" type="text" name="name" value="<%= ui.data.create.response.event.name %>" readonly><br><br>
-            
-            <label>Location</label>
-            <input class="field-long" id="location" type="text" name="location" value="<%= ui.data.create.response.event.location %>" readonly><br><br>
-            
-            <label>Presenter</label>
-            <input  class="field-long" id="presenter" type="text" name="presenter" value="<%= ui.data.create.response.event.presenter %>" readonly><br><br>
-            
-            <label>Contact Email</label>
-            <input class="field-long" id="email" type="text" name="email" value="<%= ui.data.create.response.event.email %>" readonly>
-            <br><br>
-            
-            <table class="halfw">
-                <tr>
-                    <td class="halfw">
-                        <label>Start Date &amp; Time</label>
-                    </td>
-                    <td class="halfw">
-                        <label>End Date &amp; Time</label>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input class="field-long" id="startdate" type="text" name="startdate" value ="<%= new Date(ui.data.create.response.event.start).toDateString() %>" readonly>
-                        <input class="field-long" id="starttime" type="text" name="starttime" value ="<%= new Date(ui.data.create.response.event.start).toTimeString().substring(0,8) %>" readonly>
-                    </td>
-                    <td>
-                       <input class="field-long" id="startdate" type="text" name="startdate" value ="<%= new Date(ui.data.create.response.event.end).toDateString() %>" readonly>
-                        <input class="field-long" id="starttime" type="text" name="starttime" value ="<%= new Date(ui.data.create.response.event.end).toTimeString().substring(0,8) %>" readonly>
-                    </td>
-                </tr>
-               
-          
-            </table><br>
-        
-        
-            <label>Event Notes</label>
-            <textarea class="small" placeholder="Event Notes" id="notes" name="notes" readonly>
-            <%= ui.data.create.response.event.notes %>
-            </textarea><br>
-
-            <input type="submit" value="Create Event"><br><br>
-
-            <textarea>
-            <%= JSON.stringify(ui.data.create,null,3) %>
-            </textarea>
+            <span>Confirm Event Details</span><hr><br>
 
             
-        </div>
-    </form>
+             <div class="groupdiv-list">
+                
+                    <table class="fullw">
 
+                        <tr class="darker">
+                        <td><label>Event</label>
+                        <p><%= ui.data.create.response.event.name %></p><hr></td></tr>
+                        
+                        <tr>
+                        <td><label>Presenter</label>
+                        <p><%= ui.data.create.response.event.presenter %></p><hr></td></tr>
+                        
+                        <tr class="darker">
+                        <td><label>Email</label> 
+                        <p><%= ui.data.create.response.event.email %></p><hr></td></tr>
+
+                        <tr>
+                        <td><label>Location</label>
+                        <p><%= ui.data.create.response.event.location %></p><hr></td></tr>
+
+                        <tr class="darker">
+                        <td><label>Time</label>
+                        <p><%= new Date(ui.data.create.response.event.startdate + ' ' +  ui.data.create.response.event.starttime ).toString().split('GMT')[0] %>  </p>
+                        <p><%= new Date(ui.data.create.response.event.enddate + ' ' +  ui.data.create.response.event.endtime ).toString().split('GMT')[0] %>%></p><hr></td></tr>
+                        
+
+                        <tr>
+                        <td><label>Notes</label><p><%= ui.data.create.response.event.notes %></p><hr></td></tr>
+                    </table>
+                    <br>
+
+
+                      <table>
+                        <tr>
+                            <td>
+                                <input type="submit" value="Save">
+                            </td>
+                            <td>
+                                <input type="submit" value="Modify">
+                            </td>
+                            <td>
+                                <input type="submit" value="Delete">
+                            </td>
+                        </tr>
+                    </table>
+                </div>          
+        </form>
+
+    <% } %>
+
+    <!-- debug -->
+    <br><br><label>Debug</label>
+    <% if (ui.debug) { %>
+    <textarea>
+    <%= JSON.stringify(ui.data,null,3) %>
+    </textarea>
     <% } %>
 
 </div>
@@ -145,82 +140,86 @@
 
 
 <!-- 2. List Events -->
-<div id="list-div" class="menu-div padded" style="display:none">
+<div id="list-div" class="menu-div padded">
     <form method="POST" action="/admin/events">
         
         <span>List Events</span><hr><br>
 
         <div class="groupdiv">
-        <table class="halfw">
-            <tr>
-                <td class="halfw"><label>Start Date</label></td>
-                <td class="halfw"><label>End Date</label></td>
-            </tr>
-            <tr>
-                <td><input id="lstartdate" type="date" name="lstartdate" value="<%= ui.prepop.listStartDate %>" required></td>
-                <td><input id="lenddate" type="date" name="lenddate" value="<%= ui.prepop.listEndDate    %>" required></td>
-            </tr>
-        </table>
-        <br>
+            <table class="halfw">
+                <tr>
+                    <td class="halfw"><label>Start Date</label></td>
+                    <td class="halfw"><label>End Date</label></td>
+                </tr>
+                <tr>
+                    <td><input id="lstartdate" type="date" name="lstartdate" value="<%= ui.data.list.prepop.startDate %>" required></td>
+                    <td><input id="lenddate" type="date" name="lenddate" value="<%= ui.data.list.prepop.endDate %>" required></td>
+                </tr>
+            </table>
+            <br>
 
-        <input type="submit" value="Get Events"><br>
+            <input type="submit" value="Get Events"><br>
         </div>
 
-         <% if ( typeof ui.data.list == 'object' && ui.data.list ) { %>
+         <% if ( typeof ui.data.list.response == 'object' && ui.data.list.response ) { %>
 
             <br>
             <span>Events</span><hr><br>
 
             <% for ( i=0; i< ui.data.list.response.length; i++ ) { %>
 
-            <div class="groupdiv-list">
-            
-                <table class="fullw">
-              
-                    <tr class="darker">
-                    <td><label>Event</label>
-                    <p><%= ui.data.list.response[i].event.name %></p><hr></td></tr>
-                    
-                    <tr>
-                    <td><label>Presenter</label>
-                    <p><%= ui.data.list.response[i].event.presenter %></p><hr></td></tr>
-                    
-                    <tr class="darker">
-                    <td><label>Email</label> 
-                    <p><%= ui.data.list.response[i].event.email %></p><hr></td></tr>
+                <div class="groupdiv-list">
+                
+                    <table class="fullw">
+                
+                        <tr class="darker">
+                        <td><label>Event</label>
+                        <p><%= ui.data.list.response[i].event.name %></p><hr></td></tr>
+                        
+                        <tr>
+                        <td><label>Presenter</label>
+                        <p><%= ui.data.list.response[i].event.presenter %></p><hr></td></tr>
+                        
+                        <tr class="darker">
+                        <td><label>Email</label> 
+                        <p><%= ui.data.list.response[i].event.email %></p><hr></td></tr>
 
-                    <tr>
-                    <td><label>Location</label>
-                    <p><%= ui.data.list.response[i].event.location %></p><hr></td></tr>
+                        <tr>
+                        <td><label>Location</label>
+                        <p><%= ui.data.list.response[i].event.location %></p><hr></td></tr>
 
-                    <tr class="darker">
-                    <td><label>Time</label>
-                    <p><%= new Date(ui.data.list.response[i].event.start).toString().split('GMT')[0] %></p>
-                    <p><%= new Date(ui.data.list.response[i].event.end).toString().split('GMT')[0] %></p><hr></td></tr>
+                        <tr class="darker">
+                        <td><label>Time</label>
+                        <p><%= new Date(ui.data.list.response[i].event.start).toString().split('GMT')[0] %></p>
+                        <p><%= new Date(ui.data.list.response[i].event.end).toString().split('GMT')[0] %></p><hr></td></tr>
 
-                    <tr>
-                    <td><label>Notes</label><p><%= ui.data.list.response[i].event.notes %></p></td></tr>
-                    
-                                        
-                    <tr class="darker">
-                    <td><label>Feedback PIN</label> 
-                    <p><%= ui.data.list.response[i].event.pin %></p><hr></td></tr>
+                        <tr>
+                        <td><label>Notes</label><p><%= ui.data.list.response[i].event.notes %></p></td></tr>
+                        
+                                            
+                        <tr class="darker">
+                        <td><label>Feedback PIN</label> 
+                        <p><%= ui.data.list.response[i].event.pin %></p><hr></td></tr>
 
-                    <tr class="darker">
-                    <td><br><a href="http://0.0.0.0:3000/modifythis" class="button">Modify</a>
-                    <input type="submit" value="Delete"></td></tr>
+                        <tr class="darker">
+                        <td><br><a href="http://0.0.0.0:3000/modifythis" class="button">Modify</a>
+                        <input type="submit" value="Delete"></td></tr>
 
-                    
-                </table>
-            </div>
-            <br><br>    
+                        
+                    </table>
+                </div>
+                <br><br>    
             <% } %>
 
         <% } %>
-
- 
-
     </form>
+    <!-- debug -->
+    <br><br><label>Debug</label>
+    <% if (ui.debug) { %>
+    <textarea>
+    <%= JSON.stringify(ui.data,null,3) %>
+    </textarea>
+    <% } %>
 </div>
 
 
@@ -288,6 +287,13 @@
             <% } %><br><br>
         </div>
     </form>
+     <!-- debug -->
+    <br><br><label>Debug</label>
+    <% if (ui.debug) { %>
+    <textarea>
+    <%= JSON.stringify(ui.data,null,3) %>
+    </textarea>
+    <% } %>
 </div>
 
 

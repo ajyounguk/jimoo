@@ -309,7 +309,7 @@
     margin: 5px;
     font: 14px;
     width: 95%;
-    height: 15em;
+    height: 10em;
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
     border-radius: 6px;
@@ -402,10 +402,10 @@ select {
 .simple-style input[type=email]:focus,
 .simple-style textarea:focus,
 .simple-style select:focus {
-    -moz-box-shadow: 0 0 8px #000000;
-    -webkit-box-shadow: 0 0 8px #000000;
-    box-shadow: 0 0 8px #000000;
-    border: 1px solid #000000;
+    -moz-box-shadow: 0 0 8px #11596e;
+    -webkit-box-shadow: 0 0 8px #11596e;
+    box-shadow: 0 0 8px #11596e;
+    border: 1px solid #11596e;
     font-size: 16px;
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
@@ -535,7 +535,7 @@ select {
 
 .simple-style input[type=submit]:hover,
 .simple-style input[type=button]:hover {
-    background: rgb(0, 9, 12);
+    background: rgb(12, 0, 3);
     box-shadow: none;
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
@@ -549,7 +549,7 @@ select {
 }
 
 input[readonly] {
-    background-color: rgb(230, 251, 252);
+    background-color: rgb(231, 248, 248);
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
     border-radius: 6px;
