@@ -9,16 +9,16 @@
         <div class="groupdiv">
 
             <label>Event Name</label>
-            <input class="field-long" placeholder="Event Name" id="name" type="text" name="name" value="<%= ui.data.create.response.event.name %>" required><br><br>
+            <input class="field-long" placeholder="Event Name" id="name" type="text" name="name" value="<%= ui.data.create.event.name %>" required><br><br>
             
             <label>Location</label>
-            <input class="field-long" placeholder="Event Location" id="location" type="text" name="location" value="<%= ui.data.create.response.event.location %>" required><br><br>
+            <input class="field-long" placeholder="Event Location" id="location" type="text" name="location" value="<%= ui.data.create.event.location %>" required><br><br>
             
             <label>Presenter</label>
-            <input class="field-long" placeholder="Event Presenter" id="presenter" type="text" name="presenter" value="<%= ui.data.create.response.event.presenter %>" required><br><br>
+            <input class="field-long" placeholder="Event Presenter" id="presenter" type="text" name="presenter" value="<%= ui.data.create.event.presenter %>" required><br><br>
             
             <label>Contact Email</label>
-            <input class="field-long" placeholder="Contact Email" id="email" type="text" name="email" value="<%= ui.data.create.response.event.email %>" required>
+            <input class="field-long" placeholder="Contact Email" id="email" type="text" name="email" value="<%= ui.data.create.event.email %>" required>
             <br><br>
             
             <table class="fullw">
@@ -50,6 +50,7 @@
         
             <label>Event Notes</label>
 <textarea class="small" placeholder="Event Notes" id="notes" name="notes" required>
+<%= ui.data.create.event.notes %>
 </textarea><br>
 
             <input type="submit" value="OK">
@@ -66,7 +67,7 @@
 
 
 
-<!-- 1b. Create Confirmation Event -->
+<!-- 1b. Confirm Event -->
 <div id="create-confirmation-div" class="menu-div padded">
 
     <% if ( typeof ui.data.create == 'object' && ui.data.create ) { %>
@@ -82,28 +83,28 @@
 
                         <tr class="darker">
                         <td><label>Event</label>
-                        <p><%= ui.data.create.response.event.name %></p><hr></td></tr>
+                        <p><%= ui.data.create.event.name %></p><hr></td></tr>
                         
                         <tr>
                         <td><label>Presenter</label>
-                        <p><%= ui.data.create.response.event.presenter %></p><hr></td></tr>
+                        <p><%= ui.data.create.event.presenter %></p><hr></td></tr>
                         
                         <tr class="darker">
                         <td><label>Email</label> 
-                        <p><%= ui.data.create.response.event.email %></p><hr></td></tr>
+                        <p><%= ui.data.create.event.email %></p><hr></td></tr>
 
                         <tr>
                         <td><label>Location</label>
-                        <p><%= ui.data.create.response.event.location %></p><hr></td></tr>
+                        <p><%= ui.data.create.event.location %></p><hr></td></tr>
 
                         <tr class="darker">
                         <td><label>Time</label>
-                        <p><%= new Date(ui.data.create.response.event.startdate + ' ' +  ui.data.create.response.event.starttime ).toString().split('GMT')[0] %>  </p>
-                        <p><%= new Date(ui.data.create.response.event.enddate + ' ' +  ui.data.create.response.event.endtime ).toString().split('GMT')[0] %>%></p><hr></td></tr>
+                        <p><%= new Date(ui.data.create.event.startdate + ' ' +  ui.data.create.event.starttime ).toString().split('GMT')[0] %> </p>
+                        <p><%= new Date(ui.data.create.event.enddate + ' ' +  ui.data.create.event.endtime ).toString().split('GMT')[0] %>%></p><hr></td></tr>
                         
 
                         <tr>
-                        <td><label>Notes</label><p><%= ui.data.create.response.event.notes %></p><hr></td></tr>
+                        <td><label>Notes</label><p><%= ui.data.create.event.notes %></p><hr></td></tr>
                     </table>
                     <br>
 
@@ -114,7 +115,7 @@
                                 <input type="submit" value="Save">
                             </td>
                             <td>
-                                <input type="submit" value="Modify">
+                                <input type="button" onclick="location.href='/';" value="Modify">
                             </td>
                             <td>
                                 <input type="submit" value="Delete">

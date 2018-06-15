@@ -29,24 +29,24 @@ module.exports = function (app, mongoose) {
 
     var ui = {
         debug: true,
-        timestamp: date,
         flow: {
             activateDiv: 'create-div',
             activateButton: 'create-button',
         },
         data: {
             create: {
-                response: {
-                    event: {
-                        name: '',
-                        location: '',
-                        presenter: '',
-                        start: null,
-                        end: null,
-                        email: '',
-                        notes: '',
-                        pin: ''
-                    },
+                status: '',
+                response: '',
+                timestamp: '',
+                event: {
+                    name: '',
+                    location: '',
+                    presenter: '',
+                    start: null,
+                    end: null,
+                    email: '',
+                    notes: '',
+                    pin: ''
                 },
                 prepop: {
                     todayDate: dateNow,
@@ -54,7 +54,10 @@ module.exports = function (app, mongoose) {
                 },
             },
             list: {
-                response: {},
+                status: '',
+                response: '',
+                timestamp: '',
+                event: [{}],
                 prepop: {
                     startDate: listStartDate,
                     endDate: listEndDate
@@ -75,23 +78,22 @@ module.exports = function (app, mongoose) {
     })); // support encoded bodies
 
 
-
-
-
-    // serve up admin form
+    // 0. serve up admin form
     app.get('/', function (req, res) {
+
+
+        // set timestamp & init ui flow
+        var date = new Date(Date.now())
+        ui.data.create.timestamp = date    
+        ui.flow.activateDiv = 'create-div'
+        ui.flow.activateButton = 'create-button'  
 
         res.setHeader('Content-Type', 'text/html');
         res.render('./index', {
             ui: ui
         })
     })
-
-
-
-
-
-
+    
     // 1a. create event + display confirm screen
     app.post('/admin/event/create', function (req, res) { 
 
@@ -103,15 +105,15 @@ module.exports = function (app, mongoose) {
         ui.flow.activateDiv = 'create-confirmation-div'
         ui.flow.activateButton = 'create-button'        
 
-        ui.data.create.response.event.name = req.body.name
-        ui.data.create.response.event.location = req.body.location
-        ui.data.create.response.event.presenter = req.body.presenter
-        ui.data.create.response.event.email = req.body.email
-        ui.data.create.response.event.notes = req.body.notes
-        ui.data.create.response.event.startdate = req.body.startdate
-        ui.data.create.response.event.starttime = req.body.starttime
-        ui.data.create.response.event.enddate = req.body.enddate
-        ui.data.create.response.event.endtime = req.body.endtime
+        ui.data.create.event.name = req.body.name
+        ui.data.create.event.location = req.body.location
+        ui.data.create.event.presenter = req.body.presenter
+        ui.data.create.event.email = req.body.email
+        ui.data.create.event.notes = req.body.notes
+        ui.data.create.event.startdate = req.body.startdate
+        ui.data.create.event.starttime = req.body.starttime
+        ui.data.create.event.enddate = req.body.enddate
+        ui.data.create.event.endtime = req.body.endtime
 
 
         
@@ -123,9 +125,7 @@ module.exports = function (app, mongoose) {
     
     })
 
-    
-
-    // 1c. save event
+    // 1b. save event
     app.post('/admin/event/save', function (req, res) { 
 
         
@@ -163,34 +163,32 @@ module.exports = function (app, mongoose) {
             })
         }
 
-        // set timestamp 
+        // set timestamp & init ui flow
         var date = new Date(Date.now())
-        ui.date = date
-
-        var startd = new Date(req.body.startdate + " " + req.body.starttime)
-        var endd = new Date(req.body.enddate + " " + req.body.endtime)
-
-        // init UI        
+        ui.data.create.timestamp = date    
         ui.flow.activateDiv = 'create-save-div'
         ui.flow.activateButton = 'create-button'
             
-
         
         makePin (0, function (err, pincode) {
             if (err) {
                 res.status = 500
-                ui.data[ui.menuitem].status = '500'
-                ui.data[ui.menuitem].response = err
+                ui.data.create.status = '500'
+                ui.data.create.response = err
             } else {
+
+                // setup date and time for mongo insert
+                var startd = new Date(ui.data.create.event.startdate + " " + ui.data.create.event.starttime)
+                var endd = new Date(ui.data.create.event.enddate + " " + ui.data.create.event.endtime)
             
                 // setup data in the model
                 var event = Event({
                     event: {
-                        name: ui.data.create.response.event.name,
-                        location:  ui.data.create.response.event.name,
-                        presenter: req.body.presenter,
-                        email: req.body.email,
-                        notes: req.body.notes,
+                        name: ui.data.create.event.name,
+                        location:  ui.data.create.event.name,
+                        presenter: ui.data.create.event.presenter,
+                        email: rui.data.create.event.email,
+                        notes: ui.data.create.event.notes,
                         start: startd,
                         end: endd,
                         pin: pincode
@@ -217,17 +215,18 @@ module.exports = function (app, mongoose) {
         })
     })
 
-
     // 2. list
     app.post('/admin/events', function (req, res) {
 
-        var date = new Date(Date.now())
+         // set timestamp & init ui flow
+         var date = new Date(Date.now())
+         ui.list.timestamp = date    
+         ui.flow.activateDiv = 'list-div'
+         ui.flow.activateButton=  'list-button'
 
+        // prepare list form dates to be used by mongo filter
         var startdate = new Date(req.body.lstartdate +' 00:00:00')
         var enddate = new Date(req.body.lenddate +' 24:00:00')
-
-        ui.flow.activateDiv = 'list-div'
-        ui.flow.activateButton=  'list-button'
       
         Event.find({
             'event.start': {
@@ -242,14 +241,13 @@ module.exports = function (app, mongoose) {
                 ui.data.list.response = err
             } else {
                 ui.data.list.status = '200'
-                ui.data.list.response = events
+                ui.data.list.event = events
             }
 
             res.render('./index.ejs', {
                 ui: ui
             })
         })
-
     })
 
 
