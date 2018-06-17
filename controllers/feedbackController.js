@@ -2,15 +2,15 @@
 // web ui and mongo controller for the admin interactions 
 //
 
-module.exports = function (app, mongoose) {
+module.exports = function (app) {
 
     // init vars
     
-    // create prepop dates = todays date and time
+    // calc todays date and time (for create ui date controls)
     var dateNow = new Date(Date.now()).toISOString().split('T')[0]
     var timeNow = new Date(Date.now()).toTimeString().split(' ')[0].substr(0, 5)
 
-    // list prepop dates = todays date & todays date + 1 month
+    // calc todays date & todays date + 1 month (for list ui controls)
     var thisYear = new Date(Date.now()).getFullYear()
     var thisMonth = new Date(Date.now()).getMonth() 
     var listStartDate = new Date(thisYear, thisMonth, 2 ).toISOString().split('T')[0]
@@ -19,12 +19,14 @@ module.exports = function (app, mongoose) {
 
     // ui = data object holds all data required by the UI
     //
-    // set debug for json ouput of the data
+    // set ui.debug for json ouput of the data
     //
-    // flow.activateDiv = div to be enabled when form loads
-    // flow.activateButton = button to be enabled when form loads
-
-    // set timestamp 
+    // ui.flow.activateDiv = div to be enabled when form loads
+    // ui.flow.activateButton = button to be enabled when form loads
+    // 
+    // ui.data = main data structure for capturing UI inputs/outputs
+    // ui.data.create = create screens data
+    // ui.data.list = list screens data
 
     var ui = {
         debug: true,
@@ -36,7 +38,9 @@ module.exports = function (app, mongoose) {
             create: {
                 status: '',
                 response: '',
-                timestamp: '',
+                timestap: '',
+                todayDate: dateNow,
+                todayTime: timeNow,
                 event: {
                     name: '',
                     location: '',
@@ -47,23 +51,18 @@ module.exports = function (app, mongoose) {
                     notes: '',
                     pin: ''
                 },
-                prepop: {
-                    todayDate: dateNow,
-                    todayTime: timeNow
-                },
             },
             list: {
                 status: '',
                 response: '',
                 timestamp: '',
-                events: [{}],
-                prepop: {
-                    startDate: listStartDate,
-                    endDate: listEndDate
-                }
+                startDate: listStartDate,
+                endDate: listEndDate,
+                events: []
             }
         }
     }
+
 
 
     // load Event model for mongo
@@ -79,6 +78,7 @@ module.exports = function (app, mongoose) {
 
     // 0. serve up admin form
     app.get('/', function (req, res) {
+
 
         // set timestamp & init ui flow
         var date = new Date(Date.now())
@@ -206,8 +206,7 @@ module.exports = function (app, mongoose) {
                 }
             })
 
-        } else { 
-            // redirect to confirmation screen
+        } else { // if this is a refresh, e.g. already have a pin.. = just reload the screen
             res.render('./index.ejs', {
                 ui: ui
             })
@@ -218,6 +217,7 @@ module.exports = function (app, mongoose) {
     app.get('/admin/event/modify', function (req, res) {
 
         // set timestamp & init ui flow
+        console.log('modify ui', ui)
         var date = new Date(Date.now())
         ui.data.create.timestamp = date    
         ui.flow.activateDiv = 'create-div'
@@ -228,43 +228,34 @@ module.exports = function (app, mongoose) {
             ui: ui
         })
     })
+    
 
     // 1d. cancel
     app.get('/admin/event/cancel', function (req, res) {
 
-        // create prepop dates = todays date and time
+        console.log('cancel ui', ui)
+
+        // calc dates = todays date and time
         var dateNow = new Date(Date.now()).toISOString().split('T')[0]
         var timeNow = new Date(Date.now()).toTimeString().split(' ')[0].substr(0, 5)
 
-        // init ui
         var date = new Date(Date.now())
-        ui.data.create.timestamp = date    
+
+        // init ui
+        ui.data.create.event.name = ''
+        ui.data.create.event.location = ''
+        ui.data.create.event.presenter = ''
+        ui.data.create.event.email = ''
+        ui.data.create.event.start = null
+        ui.data.create.event.end = null
+        ui.data.create.event.email = ''
+        ui.data.create.event.notes = ''
+        ui.data.create.event.pin = ''
+
+        //ui.data.create.timestamp = date    
+        ui.data.timestamp = date
         ui.flow.activateDiv = 'create-div'
         ui.flow.activateButton=  'create-button'
-
-        var ui = {
-            data: {
-                create: {
-                    status: '',
-                    response: '',
-                    timestamp: '',
-                    event: {
-                        name: '',
-                        location: '',
-                        presenter: '',
-                        start: null,
-                        end: null,
-                        email: '',
-                        notes: '',
-                        pin: ''
-                    },
-                    prepop: {
-                        todayDate: dateNow,
-                        todayTime: timeNow
-                    },
-                }
-            }
-        }
         
         res.status(200)
         res.render('./index.ejs', {
@@ -292,7 +283,6 @@ module.exports = function (app, mongoose) {
             }
         }, function (err, events) {
 
-
             if (err) {
                 ui.data.list.status = '500'
                 ui.data.list.response = err
@@ -314,13 +304,8 @@ module.exports = function (app, mongoose) {
 
         var mongoid = req.params.id;
 
-
-        ui.menuitem = 3
-        ui.data[ui.menuitem] = {
-            timestamp: date,
-            status: '',
-            response: ''
-        }
+        ui.data.create.timestap = date
+        console.log(mongoid)
 
             res.render('./index.ejs', {
                 ui: ui

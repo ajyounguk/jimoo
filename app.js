@@ -1,12 +1,10 @@
-// Jimoo - The Techhub Feedback Tool
+// Jimoo - Easy Feedback Tool
 
 // load modules
 var mongoose = require('mongoose')
 var express = require('express')
 var fs = require('fs')
 var favicon = require('serve-favicon');
-
-
 
 // express setup
 var app = express()
@@ -39,7 +37,7 @@ mongoose.connect(mongourl, function (err) {
 var feedbackController = require('./controllers/feedbackController')
 var setupController = require('./controllers/setupController')
 
-feedbackController(app, mongoose)
+feedbackController(app)
 setupController(app, mongoose)
 
 

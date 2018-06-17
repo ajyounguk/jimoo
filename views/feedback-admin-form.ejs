@@ -30,18 +30,18 @@
                 </tr>
                     <tr>                
                     <td>
-                        <input id="startdate" type="date" name="startdate" value="<%= ui.data.create.prepop.todayDate %>" required>
+                        <input id="startdate" type="date" name="startdate" value="<%= ui.data.create.todayDate %>" required>
                     </td>
                     <td>
-                        <input id="enddate" type="date" name="enddate" value="<%= ui.data.create.prepop.todayDate %>" required>
+                        <input id="enddate" type="date" name="enddate" value="<%= ui.data.create.todayDate %>" required>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <input id="starttime" type="time" name="starttime" value="<%= ui.data.create.prepop.todayTime %>" required>
+                        <input id="starttime" type="time" name="starttime" value="<%= ui.data.create.todayTime %>" required>
                     </td>
                     <td>
-                        <input id="endtime" type="time" name="endtime" value="<%= ui.data.create.prepop.todayTime %>" required>
+                        <input id="endtime" type="time" name="endtime" value="<%= ui.data.create.todayTime %>" required>
                     </td>
                 </tr>
             </table><br>
@@ -107,13 +107,13 @@
                       <table>
                         <tr>
                             <td>
-                                <input type="submit" value="Ok">
+                                <input type="submit" value="Confirm">
                             </td>
                             <td>
-                                <input type="button" onclick="location.href='/admin/event/modify';" value="Modify">
+                                <input type="button" onclick="location.href='/admin/event/modify'" value="Modify">
                             </td>
                             <td>
-                                <input type="button" onclick="location.href='/admin/event/cancel';" value="Delete">
+                                <input type="button" onclick="location.href='/admin/event/cancel'" value="Delete">
                             </td>
                         </tr>
                     </table>
@@ -218,8 +218,8 @@
                     <td class="halfw"><label>End Date</label></td>
                 </tr>
                 <tr>
-                    <td><input id="lstartdate" type="date" name="lstartdate" value="<%= ui.data.list.prepop.startDate %>" required></td>
-                    <td><input id="lenddate" type="date" name="lenddate" value="<%= ui.data.list.prepop.endDate %>" required></td>
+                    <td><input id="lstartdate" type="date" name="lstartdate" value="<%= ui.data.list.startDate %>" required></td>
+                    <td><input id="lenddate" type="date" name="lenddate" value="<%= ui.data.list.endDate %>" required></td>
                 </tr>
             </table>
             <br>

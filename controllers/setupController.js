@@ -266,7 +266,7 @@ module.exports = function (app, mongoose) {
     })
 
 
-    // purget people collection
+    // purge people collection
     app.get('/event/purge', function (req, res) {
 
         mongoose.connection.db.dropCollection('events', function (err, data) {
