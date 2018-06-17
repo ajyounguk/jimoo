@@ -177,63 +177,52 @@ module.exports = function (app) {
             })
         }
 
-        
-        // if pin is set don't save again (form resubmission)
-        if ( ui.data.create.response == null ) {
-
-            initUi('create')
                   
-            makePin (0, function (err, pincode) {
-                if (err) {
-                    res.status = 500
-                    ui.data.create.status = '500'
-                    ui.data.create.response = err
-                    console.log(err)
-                } else {
+        makePin (0, function (err, pincode) {
+            if (err) {
+                res.status = 500
+                ui.data.create.status = '500'
+                ui.data.create.response = err
+                console.log(err)
+            } else {
 
-                    // setup date and time for mongo insert
-                    var startd = new Date(ui.data.create.event.startdate + " " + ui.data.create.event.starttime)
-                    var endd = new Date(ui.data.create.event.enddate + " " + ui.data.create.event.endtime)
-                
-                    // setup data in the model
-                    var event = Event({
-                        event: {
-                            name: ui.data.create.event.name,
-                            location: ui.data.create.event.location,
-                            presenter: ui.data.create.event.presenter,
-                            email: ui.data.create.event.email,
-                            notes: ui.data.create.event.notes,
-                            start: startd,
-                            end: endd,
-                            pin: pincode
-                        }
+                // setup date and time for mongo insert
+                var startd = new Date(ui.data.create.event.startdate + " " + ui.data.create.event.starttime)
+                var endd = new Date(ui.data.create.event.enddate + " " + ui.data.create.event.endtime)
+            
+                // setup data in the model
+                var event = Event({
+                    event: {
+                        name: ui.data.create.event.name,
+                        location: ui.data.create.event.location,
+                        presenter: ui.data.create.event.presenter,
+                        email: ui.data.create.event.email,
+                        notes: ui.data.create.event.notes,
+                        start: startd,
+                        end: endd,
+                        pin: pincode
+                    }
+                })
+
+                event.save(function (err) {
+                    if (err) {
+                        res.status = 500
+                        ui.data.create.status = '500'
+                        ui.data.create.response = err
+                        console.log(err)
+                    } else {
+                        res.status = 201
+                        ui.data.create.status = '201'
+                        ui.data.create.response = event
+                    }
+
+                    // redirect to save screen
+                    res.render('./index.ejs', {
+                        ui: ui
                     })
-
-                    event.save(function (err) {
-                        if (err) {
-                            res.status = 500
-                            ui.data.create.status = '500'
-                            ui.data.create.response = err
-                            console.log(err)
-                        } else {
-                            res.status = 201
-                            ui.data.create.status = '201'
-                            ui.data.create.response = event
-                        }
-
-                        // redirect to save screen
-                        res.render('./index.ejs', {
-                            ui: ui
-                        })
-                    })
-                }
-            })
-
-        } else { // if this is a refresh, e.g. already have a pin.. = just reload the screen
-            res.render('./index.ejs', {
-                ui: ui
-            })
-        }
+                })
+            }
+        })
     })
 
 
@@ -268,7 +257,6 @@ module.exports = function (app) {
             ui: ui
         })
     })
-
 
 
     // 2. list
