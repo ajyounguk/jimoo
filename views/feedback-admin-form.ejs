@@ -54,11 +54,7 @@
     </form>
 
     <!-- debug -->
-    <% if (ui.debug) { %>
-    <textarea>
-    <%= JSON.stringify(ui.data,null,3) %>
-    </textarea>
-    <% } %>
+    <% if (ui.debug) { %><br><br><label>Debug</label><textarea><%= JSON.stringify(ui.data,null,3) %></textarea><% } %>
 </div>
 
 
@@ -117,19 +113,14 @@
                             </td>
                         </tr>
                     </table>
+                    <br>
                 </div>          
         </form>
 
     <% } %>
 
     <!-- debug -->
-    <br><br><label>Debug</label>
-    <% if (ui.debug) { %>
-    <textarea>
-    <%= JSON.stringify(ui.data,null,3) %>
-    </textarea>
-    <% } %>
-
+    <% if (ui.debug) { %><br><br><label>Debug</label><textarea><%= JSON.stringify(ui.data,null,3) %></textarea><% } %>
 </div>
 
 
@@ -146,10 +137,8 @@
                 <table class="fullw">
                     <tr class="darker">
                         <td><label>Feedback PIN</label>
-
                             <p>Please make a note of your feedback PIN: <b><%= ui.data.create.response.event.pin %></b></p><br>
-                            <input type="submit" value="OK"><br>
-                            
+                            <input type="submit" value="OK">
                         </td>
                     </tr>
                 </table>
@@ -189,17 +178,10 @@
             <br>
 
         </div><br>          
-
-        
     <% } %>
 
     <!-- debug -->
-    <br><br><label>Debug</label>
-    <% if (ui.debug) { %>
-    <textarea>
-    <%= JSON.stringify(ui.data,null,3) %>
-    </textarea>
-    <% } %>
+    <% if (ui.debug) { %><br><br><label>Debug</label><textarea><%= JSON.stringify(ui.data,null,3) %></textarea><% } %>
 
 </div>
 
@@ -224,10 +206,10 @@
             </table>
             <br>
 
-            <input type="submit" value="Get Events"><br>
+            <input type="submit" value="Get Events">
         </div>
 
-         <% if ( typeof ui.data.list.events == 'object' && ui.data.list.events ) { %>
+         <% if ( typeof ui.data.list.events[0] == 'object' && ui.data.list.events[0] ) { %>
 
             <br>
             <span>Events</span><hr><br>
@@ -279,18 +261,15 @@
 
         <% } %>
     </form>
+
     <!-- debug -->
-    <br><br><label>Debug</label>
-    <% if (ui.debug) { %>
-    <textarea>
-    <%= JSON.stringify(ui.data,null,3) %>
-    </textarea>
-    <% } %>
+    <% if (ui.debug) { %><br><br><label>Debug</label><textarea><%= JSON.stringify(ui.data,null,3) %></textarea><% } %>
 </div>
 
 
 <!-- 3. modify Event -->
 <div id="modify-div" class="menu-div" style="display:none">
+
     <form method="POST" action="/admin/event/update">
 
         <span>Modify Event</span><hr><br>
@@ -343,7 +322,7 @@
             <textarea class="small" placeholder="Event Notes" id="notes" name="notes" required>
             </textarea><br>
 
-            <input type="submit" value="Create Event"><br><br>
+            <input type="submit" value="Create Event">
 
             <label>Feedback PIN for attendees</label>
             <% if ( typeof ui.data[1] == 'object' && ui.data[1] ) { %>
@@ -353,13 +332,8 @@
             <% } %><br><br>
         </div>
     </form>
-     <!-- debug -->
-    <br><br><label>Debug</label>
-    <% if (ui.debug) { %>
-    <textarea>
-    <%= JSON.stringify(ui.data,null,3) %>
-    </textarea>
-    <% } %>
+    <!-- debug -->
+    <% if (ui.debug) { %><br><br><label>Debug</label><textarea><%= JSON.stringify(ui.data,null,3) %></textarea><% } %>
 </div>
 
 

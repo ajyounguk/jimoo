@@ -4,19 +4,6 @@
 
 module.exports = function (app) {
 
-    // init vars
-    
-    // calc todays date and time (for create ui date controls)
-    var dateNow = new Date(Date.now()).toISOString().split('T')[0]
-    var timeNow = new Date(Date.now()).toTimeString().split(' ')[0].substr(0, 5)
-
-    // calc todays date & todays date + 1 month (for list ui controls)
-    var thisYear = new Date(Date.now()).getFullYear()
-    var thisMonth = new Date(Date.now()).getMonth() 
-    var listStartDate = new Date(thisYear, thisMonth, 2 ).toISOString().split('T')[0]
-    var listEndDate = new Date(thisYear, thisMonth +1 , 2).toISOString().split('T')[0]
-
-
     // ui = data object holds all data required by the UI
     //
     // set ui.debug for json ouput of the data
@@ -29,41 +16,70 @@ module.exports = function (app) {
     // ui.data.list = list screens data
 
     var ui = {
-        debug: true,
+        debug: false,
         flow: {
             activateDiv: 'create-div',
             activateButton: 'create-button',
         },
         data: {
-            create: {
-                status: '',
-                response: '',
-                timestap: '',
+            create: {},
+            list: {}
+        }
+    }
+
+    // init UI helper function
+    function initUi(uiElement) {
+
+        if (uiElement == 'create') {
+
+            // calc dates = todays date and time
+            var dateNow = new Date(Date.now()).toISOString().split('T')[0]
+            var timeNow = new Date(Date.now()).toTimeString().split(' ')[0].substr(0, 5)
+
+            ui.data.create = {
+                status: null,
+                response: null,
+                timestamp: null,
                 todayDate: dateNow,
                 todayTime: timeNow,
                 event: {
-                    name: '',
-                    location: '',
-                    presenter: '',
+                    name: null,
+                    location: null,
+                    presenter: null,
                     start: null,
                     end: null,
-                    email: '',
-                    notes: '',
-                    pin: ''
-                },
-            },
-            list: {
-                status: '',
-                response: '',
-                timestamp: '',
+                    email: null,
+                    notes: null,
+                    pin: null
+                }
+            }
+        }
+
+        if (uiElement = 'list') {
+
+            // calc todays date & todays date + 1 month (for list ui controls)
+            var thisYear = new Date(Date.now()).getFullYear()
+            var thisMonth = new Date(Date.now()).getMonth() 
+            var listStartDate = new Date(thisYear, thisMonth, 2 ).toISOString().split('T')[0]
+            var listEndDate = new Date(thisYear, thisMonth +1 , 2).toISOString().split('T')[0]
+
+            ui.data.list = {
+                status: null,
+                response: null,
+                timestamp: null,
                 startDate: listStartDate,
                 endDate: listEndDate,
                 events: []
             }
         }
     }
+    // set ui.data.create = object from helper function
+    initUi('create')
 
+    // set ui.data.list = object from helper function
+    initUi('list')
 
+    
 
     // load Event model for mongo
     var Event = require('../models/eventModel')
@@ -79,12 +95,12 @@ module.exports = function (app) {
     // 0. serve up admin form
     app.get('/', function (req, res) {
 
-
         // set timestamp & init ui flow
         var date = new Date(Date.now())
         ui.data.create.timestamp = date    
         ui.flow.activateDiv = 'create-div'
         ui.flow.activateButton = 'create-button'  
+
 
         res.setHeader('Content-Type', 'text/html');
         res.render('./index', {
@@ -96,6 +112,8 @@ module.exports = function (app) {
     app.post('/admin/event/create', function (req, res) { 
 
         // init UI        
+        var date = new Date(Date.now())
+        ui.data.create.timestamp = date    
         ui.flow.activateDiv = 'create-confirmation-div'
         ui.flow.activateButton = 'create-button'        
 
@@ -119,9 +137,15 @@ module.exports = function (app) {
     // 1b. save event
     app.post('/admin/event/save', function (req, res) { 
         
+        // set timestamp & init ui flow
+        var date = new Date(Date.now())
+        ui.data.create.timestamp = date    
+        ui.flow.activateDiv = 'create-save-div'
+        ui.flow.activateButton = 'create-button'
+
         // PIN maker helper function
         // generates random 5 char code + checks if collision exists in mongo
-        function makePin (attempts, callback) {
+        function makePin (attempts, callback) {        
 
             if (attempts >= 20) {
                 console.log('ERROR, pin generation failed after too many collisions (20)')
@@ -153,20 +177,18 @@ module.exports = function (app) {
             })
         }
 
-        // set timestamp & init ui flow
-        var date = new Date(Date.now())
-        ui.data.create.timestamp = date    
-        ui.flow.activateDiv = 'create-save-div'
-        ui.flow.activateButton = 'create-button'
-
+        
         // if pin is set don't save again (form resubmission)
-        if ( ui.data.create.response == '' ) {
+        if ( ui.data.create.response == null ) {
+
+            initUi('create')
                   
             makePin (0, function (err, pincode) {
                 if (err) {
                     res.status = 500
                     ui.data.create.status = '500'
                     ui.data.create.response = err
+                    console.log(err)
                 } else {
 
                     // setup date and time for mongo insert
@@ -177,7 +199,7 @@ module.exports = function (app) {
                     var event = Event({
                         event: {
                             name: ui.data.create.event.name,
-                            location:  ui.data.create.event.name,
+                            location: ui.data.create.event.location,
                             presenter: ui.data.create.event.presenter,
                             email: ui.data.create.event.email,
                             notes: ui.data.create.event.notes,
@@ -192,13 +214,14 @@ module.exports = function (app) {
                             res.status = 500
                             ui.data.create.status = '500'
                             ui.data.create.response = err
+                            console.log(err)
                         } else {
                             res.status = 201
                             ui.data.create.status = '201'
                             ui.data.create.response = event
                         }
 
-                        // redirect to confirmation screen
+                        // redirect to save screen
                         res.render('./index.ejs', {
                             ui: ui
                         })
@@ -213,11 +236,11 @@ module.exports = function (app) {
         }
     })
 
+
     // 1c. modify
     app.get('/admin/event/modify', function (req, res) {
 
         // set timestamp & init ui flow
-        console.log('modify ui', ui)
         var date = new Date(Date.now())
         ui.data.create.timestamp = date    
         ui.flow.activateDiv = 'create-div'
@@ -233,27 +256,10 @@ module.exports = function (app) {
     // 1d. cancel
     app.get('/admin/event/cancel', function (req, res) {
 
-        console.log('cancel ui', ui)
-
-        // calc dates = todays date and time
-        var dateNow = new Date(Date.now()).toISOString().split('T')[0]
-        var timeNow = new Date(Date.now()).toTimeString().split(' ')[0].substr(0, 5)
-
-        var date = new Date(Date.now())
-
         // init ui
-        ui.data.create.event.name = ''
-        ui.data.create.event.location = ''
-        ui.data.create.event.presenter = ''
-        ui.data.create.event.email = ''
-        ui.data.create.event.start = null
-        ui.data.create.event.end = null
-        ui.data.create.event.email = ''
-        ui.data.create.event.notes = ''
-        ui.data.create.event.pin = ''
-
-        //ui.data.create.timestamp = date    
-        ui.data.timestamp = date
+        initUi('create')
+        var date = new Date(Date.now())
+        ui.data.create.timestamp = date    
         ui.flow.activateDiv = 'create-div'
         ui.flow.activateButton=  'create-button'
         
@@ -263,14 +269,16 @@ module.exports = function (app) {
         })
     })
 
+
+
     // 2. list
     app.post('/admin/event/list', function (req, res) {
 
-         // set timestamp & init ui flow
-         var date = new Date(Date.now())
-         ui.data.list.timestamp = date    
-         ui.flow.activateDiv = 'list-div'
-         ui.flow.activateButton=  'list-button'
+        // set timestamp & init ui flow
+        var date = new Date(Date.now())
+        ui.data.list.timestamp = date    
+        ui.flow.activateDiv = 'list-div'
+        ui.flow.activateButton=  'list-button'
 
         // prepare list form dates to be used by mongo filter
         var startdate = new Date(req.body.lstartdate +' 00:00:00')
@@ -286,6 +294,7 @@ module.exports = function (app) {
             if (err) {
                 ui.data.list.status = '500'
                 ui.data.list.response = err
+                console.log(err)
             } else {
                 ui.data.list.status = '200'
                 ui.data.list.events = events
@@ -297,14 +306,19 @@ module.exports = function (app) {
         })
     })
 
+
     // 3. modify existing
     app.get('/admin/events:id', function (req, res) {
 
+        // set timestamp & init ui flow
         var date = new Date(Date.now())
+        ui.data.list.timestamp = date    
+        ui.flow.activateDiv = 'modify-div'
+        ui.flow.activateButton=  'modify-button'
 
         var mongoid = req.params.id;
 
-        ui.data.create.timestap = date
+        ui.data.create.timestamp = date
         console.log(mongoid)
 
             res.render('./index.ejs', {
