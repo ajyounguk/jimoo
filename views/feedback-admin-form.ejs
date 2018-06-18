@@ -1,6 +1,6 @@
 <!-- 1a. Create Event -->
 <div id="create-div" class="menu-div padded">
-    <form method="POST" action="/admin/event/create">
+    <form method="POST" action="/admin/event/create-ok">
 
         <span>Create Event</span><hr><br>
 
@@ -63,10 +63,7 @@
 
     <% if ( typeof ui.data.create == 'object' && ui.data.create ) { %>
 
-        <form method="POST" action="/admin/event/save">
-
             <span>Confirm Event Details</span><hr><br>
-
             
              <div class="groupdiv-list">
                 
@@ -96,20 +93,17 @@
 
                         <tr>
                         <td><label>Notes</label><p><%= ui.data.create.event.notes %></p><hr></td></tr>
+
                     </table>
                     <br>
-
 
                       <table>
                         <tr>
                             <td>
-                                <input type="submit" value="Confirm">
+                                <input type="button" onclick="location.href='/admin/event/create-confirm-ok'" value="Ok">
                             </td>
                             <td>
-                                <input type="button" onclick="location.href='/admin/event/modify'" value="Modify">
-                            </td>
-                            <td>
-                                <input type="button" onclick="location.href='/admin/event/cancel'" value="Delete">
+                                <input type="button" onclick="location.href='/admin/event/create-confirm-back'" value="Back">
                             </td>
                         </tr>
                     </table>
@@ -124,67 +118,65 @@
 </div>
 
 
-<!-- 1c. Save Event -->
-<div id="create-save-div" class="menu-div padded">
+<!-- 1c. Event Created  -->
+<div id="event-created-div" class="menu-div padded">
 
-    <% if ( typeof ui.data.create.response == 'object' && ui.data.create.response ) { %>
+    <% if (  ui.data.create.event.pin != null ) { %>
 
-        <form method="GET" action="/admin/event/cancel">
-
+        <form method="GET" action="/">
+            
             <span>Event Created</span><hr><br>
 
-            <div class="groupdiv-list">
-                <table class="fullw">
-                    <tr class="darker">
-                        <td><label>Feedback PIN</label>
-                            <p>Please make a note of your feedback PIN: <b><%= ui.data.create.response.event.pin %></b></p><br>
-                            <input type="submit" value="OK">
-                        </td>
-                    </tr>
-                </table>
+                    
+            <div class="groupdiv">
+                <label>Feedback PIN</label>
+                <p>Please make a note of your feedback PIN:</p><br><b><%= ui.data.create.event.pin %></b></h3></p>
             </div>
             <br>
-        </form>
-            
-        <span>Event Details</span><hr><br>
-        <div class="groupdiv-list">
-            
-            <table class="fullw">
-
-                <tr class="darker">
-                <td><label>Event</label>
-                <p><%= ui.data.create.event.name %></p><hr></td></tr>
+                    
+            <div class="groupdiv-list">
                 
-                <tr>
-                <td><label>Presenter</label>
-                <p><%= ui.data.create.event.presenter %></p><hr></td></tr>
-                
-                <tr class="darker">
-                <td><label>Email</label> 
-                <p><%= ui.data.create.event.email %></p><hr></td></tr>
+                <table class="fullw">
 
-                <tr>
-                <td><label>Location</label>
-                <p><%= ui.data.create.event.location %></p><hr></td></tr>
+                    <tr class="darker">
+                    <td><label>Event</label>
+                    <p><%= ui.data.create.event.name %></p><hr></td></tr>
+                    
+                    <tr>
+                    <td><label>Presenter</label>
+                    <p><%= ui.data.create.event.presenter %></p><hr></td></tr>
+                    
+                    <tr class="darker">
+                    <td><label>Email</label> 
+                    <p><%= ui.data.create.event.email %></p><hr></td></tr>
 
-                <tr class="darker">
-                <td><label>Time</label>
-                <p><%= new Date(ui.data.create.event.startdate + ' ' +  ui.data.create.event.starttime ).toString().split('GMT')[0] %> </p>
-                <p><%= new Date(ui.data.create.event.enddate + ' ' +  ui.data.create.event.endtime ).toString().split('GMT')[0] %>%></p><hr></td></tr>
-                
-                <tr>
-                <td><label>Notes</label><p><%= ui.data.create.event.notes %></p></td></tr>
-            </table>
-            <br>
+                    <tr>
+                    <td><label>Location</label>
+                    <p><%= ui.data.create.event.location %></p><hr></td></tr>
 
-        </div><br>          
+                    <tr class="darker">
+                    <td><label>Time</label>
+                    <p><%= new Date(ui.data.create.event.startdate + ' ' +  ui.data.create.event.starttime ).toString().split('GMT')[0] %> </p>
+                    <p><%= new Date(ui.data.create.event.enddate + ' ' +  ui.data.create.event.endtime ).toString().split('GMT')[0] %>%></p><hr></td></tr>
+                    
+                    <tr>
+                    <td><label>Notes</label><p><%= ui.data.create.event.notes %></p><hr></td></tr>
+                    <tr>
+                    <td>
+                    <br>
+                    <input type="submit" value="OK">
+                    </tr>
+                    </td>
+
+                </table>
+            </div>
+        </form>        
     <% } %>
 
     <!-- debug -->
     <% if (ui.debug) { %><br><br><label>Debug</label><textarea><%= JSON.stringify(ui.data,null,3) %></textarea><% } %>
 
 </div>
-
 
 
 <!-- 2. List Events -->
@@ -267,7 +259,7 @@
 </div>
 
 
-<!-- 3. modify Event -->
+<!-- 3. Modify Event -->
 <div id="modify-div" class="menu-div" style="display:none">
 
     <form method="POST" action="/admin/event/update">
@@ -335,5 +327,3 @@
     <!-- debug -->
     <% if (ui.debug) { %><br><br><label>Debug</label><textarea><%= JSON.stringify(ui.data,null,3) %></textarea><% } %>
 </div>
-
-

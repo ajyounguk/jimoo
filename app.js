@@ -5,16 +5,26 @@ var mongoose = require('mongoose')
 var express = require('express')
 var fs = require('fs')
 var favicon = require('serve-favicon');
+var bodyParser = require('body-parser');
 
 // express setup
 var app = express()
 var port = process.env.PORT || 3000
 
-// configure assets and views
+
+
+// setup bodyparser
+
+
+// configure assets, views, json encoded bodies and encoded bodies
 app.use('/assets', express.static(__dirname + '/public'))
 app.set('views', __dirname + '/views')
 app.set('view engine', 'ejs')
 app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(bodyParser.json()); 
+app.use(bodyParser.urlencoded({
+    extended: true
+})); 
 
 // load & set mongo config
 var mongoConfig = JSON.parse(fs.readFileSync(__dirname + '/config/mongo-config.json', 'utf8'));
