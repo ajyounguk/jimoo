@@ -16,7 +16,7 @@ module.exports = function (app) {
     // 
     // ui.data = main data structure for capturing UI inputs/outputs
     // ui.data.create = create screens data
-    // ui.data.list = list screens data
+    // ui.data.search = list screens data
 
     var ui = {
         debug: false,
@@ -26,7 +26,8 @@ module.exports = function (app) {
         },
         data: {
             create: {},
-            list: {}
+            search: {},
+            modify: {}
         }
     }
 
@@ -56,7 +57,7 @@ module.exports = function (app) {
             }
         }
 
-        if (uiElement = 'list') {
+        if (uiElement === 'search') {
 
             // calc todays date & todays date + 1 month (for list ui controls)
             var thisYear = new Date(Date.now()).getFullYear()
@@ -64,11 +65,35 @@ module.exports = function (app) {
             var listStartDate = new Date(thisYear, thisMonth, 2 ).toISOString().split('T')[0]
             var listEndDate = new Date(thisYear, thisMonth +1 , 2).toISOString().split('T')[0]
 
-            ui.data.list = {
+            ui.data.search = {
                 timestamp: null,
                 startDate: listStartDate,
                 endDate: listEndDate,
                 events: []
+            }
+        }
+
+
+        if (uiElement == 'modify') {
+
+            // calc dates = todays date and time
+            var dateNow = new Date(Date.now()).toISOString().split('T')[0]
+            var timeNow = new Date(Date.now()).toTimeString().split(' ')[0].substr(0, 5)
+
+            ui.data.modify = {
+                timestamp: null,
+                todayDate: dateNow,
+                todayTime: timeNow,
+                event: {
+                    name: null,
+                    location: null,
+                    presenter: null,
+                    start: null,
+                    end: null,
+                    email: null,
+                    notes: null,
+                    pin: null
+                }
             }
         }
     }
@@ -117,7 +142,8 @@ module.exports = function (app) {
 
         // init the UI object
         initUI('create')
-        initUI('list')
+        initUI('search')
+        initUI('modify')
 
         // set timestamp & init ui flow
         var date = new Date(Date.now())
@@ -132,7 +158,7 @@ module.exports = function (app) {
     })
 
 
-    // 1a. create event 
+    // 1a. Create event 
     // (capture form data and generate pin)
     app.post('/admin/event/create-ok', function (req, res) { 
 
@@ -178,7 +204,7 @@ module.exports = function (app) {
     })
 
 
-    // 1b. create event, confirm, ok 
+    // 1b. Create event, confirm, ok 
     // (create mongo doc if pin doesn't exist, otherwise update it to cater for browser refresh and back)
     app.get('/admin/event/create-confirm-ok', function (req, res) { 
         
@@ -228,7 +254,7 @@ module.exports = function (app) {
     })
 
 
-    // 1c. create event - cancel or go back
+    // 1c. Create event - cancel or go back
     // (redisplay the event create form but don't reset it )
     app.get('/admin/event/create-confirm-back', function (req, res) {
 
@@ -245,16 +271,19 @@ module.exports = function (app) {
     })
     
 
-    // 2. list
-    app.post('/admin/event/list', function (req, res) {
+    // 2. Search
+    app.post('/admin/event/search', function (req, res) {
 
         // set timestamp & init ui flow
         var date = new Date(Date.now())
-        ui.data.list.timestamp = date    
-        ui.flow.activateDiv = 'list-div'
-        ui.flow.activateButton=  'list-button'
+        ui.data.search.timestamp = date    
+        ui.flow.activateDiv = 'search-div'
+        ui.flow.activateButton = 'search-button'
 
-        // prepare list form dates to be used by mongo filter
+        // reset anything in the create form
+        initUI('create')
+
+        // prepare search form dates to be used by mongo filter
         var startdate = new Date(req.body.lstartdate +' 00:00:00')
         var enddate = new Date(req.body.lenddate +' 24:00:00')
       
@@ -266,12 +295,12 @@ module.exports = function (app) {
         }, function (err, events) {
 
             if (err) {
-                ui.data.list.status = '500'
-                ui.data.list.response = err
+                ui.data.search.status = '500'
+                ui.data.search.response = err
                 console.log(err)
             } else {
-                ui.data.list.status = '200'
-                ui.data.list.events = events
+                ui.data.search.status = '200'
+                ui.data.search.events = events
             }
 
             res.render('./index.ejs', {
@@ -281,19 +310,28 @@ module.exports = function (app) {
     })
 
 
-    // 3. modify existing
-    app.get('/admin/events:id', function (req, res) {
+    // 3. Modify existing
+    app.get('/admin/event/modify/:id', function (req, res) {
 
         // set timestamp & init ui flow
         var date = new Date(Date.now())
-        ui.data.list.timestamp = date    
+        ui.data.search.timestamp = date    
         ui.flow.activateDiv = 'modify-div'
         ui.flow.activateButton=  'modify-button'
 
-        var mongoid = req.params.id;
+        var id = req.params.id;
+
+        // load the create form 
+        ui.data.modify.event.name = ui.data.search.events[id].event.name
+        ui.data.modify.event.location = ui.data.search.events[id].event.location
+        ui.data.modify.event.presenter = ui.data.search.events[id].event.presenter
+        ui.data.modify.event.email = ui.data.search.events[id].event.email
+        ui.data.modify.event.notes = ui.data.search.events[id].event.notes
+        ui.data.modify.event.pin = ui.data.search.events[id].event.pin
+    
 
         ui.data.create.timestamp = date
-        console.log(mongoid)
+        console.log(id)
 
             res.render('./index.ejs', {
                 ui: ui
