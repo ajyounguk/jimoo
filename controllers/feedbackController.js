@@ -13,38 +13,56 @@ module.exports = function (app) {
     //
     // ui.flow.activateDiv = div to be enabled when form loads
     // ui.flow.activateButton = button to be enabled when form loads
+    // ui.flow.function = create or modify, depending if this is a new event or whether it's being modified
     // 
     // ui.data = main data structure for capturing UI inputs/outputs
-    // ui.data.create = create screens data
+    // ui.data. = create screens data
     // ui.data.search = list screens data
 
+
+    // calc dates = todays date and time
+    var dateNow = new Date(Date.now()).toISOString().split('T')[0]
+    var timeNow = new Date(Date.now()).toTimeString().split(' ')[0].substr(0, 5)
+
+    // calc todays date & todays date + 1 month (for list ui controls)
+    var thisYear = new Date(Date.now()).getFullYear()
+    var thisMonth = new Date(Date.now()).getMonth() 
+    var StartDate = new Date(thisYear, thisMonth, 2 ).toISOString().split('T')[0]
+    var EndDate = new Date(thisYear, thisMonth +1 , 2).toISOString().split('T')[0]
+
     var ui = {
-        debug: false,
+        debug: true,
         flow: {
             activateDiv: null,
-            activateButton: 'create-button',
+            activateButton: null,
+            action: null,
+            timestamp: null
+        },
+        dates: {
+            todayDate: dateNow,
+            todayTime: timeNow,
+            searchStartDate: StartDate,
+            searchEndDate: EndDate
         },
         data: {
-            create: {},
-            search: {},
-            modify: {}
+            event: {
+                name: null,
+                location: null,
+                presenter: null,
+                start: null,
+                end: null,
+                email: null,
+                notes: null,
+                pin: null
+            },
+            searchResults: []
         }
     }
 
-    // init UI = helper function
-    function initUI(uiElement) {
+    // reset UI = helper function
+    function resetUI() {
 
-        if (uiElement == 'create') {
-
-            // calc dates = todays date and time
-            var dateNow = new Date(Date.now()).toISOString().split('T')[0]
-            var timeNow = new Date(Date.now()).toTimeString().split(' ')[0].substr(0, 5)
-
-            ui.data.create = {
-                timestamp: null,
-                todayDate: dateNow,
-                todayTime: timeNow,
-                event: {
+        ui.data.event = {
                     name: null,
                     location: null,
                     presenter: null,
@@ -53,49 +71,6 @@ module.exports = function (app) {
                     email: null,
                     notes: null,
                     pin: null
-                }
-            }
-        }
-
-        if (uiElement === 'search') {
-
-            // calc todays date & todays date + 1 month (for list ui controls)
-            var thisYear = new Date(Date.now()).getFullYear()
-            var thisMonth = new Date(Date.now()).getMonth() 
-            var listStartDate = new Date(thisYear, thisMonth, 2 ).toISOString().split('T')[0]
-            var listEndDate = new Date(thisYear, thisMonth +1 , 2).toISOString().split('T')[0]
-
-            ui.data.search = {
-                timestamp: null,
-                startDate: listStartDate,
-                endDate: listEndDate,
-                events: []
-            }
-        }
-
-
-        if (uiElement == 'modify') {
-
-            // calc dates = todays date and time
-            var dateNow = new Date(Date.now()).toISOString().split('T')[0]
-            var timeNow = new Date(Date.now()).toTimeString().split(' ')[0].substr(0, 5)
-
-            ui.data.modify = {
-                timestamp: null,
-                todayDate: dateNow,
-                todayTime: timeNow,
-                event: {
-                    id: null,
-                    name: null,
-                    location: null,
-                    presenter: null,
-                    start: null,
-                    end: null,
-                    email: null,
-                    notes: null,
-                    pin: null
-                }
-            }
         }
     }
 
@@ -138,19 +113,18 @@ module.exports = function (app) {
     }
 
 
-    // load admin form
+    // 0 load form
     app.get('/', function (req, res) {
 
-        // init the UI object
-        initUI('create')
-        initUI('search')
-        initUI('modify')
+        // init the UI event object
+        resetUI()
 
-        // set timestamp & init ui flow
+        // ui flow
         var date = new Date(Date.now())
-        ui.data.create.timestamp = date    
+        ui.flow.timestamp = date    
         ui.flow.activateDiv = 'create-div'
         ui.flow.activateButton = 'create-button'  
+        ui.flow.function = 'create'
 
         res.setHeader('Content-Type', 'text/html');
         res.render('./index', {
@@ -159,44 +133,45 @@ module.exports = function (app) {
     })
 
 
-    // 1a. Create event 
-    // (capture form data and generate pin)
+    // 1a. Create event (called from create screen, ok button)
+    //
+    // captures form data into ui object + generate pin if we don't have one
     app.post('/admin/event/create-ok', function (req, res) { 
 
-        // init UI        
-        var date = new Date(Date.now())
-        ui.data.create.timestamp = date    
-        ui.flow.activateDiv = 'create-confirmation-div'
-        ui.flow.activateButton = 'create-button'        
+        ui.data.event.name = req.body.name
+        ui.data.event.location = req.body.location
+        ui.data.event.presenter = req.body.presenter
+        ui.data.event.email = req.body.email
+        ui.data.event.notes = req.body.notes
+        ui.data.event.startdate = req.body.startdate
+        ui.data.event.starttime = req.body.starttime
+        ui.data.event.enddate = req.body.enddate
+        ui.data.event.endtime = req.body.endtime 
 
-        ui.data.create.event.name = req.body.name
-        ui.data.create.event.location = req.body.location
-        ui.data.create.event.presenter = req.body.presenter
-        ui.data.create.event.email = req.body.email
-        ui.data.create.event.notes = req.body.notes
-        ui.data.create.event.startdate = req.body.startdate
-        ui.data.create.event.starttime = req.body.starttime
-        ui.data.create.event.enddate = req.body.enddate
-        ui.data.create.event.endtime = req.body.endtime 
+         // ui flow       
+         var date = new Date(Date.now())
+         ui.flow.timestamp = date    
+         ui.flow.activateDiv = 'create-confirmation-div'
+         ui.flow.activateButton = 'create-button'    
+   
         
         // if we don't have a PIN, generate it
-        if (ui.data.create.event.pin == null) {
+        if (ui.data.event.pin == null) {
             makePin (0, function (err, pincode) {
                 if (err) {
-                    res.status = 500
-                    console.log(err)
-                    res.render(err)
+                    res.status(500)
+                    res.send(err)
                 } else {
-                    res.status = 200
-                    ui.data.create.event.pin = pincode
-                    // render confirmation screen
+                    res.status(200)
+                    ui.data.event.pin = pincode
+
                     res.render('./index.ejs', {
                         ui: ui
                     })
                 }
             })
         } else {
-            res.status = 200
+            res.status(200)
             // render confirmation screen
             res.render('./index.ejs', {
                 ui: ui
@@ -205,45 +180,45 @@ module.exports = function (app) {
     })
 
 
-    // 1b. Create event, confirm, ok 
-    // (create mongo doc if pin doesn't exist, otherwise update it to cater for browser refresh and back)
+    // 1b. Create event (called from confirm screen, ok button)
+    //
+    // create mongo doc if pin doesn't exist, otherwise update it
     app.get('/admin/event/create-confirm-ok', function (req, res) { 
-        
-        // set timestamp & init ui flow
-        var date = new Date(Date.now())
-        ui.data.create.timestamp = date    
-        ui.flow.activateDiv = 'event-created-div'
-        ui.flow.activateButton = 'create-button'
 
         // PIN maker helper function
         // generates random 5 char code + checks if collision exists in mongo
         
         // setup date and time for mongo insert
-        var startd = new Date(ui.data.create.event.startdate + " " + ui.data.create.event.starttime)
-        var endd = new Date(ui.data.create.event.enddate + " " + ui.data.create.event.endtime)
+        var startd = new Date(ui.data.event.startdate + " " + ui.data.event.starttime)
+        var endd = new Date(ui.data.event.enddate + " " + ui.data.event.endtime)
     
         // match on PIN
-        var query = {'event.pin' : ui.data.create.event.pin }
+        var query = {'event.pin' : ui.data.event.pin }
     
         var data = {
             event: {
-                name: ui.data.create.event.name,
-                location: ui.data.create.event.location,
-                presenter: ui.data.create.event.presenter,
-                email: ui.data.create.event.email,
-                notes: ui.data.create.event.notes,
+                name: ui.data.event.name,
+                location: ui.data.event.location,
+                presenter: ui.data.event.presenter,
+                email: ui.data.event.email,
+                notes: ui.data.event.notes,
                 start: startd,
                 end: endd,
-                pin: ui.data.create.event.pin
+                pin: ui.data.event.pin
             }
         }
+
+         // ui flow
+         var date = new Date(Date.now())
+         ui.flow.timestamp = date    
+         ui.flow.activateDiv = 'event-created-div'
+         ui.flow.activateButton = 'create-button'
 
         // find pin, if found updated it, if not create new doc (option upsert = true)
         Event.findOneAndUpdate( query, data, {upsert: true}, function (err, event) {
             if (err) {
-                res.status = 500
-                console.log(err)
-                res.render(err)
+                res.status(500)
+                res.send(err)
             } else {
                 res.status = 201
                 // redirect to save screen
@@ -255,13 +230,14 @@ module.exports = function (app) {
     })
 
 
-    // 1c. Create event - cancel or go back
-    // (redisplay the event create form but don't reset it )
+    // 1c. Create event (called from confirm screen,back button)
+    //
+    // just redisplay the event create form
     app.get('/admin/event/create-confirm-back', function (req, res) {
 
-        // set timestamp & init ui flow
+        // ui flow
         var date = new Date(Date.now())
-        ui.data.create.timestamp = date    
+        ui.flow.timestamp = date    
         ui.flow.activateDiv = 'create-div'
         ui.flow.activateButton=  'create-button'
         
@@ -272,17 +248,14 @@ module.exports = function (app) {
     })
     
 
-    // 2. Search
+    // 2. Search Events 
+    //
+    // list events with opton to modify or delete them
     app.post('/admin/event/search', function (req, res) {
 
-        // set timestamp & init ui flow
-        var date = new Date(Date.now())
-        ui.data.search.timestamp = date    
-        ui.flow.activateDiv = 'search-div'
-        ui.flow.activateButton = 'search-button'
-
-        // reset anything in the create form
-        initUI('create')
+        
+        // reset anything in the event ui object
+        resetUI()
 
         // prepare search form dates to be used by mongo filter
         var startdate = new Date(req.body.lstartdate +' 00:00:00')
@@ -296,13 +269,17 @@ module.exports = function (app) {
         }, function (err, events) {
 
             if (err) {
-                ui.data.search.status = '500'
-                ui.data.search.response = err
-                console.log(err)
+                res.status(500)
+                res.send(err)
             } else {
-                ui.data.search.status = '200'
-                ui.data.search.events = events
+                res.status(200)
+                ui.data.searchResults = events
             }
+
+            // ui flow
+            ui.flow.timestamp = new Date(Date.now())    
+            ui.flow.activateDiv = 'search-div'
+            ui.flow.activateButton = 'search-button'
 
             res.render('./index.ejs', {
                 ui: ui
@@ -311,30 +288,31 @@ module.exports = function (app) {
     })
 
 
-    // 3. Modify existing
+    // 3. Modify Event (hooks in from search list, uses mongo object ID to load data into create / update screens)
     app.get('/admin/event/modify/:id', function (req, res) {
 
         // set timestamp & init ui flow
-        var date = new Date(Date.now())
-        ui.data.modify.timestamp = date    
-        ui.flow.activateDiv = 'modify-div'
-        ui.flow.activateButton=  'modify-button'
+        ui.flow.timestamp = new Date(Date.now())    
+        ui.flow.activateDiv = 'create-div'
+        ui.flow.activateButton=  'create-button'
+        ui.flow.function = 'modify'
 
         var id = req.params.id;
 
         Event.findById(id, function (err, event) {
             if (err) {
                 res.status(500)
-                res.render(err)
-                console.log(err)
+                res.send(err)
             } else {
-                ui.data.modify.event.id         = id
-                ui.data.modify.event.name       = event.event.name
-                ui.data.modify.event.location   = event.event.location
-                ui.data.modify.event.presenter  = event.event.presenter
-                ui.data.modify.event.email      = event.event.email
-                ui.data.modify.event.notes      = event.event.notes
-                ui.data.modify.event.pin        = event.event.pin        
+                ui.data.event.id         = id
+                ui.data.event.name       = event.event.name
+                ui.data.event.location   = event.event.location
+                ui.data.event.presenter  = event.event.presenter
+                ui.data.event.email      = event.event.email
+                ui.data.event.notes      = event.event.notes
+                ui.data.event.pin        = event.event.pin     
+                ui.data.event.start      = event.event.start     
+                ui.data.event.end        = event.event.end     
 
                 res.render('./index.ejs', {
                     ui: ui

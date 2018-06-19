@@ -226,9 +226,9 @@
 }
 
 
-.simple-style h2.title {
+.simple-style h2.pin {
     margin: 0 0 3px 0;
-    padding: 5px;
+    padding: 10px;
     display: block;
     font-weight: bold;
 }
