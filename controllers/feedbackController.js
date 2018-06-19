@@ -19,7 +19,7 @@ module.exports = function (app) {
     // ui.data.search = list screens data
 
     var ui = {
-        debug: true,
+        debug: false,
         flow: {
             activateDiv: null,
             activateButton: 'create-button',
