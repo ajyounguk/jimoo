@@ -19,7 +19,7 @@ module.exports = function (app) {
     // ui.data.search = list screens data
 
     var ui = {
-        debug: false,
+        debug: true,
         flow: {
             activateDiv: null,
             activateButton: 'create-button',
@@ -85,6 +85,7 @@ module.exports = function (app) {
                 todayDate: dateNow,
                 todayTime: timeNow,
                 event: {
+                    id: null,
                     name: null,
                     location: null,
                     presenter: null,
@@ -315,27 +316,30 @@ module.exports = function (app) {
 
         // set timestamp & init ui flow
         var date = new Date(Date.now())
-        ui.data.search.timestamp = date    
+        ui.data.modify.timestamp = date    
         ui.flow.activateDiv = 'modify-div'
         ui.flow.activateButton=  'modify-button'
 
         var id = req.params.id;
 
-        // load the create form 
-        ui.data.modify.event.name = ui.data.search.events[id].event.name
-        ui.data.modify.event.location = ui.data.search.events[id].event.location
-        ui.data.modify.event.presenter = ui.data.search.events[id].event.presenter
-        ui.data.modify.event.email = ui.data.search.events[id].event.email
-        ui.data.modify.event.notes = ui.data.search.events[id].event.notes
-        ui.data.modify.event.pin = ui.data.search.events[id].event.pin
-    
+        Event.findById(id, function (err, event) {
+            if (err) {
+                res.status(500)
+                res.render(err)
+                console.log(err)
+            } else {
+                ui.data.modify.event.id         = id
+                ui.data.modify.event.name       = event.event.name
+                ui.data.modify.event.location   = event.event.location
+                ui.data.modify.event.presenter  = event.event.presenter
+                ui.data.modify.event.email      = event.event.email
+                ui.data.modify.event.notes      = event.event.notes
+                ui.data.modify.event.pin        = event.event.pin        
 
-        ui.data.create.timestamp = date
-        console.log(id)
-
-            res.render('./index.ejs', {
-                ui: ui
-            })
-
+                res.render('./index.ejs', {
+                    ui: ui
+                })
+            }
+        })
     })
 }
