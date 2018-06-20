@@ -44,10 +44,10 @@ mongoose.connect(mongourl, function (err) {
 
 
 // load the controllers
-var feedbackController = require('./controllers/feedbackController')
+var feedbackAdminController = require('./controllers/feedbackAdminController')
 var setupController = require('./controllers/setupController')
 
-feedbackController(app)
+feedbackAdminController(app)
 setupController(app, mongoose)
 
 

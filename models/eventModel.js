@@ -17,7 +17,8 @@ var eventSchema = new Schema({
         start: Date,
         end: Date,
         notes: String,
-        pin: String
+        pin: String,
+        deleted: Boolean
     },
     feedback: [{
         starRating: Number,
