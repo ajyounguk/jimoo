@@ -34,8 +34,6 @@ Todo:
 - Proper REST API to replace the messy UI controller...
 
 
-
-
 ## Installation overview
 install Node.js: https://nodejs.org/en/
 
