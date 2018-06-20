@@ -4,21 +4,25 @@
     font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
 
-.simple-style body, input {
+.simple-style body,
+input {
     font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
 
 /* show menu contents */
+
 .simple-style .show {
     display: block;
 }
 
 /* enabled menu button */
+
 .simple-style .enabled {
     background-color: rgb(4, 25, 36);
 }
 
 /* menu divs are padded */
+
 .simple-style div.menu-div {
     padding: 10px;
 }
@@ -26,7 +30,6 @@
 .simple-style div.padded {
     padding: 10px;
 }
-
 
 .simple-style div.title {
     margin: 5px 10px 5px 10px;
@@ -40,7 +43,6 @@
 .simple-style div.buttons {
     padding: 10px 0 0 0;
 }
-
 
 .simple-style div.groupdiv {
     border: 2px solid #57a3ac;
@@ -70,7 +72,6 @@
     background-color: rgb(151, 206, 228)
 }
 
-
 .simple-style .fullw {
     width: 100%;
 }
@@ -91,6 +92,7 @@
     font-size: 16px;
     margin: 10px 10px 10px 10px;
 }
+
 .simple-style p.conf {
     font-size: 20px;
     margin: 10px 10px 10px 10px;
@@ -161,7 +163,6 @@
     width: 50%;
     text-align: right;
     vertical-align: bottom;
-    
 }
 
 .simple-style hr {
@@ -207,7 +208,6 @@
     padding: 12px;
     display: block;
     font-weight: bold;
-
 }
 
 .simple-style h1.title {
@@ -224,7 +224,6 @@
     display: block;
     font-weight: bold;
 }
-
 
 .simple-style h2.pin {
     margin: 0 0 3px 0;
@@ -349,7 +348,7 @@
     display: block;
     font: 14px;
     margin: 5px;
-    background-color:rgb(230, 251, 252);
+    background-color: rgb(230, 251, 252);
     width: 80%;
     height: 20em;
     -webkit-border-radius: 6px;
@@ -364,6 +363,7 @@
 }
 
 /* input */
+
 .simple-style input[type=text],
 .simple-style input[type=datetime],
 .simple-style input[type=number],
@@ -393,6 +393,7 @@ select {
 }
 
 /* input focus */
+
 .simple-style input[type=text]:focus,
 .simple-style input[type=datetime]:focus,
 .simple-style input[type=number]:focus,
@@ -413,6 +414,7 @@ select {
 }
 
 /* date */
+
 .simple-style input[type=date],
 .simple-style input[type=datetime],
 .simple-style input[type=datetime-local],
@@ -453,6 +455,7 @@ select {
 }
 
 /* radio */
+
 .simple-style input[type=radio],
 select {
     margin: 5px;
@@ -460,6 +463,7 @@ select {
 }
 
 /* input focus */
+
 .simple-style input[type=radio]:focus,
 .simple-style select:focus {
     font-size: 16px;
@@ -509,7 +513,7 @@ select {
 
 .simple-style input[type=submit],
 .simple-style input[type=button] {
-    background:  rgb(31, 104, 122);
+    background: rgb(31, 104, 122);
     padding: 8px 12px 8px 12px;
     border: none;
     margin: 5px;
@@ -556,6 +560,7 @@ input[readonly] {
 }
 
 /* dropdown menu styles */
+
 .simple-style .dropbtn {
     background-color: rgb(31, 104, 122);
     color: white;

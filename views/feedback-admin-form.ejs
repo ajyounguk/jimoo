@@ -250,7 +250,7 @@
                         <tr class="darker">
                         <td><br>
                         <input type="button" onclick="location.href='/admin/event/modify/<%= ui.data.searchResults[i]._id %>'" value="Modify">
-                        <input type="button" onclick="location.href='/admin/event/delete/<%= i %>'" value="Delete">
+                        <input type="button" onclick="location.href='/admin/event/delete/<%= ui.data.searchResults[i]._id %>'" value="Delete">
 
                     </table>
                 </div>
@@ -266,3 +266,62 @@
 
 
 
+
+<!-- 3. Confirm Delete Event -->
+<div id="delete-confirmation-div" class="menu-div padded">
+
+    <% if ( typeof ui.data.event == 'object' && ui.data.event ) { %>
+
+            <span>Delete Event Confirmation</span><hr><br>
+            
+             <div class="groupdiv-list">
+                
+                    <table class="fullw">
+
+                        <tr class="darker">
+                        <td><label>Event</label>
+                        <p><%= ui.data.event.name %></p><hr></td></tr>
+                        
+                        <tr>
+                        <td><label>Presenter</label>
+                        <p><%= ui.data.event.presenter %></p><hr></td></tr>
+                        
+                        <tr class="darker">
+                        <td><label>Email</label> 
+                        <p><%= ui.data.event.email %></p><hr></td></tr>
+
+                        <tr>
+                        <td><label>Location</label>
+                        <p><%= ui.data.event.location %></p><hr></td></tr>
+
+                        <tr class="darker">
+                        <td><label>Time</label>
+                        <p><%= new Date(ui.data.event.startdate + ' ' +  ui.data.event.starttime ).toString().split('GMT')[0] %> </p>
+                        <p><%= new Date(ui.data.event.enddate + ' ' +  ui.data.event.endtime ).toString().split('GMT')[0] %>%></p><hr></td></tr>
+                        
+
+                        <tr>
+                        <td><label>Notes</label><p><%= ui.data.event.notes %></p><hr></td></tr>
+
+                    </table>
+                    <br>
+
+                      <table>
+                        <tr>
+                            <td>
+                                <input type="button" onclick="location.href='/admin/event/delete-confirm-ok'" value="Delete This Event">
+                            </td>
+                            <td>
+                                <input type="button" onclick="location.href='/'" value="Cancel">
+                            </td>
+                        </tr>
+                    </table>
+                    <br>
+                </div>          
+        </form>
+
+    <% } %>
+
+    <!-- debug -->
+    <% if (ui.debug) { %><br><br><label>Debug</label><textarea><%= JSON.stringify(ui.data,null,3) %></textarea><% } %>
+</div>
