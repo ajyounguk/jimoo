@@ -1,3 +1,5 @@
+![Alt text](/public/jimoo.png?raw=true)
+
 ## Jimoo - an event feedback tool
 
 ## What is this?
