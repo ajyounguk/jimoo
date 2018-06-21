@@ -1,4 +1,4 @@
-![Jimoo](/public/jimoo.png?raw=true =100x100)
+![Jimoo](/public/jimoo.png =100x100)
 
 ## Jimoo - The event feedback tool
 
