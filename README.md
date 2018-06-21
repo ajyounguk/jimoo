@@ -5,7 +5,9 @@ Jimoo is a work in progress web app, that will allow you to get feedback for an 
 
 Developed with a Node.js backend, ejs, HTML and a MongoDB database.
 
-![Alt text](/screenshots/eventcreation.png?raw=true)
+![Alt text](/screenshots/createevent.png?raw=true)
+
+![Alt text](/screenshots/listevents.png?raw=true)
 
 ## Contains:
 - app.js = main app & webserver. Launch this and access it with a browser on port 3000
@@ -30,6 +32,7 @@ Todo:
 
 ### Further Todos:
 - Change UI, default to list screen, remove redundant buttons
+- Implement mongo TTL index for events soft deleted
 - Angular front end
 - Proper REST API to replace the messy UI controller...
 

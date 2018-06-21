@@ -22,7 +22,8 @@ module.exports = function (app, mongoose) {
                     end: "2018-06-01 17:00:00",
                     email: "aj@myemail.com",
                     notes: "really iteresting things will be discussed here",
-                    pin: "AJF-PIE"
+                    pin: "AJF-PIE",
+                    deleted: false,
                 },
                 feedback: [{
                         starRating: 5,
@@ -65,7 +66,8 @@ module.exports = function (app, mongoose) {
                     end: "2018-04-01 13:00:00",
                     email: "jakm@liftingcars.com",
                     notes: "shhhhh",
-                    pin: "EFI-2EN"
+                    pin: "EFI-2EN",
+                        deleted: false,
                 },
                 feedback: [{
                     starRating: 4,
@@ -84,7 +86,8 @@ module.exports = function (app, mongoose) {
                     end: "2018-01-01 13:00:00",
                     email: "martino.mangos@fruit.com",
                     notes: "this is going to be su-eet",
-                    pin: "113-MTG"
+                    pin: "113-MTG",
+                        deleted: false,
                 },
                 feedback: [{
                         starRating: 5,
@@ -127,7 +130,8 @@ module.exports = function (app, mongoose) {
                     end: "2018-03-01 13:00:00",
                     email: "ensb@bready.co.uk",
                     notes: "come see me nail things down in thi sone",
-                    pin: "PEK-YKM"
+                    pin: "PEK-YKM",
+                        deleted: false,
                 },
                 feedback: [{
                     starRating: 4,
@@ -149,7 +153,8 @@ module.exports = function (app, mongoose) {
                     end: "2018-02-03 18:00:00",
                     email: "dan.buster@lancaster.co.uk",
                     notes: "you spin me right round baby right round",
-                    pin: "EUD-K6N"
+                    pin: "EUD-K6N",
+                        deleted: false,
                 },
                 feedback: [{
                         starRating: 5,
@@ -200,7 +205,8 @@ module.exports = function (app, mongoose) {
                     end: "2018-06-09 11:00:00",
                     email: "consty@alation.com",
                     notes: "come see us rock about planets",
-                    pin: "FEP-2FB"
+                    pin: "FEP-2FB",
+                        deleted: false,
                 },
                 feedback: [{
                     starRating: 1,
@@ -231,7 +237,8 @@ module.exports = function (app, mongoose) {
                     end: "2018-01-01 23:59:59",
                     email: "monica@whiteroom.com",
                     notes: "snaking at it's best",
-                    pin: "A3G-3IE"
+                    pin: "A3G-3IE",
+                        deleted: false,
                 },
                 feedback: [{
                     starRating: 3,

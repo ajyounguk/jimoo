@@ -19,7 +19,7 @@ module.exports = function (app) {
 
     // UI object
     var ui = {
-        debug: true,
+        debug: false,
         flow: {
             activateDiv: null,
             activateButton: null,
@@ -28,8 +28,8 @@ module.exports = function (app) {
         dates: {
             todayDate: dateNow,
             todayTime: timeNow,
-            searchStartDate: StartDate,
-            searchEndDate: EndDate
+            listStartDate: StartDate,
+            listEndDate: EndDate
         },
         data: {
             event: {
@@ -42,7 +42,7 @@ module.exports = function (app) {
                 notes: null,
                 pin: null
             },
-            searchResults: []
+            listResults: []
         }
     }
 
@@ -60,7 +60,7 @@ module.exports = function (app) {
             pin: null
         }
 
-        ui.data.searchResults = []
+        ui.data.listResults = []
     }
 
 
@@ -107,23 +107,44 @@ module.exports = function (app) {
     }
 
 
-    // 0 load form
+    // 0 load form + get default list of events
     app.get('/', function (req, res) {
 
-        // init the UI event object
+        // init the UI  object
         resetUI()
 
-        // ui flow
-        var date = new Date(Date.now())
-        ui.flow.timestamp = date
-        ui.flow.activateDiv = 'create-div'
-        ui.flow.activateButton = 'create-button'
-        ui.flow.function = 'create'
+        // prepare dates to be used by mongo filter
+        var startdate = new Date(ui.dates.listStartDate + ' 00:00:00')
+        var enddate = new Date(ui.dates.listStartDate + ' 24:00:00')
 
-        res.setHeader('Content-Type', 'text/html');
-        res.render('./index', {
-            ui: ui
+        var query = {
+            'event.start': {
+                $gte: startdate,
+                $lte: enddate
+            },
+            'event.deleted': false
+        }
+
+        Event.find(query, function (err, events) {
+            if (err) {
+                res.status(500)
+                res.send(err)
+            } else {
+                res.status(200)
+                ui.data.listResults = events
+            }
+
+            // ui flow
+            ui.flow.timestamp = new Date(Date.now())
+            ui.flow.activateDiv = 'list-div'
+            ui.flow.activateButton = 'list-button'
+
+            res.setHeader('Content-Type', 'text/html');
+            res.render('./index.ejs', {
+                ui: ui
+            })
         })
+
     })
 
 
@@ -247,26 +268,29 @@ module.exports = function (app) {
         })
     })
 
-
     // 2. Search Events 
     //
     // list events with opton to modify or delete them
-    app.post('/admin/event/search', function (req, res) {
+    app.post('/admin/event/list', function (req, res) {
 
 
         // reset anything in the event ui object
         resetUI()
 
-        // prepare search form dates to be used by mongo filter
+        // prepare form dates to be used by mongo filter
         var startdate = new Date(req.body.lstartdate + ' 00:00:00')
         var enddate = new Date(req.body.lenddate + ' 24:00:00')
+
+        // set UI date defaults to form dates
+        ui.dates.listStartDate = req.body.lstartdate
+        ui.dates.listEndDate = req.body.lenddate
 
         var query = {
             'event.start': {
                 $gte: startdate,
                 $lte: enddate
             },
-            'event.deleted' : false
+            'event.deleted': false
         }
 
         Event.find(query, function (err, events) {
@@ -275,13 +299,13 @@ module.exports = function (app) {
                 res.send(err)
             } else {
                 res.status(200)
-                ui.data.searchResults = events
+                ui.data.listResults = events
             }
 
             // ui flow
             ui.flow.timestamp = new Date(Date.now())
-            ui.flow.activateDiv = 'search-div'
-            ui.flow.activateButton = 'search-button'
+            ui.flow.activateDiv = 'list-div'
+            ui.flow.activateButton = 'list-button'
 
             res.render('./index.ejs', {
                 ui: ui
@@ -290,7 +314,7 @@ module.exports = function (app) {
     })
 
 
-    // 3. Modify Event (hooks in from search list, uses mongo object ID to load data into create / update screens)
+    // 3. Modify Event (hooks in from list, uses mongo object ID to load data into create / update screens)
     //
     // finds doc in mongo, loads attributes into ui object for editing
     app.get('/admin/event/modify/:id', function (req, res) {
@@ -326,13 +350,13 @@ module.exports = function (app) {
         })
     })
 
-    // 4. Delete Event (hooks in from search list, uses mongo object ID to load data into create / update screens)
+    // 4. Delete Event (hooks in from list, uses mongo object ID to load data into create / update screens)
     app.get('/admin/event/delete/:id', function (req, res) {
 
         // set timestamp & init ui flow
         ui.flow.timestamp = new Date(Date.now())
         ui.flow.activateDiv = 'delete-confirmation-div'
-        ui.flow.activateButton = 'search-button'
+        ui.flow.activateButton = 'list-button'
         ui.flow.function = 'delete'
 
         var id = req.params.id;
@@ -360,9 +384,7 @@ module.exports = function (app) {
         })
     })
 
-
-
-    // 4. Delete Event (hooks in from search list, uses mongo object ID to load data into create / update screens)
+    // 4. Delete Event (hooks in from list, uses mongo object ID to load data into create / update screens)
     app.get('/admin/event/delete-confirm-ok', function (req, res) {
 
         // set timestamp & init ui flow
