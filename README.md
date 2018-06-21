@@ -1,6 +1,6 @@
 ![Alt text](/public/jimoo.png?raw=true)
 
-## Jimoo - an event feedback tool
+## Jimoo - The event feedback tool
 
 ## What is this?
 Jimoo is a work in progress web app, that will allow you to get feedback for an event/meeting. 
