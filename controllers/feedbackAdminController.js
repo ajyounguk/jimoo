@@ -1,11 +1,14 @@
-// Jimoo - feedback controler
-// web ui and mongo controller for the admin interactions 
+// Jimoo - feedback admin controler
+// web ui and mongo controller for the admin interactions (event management)
 //
 
 module.exports = function (app) {
 
     // load Event model for mongo
     var Event = require('../models/eventModel')
+
+     // load UI data model 
+     var ui = require('../models/uiDataModel')
 
     //  todays date and time (used as default event dates)
     var dateNow = new Date(Date.now()).toISOString().split('T')[0]
@@ -17,36 +20,8 @@ module.exports = function (app) {
     var StartDate = new Date(thisYear, thisMonth, 2).toISOString().split('T')[0]
     var EndDate = new Date(thisYear, thisMonth + 1, 2).toISOString().split('T')[0]
 
-    // UI object
-    var ui = {
-        debug: false,
-        flow: {
-            activateDiv: null,
-            activateButton: null,
-            timestamp: null
-        },
-        dates: {
-            todayDate: dateNow,
-            todayTime: timeNow,
-            listStartDate: StartDate,
-            listEndDate: EndDate
-        },
-        data: {
-            event: {
-                name: null,
-                location: null,
-                presenter: null,
-                start: null,
-                end: null,
-                email: null,
-                notes: null,
-                pin: null
-            },
-            listResults: []
-        }
-    }
 
-    // reset UI = helper function
+    // Helper - reset UI data
     function resetUI() {
 
         ui.data.event = {
@@ -64,7 +39,7 @@ module.exports = function (app) {
     }
 
 
-    // Make PIN = helper function
+    // Helper - make PIN
     function makePin(attempts, callback) {
 
         if (attempts >= 20) {
@@ -107,8 +82,14 @@ module.exports = function (app) {
     }
 
 
-    // 0 load form + get default list of events
-    app.get('/', function (req, res) {
+    // 1 - List events (default admin view)
+    // 
+    // called from: 
+    // displays: 
+    //
+    // loads default event list for current month
+    // 
+    app.get('/admin', function (req, res) {
 
         // init the UI  object
         resetUI()
@@ -148,9 +129,12 @@ module.exports = function (app) {
     })
 
 
-    // 1a. Create event (called from create screen, ok button)
+    // 2A. Create event 
+    // called from : create screen, OK button
+    // displays : create event confirmation screen
+    // 
+    // captures form event data into ui object + generates PIN 
     //
-    // captures form data into ui object + generate pin if we don't have one
     app.post('/admin/event/create-ok', function (req, res) {
 
         ui.data.event.name = req.body.name
@@ -195,9 +179,12 @@ module.exports = function (app) {
     })
 
 
-    // 1b. Create event (called from confirm screen, ok button)
+    // 2B. Create event
+    // called from : event creation confirmation screen, ok button
+    // displays : event created and PIN screen
     //
-    // create mongo doc if pin doesn't exist, otherwise update it
+    // creates mongo doc if pin doesn't exist, otherwise updates it (supporting modify functions)
+    //
     app.get('/admin/event/create-confirm-ok', function (req, res) {
 
         // PIN maker helper function
@@ -251,10 +238,13 @@ module.exports = function (app) {
     })
 
 
-    // 1c. Create event (called from confirm screen,back button)
+    // 2C. Create event 
+    // called from: confirm screen, back button
+    // displays: create event form
     //
-    // just redisplay the event create form
-    app.get('/admin/event/create-confirm-back', function (req, res) {
+    // redisplayes the event creation form
+    //
+    app.get('/admin/event/create-confirm-cancel', function (req, res) {
 
         // ui flow
         var date = new Date(Date.now())
@@ -268,9 +258,12 @@ module.exports = function (app) {
         })
     })
 
-    // 2. Search Events 
+    // 3. List Events 
     //
-    // list events with opton to modify or delete them
+    // called from: list events button
+    // displays: list of events with opton to modify or delete them
+    //
+    // gets event list from mongo and loads ui object with them
     app.post('/admin/event/list', function (req, res) {
 
 
@@ -314,9 +307,12 @@ module.exports = function (app) {
     })
 
 
-    // 3. Modify Event (hooks in from list, uses mongo object ID to load data into create / update screens)
+    // 3. Modify Event 
     //
-    // finds doc in mongo, loads attributes into ui object for editing
+    // called from : modify button on event list
+    // displays: the event creation screen prepopulated so it can be modified
+    //
+    // finds mongo object by id, loads event UI object
     app.get('/admin/event/modify/:id', function (req, res) {
 
         // set timestamp & init ui flow
@@ -350,7 +346,13 @@ module.exports = function (app) {
         })
     })
 
-    // 4. Delete Event (hooks in from list, uses mongo object ID to load data into create / update screens)
+
+    // 4A. Delete Event 
+    //
+    // called from: delete event button from event list
+    // displays: delete confirmation screen
+    //
+    // gets event data from mongo and loads ui object
     app.get('/admin/event/delete/:id', function (req, res) {
 
         // set timestamp & init ui flow
@@ -384,13 +386,19 @@ module.exports = function (app) {
         })
     })
 
-    // 4. Delete Event (hooks in from list, uses mongo object ID to load data into create / update screens)
+
+    // 4B. Delete Event 
+    // 
+    // called from: ok button on delete confirmation screen
+    // displays: goes back to event list
+    //
+    // finds mongo object by ID and soft deletes it (event.deleted attrib = true)
     app.get('/admin/event/delete-confirm-ok', function (req, res) {
 
         // set timestamp & init ui flow
         ui.flow.timestamp = new Date(Date.now())
-        ui.flow.activateDiv = 'create-div'
-        ui.flow.activateButton = 'create-button'
+        ui.flow.activateDiv = 'list-div'
+        ui.flow.activateButton = 'list-button'
         ui.flow.function = 'delete'
 
         var id = ui.data.event.id;

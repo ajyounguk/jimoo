@@ -13,9 +13,6 @@ var port = process.env.PORT || 3000
 
 
 
-// setup bodyparser
-
-
 // configure assets, views, json encoded bodies and encoded bodies
 app.use('/assets', express.static(__dirname + '/public'))
 app.set('views', __dirname + '/views')
@@ -45,9 +42,11 @@ mongoose.connect(mongourl, function (err) {
 
 // load the controllers
 var feedbackAdminController = require('./controllers/feedbackAdminController')
+var feedbackController = require('./controllers/feedbackController')
 var setupController = require('./controllers/setupController')
 
 feedbackAdminController(app)
+feedbackController(app)
 setupController(app, mongoose)
 
 
