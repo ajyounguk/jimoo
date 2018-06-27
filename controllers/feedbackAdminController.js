@@ -4,82 +4,26 @@
 
 module.exports = function (app) {
 
+    // require Helper functions
+    var helper = require('./helpers')
+
     // load Event model for mongo
     var Event = require('../models/eventModel')
 
-     // load UI data model 
-     var ui = require('../models/uiDataModel')
+    // load UI data model 
+    var ui = require('../models/uiDataModel')
 
+
+    // delete
     //  todays date and time (used as default event dates)
-    var dateNow = new Date(Date.now()).toISOString().split('T')[0]
-    var timeNow = new Date(Date.now()).toTimeString().split(' ')[0].substr(0, 5)
-
+    // delete var dateNow = new Date(Date.now()).toISOString().split('T')[0]
+    // var timeNow = new Date(Date.now()).toTimeString().split(' ')[0].substr(0, 5)
     //  todays date & todays date + 1 month (as default ui)
-    var thisYear = new Date(Date.now()).getFullYear()
-    var thisMonth = new Date(Date.now()).getMonth()
-    var StartDate = new Date(thisYear, thisMonth, 2).toISOString().split('T')[0]
-    var EndDate = new Date(thisYear, thisMonth + 1, 2).toISOString().split('T')[0]
+    // var thisYear = new Date(Date.now()).getFullYear()
+    // var thisMonth = new Date(Date.now()).getMonth()
+    // var StartDate = new Date(thisYear, thisMonth, 2).toISOString().split('T')[0]
+    // var EndDate = new Date(thisYear, thisMonth + 1, 2).toISOString().split('T')[0]
 
-
-    // Helper - reset UI data
-    function resetUI() {
-
-        ui.data.event = {
-            name: null,
-            location: null,
-            presenter: null,
-            start: null,
-            end: null,
-            email: null,
-            notes: null,
-            pin: null
-        }
-
-        ui.data.listResults = []
-    }
-
-
-    // Helper - make PIN
-    function makePin(attempts, callback) {
-
-        if (attempts >= 20) {
-            console.log('ERROR, pin generation failed after too many collisions (20)')
-            callback('too may attempts at pin generation', null)
-        }
-
-        var text = ""
-        var possible = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-
-        for (var i = 0; i <= 6; i++) {
-            if (i == 3) {
-                text += '-'
-            } else {
-                text += possible.charAt(Math.floor(Math.random() * possible.length))
-            }
-        }
-
-        var query = {
-            'event.pin': text,
-            'deleted': false
-        }
-
-        // check PIN doesn't already exist
-        Event.find(query, function (err, result) {
-
-            if (err) {
-                callback(err, null) // error
-            } else {
-                if (result.length) {
-                    attempts++
-                    console.log('WARNING, collision detected in pin generation attempt', 1)
-                    makePin(attempts, callback)
-
-                } else {
-                    callback(null, text) // no pin collision all good
-                }
-            }
-        })
-    }
 
 
     // 1 - List events (default admin view)
@@ -92,11 +36,11 @@ module.exports = function (app) {
     app.get('/admin', function (req, res) {
 
         // init the UI  object
-        resetUI()
+        helper.resetUI()
 
         // prepare dates to be used by mongo filter
         var startdate = new Date(ui.dates.listStartDate + ' 00:00:00')
-        var enddate = new Date(ui.dates.listStartDate + ' 24:00:00')
+        var enddate = new Date(ui.dates.listEndDate + ' 24:00:00')
 
         var query = {
             'event.start': {
@@ -113,20 +57,20 @@ module.exports = function (app) {
             } else {
                 res.status(200)
                 ui.data.listResults = events
+
+                // ui flow
+                ui.flow.timestamp = new Date(Date.now())
+                ui.flow.activateDiv = 'list-div'
+                ui.flow.activateButton = 'list-button'
+
+                res.render('./index.ejs', {
+                    ui: ui
+                })
             }
-
-            // ui flow
-            ui.flow.timestamp = new Date(Date.now())
-            ui.flow.activateDiv = 'list-div'
-            ui.flow.activateButton = 'list-button'
-
-            res.setHeader('Content-Type', 'text/html');
-            res.render('./index.ejs', {
-                ui: ui
-            })
         })
-
     })
+
+
 
 
     // 2A. Create event 
@@ -156,7 +100,7 @@ module.exports = function (app) {
 
         // if we don't have a PIN, generate it
         if (ui.data.event.pin == null) {
-            makePin(0, function (err, pincode) {
+            helper.makePin(0, function (err, pincode) {
                 if (err) {
                     res.status(500)
                     res.send(err)
@@ -268,7 +212,7 @@ module.exports = function (app) {
 
 
         // reset anything in the event ui object
-        resetUI()
+        helper.resetUI()
 
         // prepare form dates to be used by mongo filter
         var startdate = new Date(req.body.lstartdate + ' 00:00:00')
@@ -293,16 +237,15 @@ module.exports = function (app) {
             } else {
                 res.status(200)
                 ui.data.listResults = events
+                 // ui flow
+                 ui.flow.timestamp = new Date(Date.now())
+                 ui.flow.activateDiv = 'list-div'
+                 ui.flow.activateButton = 'list-button'
+
+                 res.render('./index.ejs', {
+                     ui: ui
+                 })
             }
-
-            // ui flow
-            ui.flow.timestamp = new Date(Date.now())
-            ui.flow.activateDiv = 'list-div'
-            ui.flow.activateButton = 'list-button'
-
-            res.render('./index.ejs', {
-                ui: ui
-            })
         })
     })
 
@@ -404,13 +347,15 @@ module.exports = function (app) {
         var id = ui.data.event.id;
 
         // find document and set ui object with it's value
-        Event.findByIdAndUpdate(id, { 'event.deleted': true }, function (err, event) {
+        Event.findByIdAndUpdate(id, {
+            'event.deleted': true
+        }, function (err, event) {
             if (err) {
                 res.status(500)
                 res.send(err)
             } else {
-            
-                resetUI()
+
+                helper.resetUI()
                 res.render('./index.ejs', {
                     ui: ui
                 })

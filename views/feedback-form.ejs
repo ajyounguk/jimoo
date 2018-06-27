@@ -1,31 +1,340 @@
 <!-- 1. List Events -->
 <div id="pin-div" class="menu-div padded">
-    <form method="POST" action="/event/feedback/pin/">
+    <form method="POST" action="/feedback">
 
-        <span>What is your PIN?</span>
+        <span>Event PIN</span>
         <hr>
         <br>
 
         <div class="groupdiv">
 
-            <label>Event Name</label>
-            <table>
-                <tr>
-                    <td>
-                        <input class="field-small" placeholder="" id="pin1" type="text" name="pin1" required>
-                        <br>
-                    </td>
-                    <td>
-                        <input class="field-small" placeholder="" id="pin2" type="text" name="pin2" required>
-                        <br>
-                    </td>
-                </tr>
-            </table>
-            <br>
-            <br>
-            
+            <label>PIN</label>
+
+
+            <input class="field-pin" placeholder="" id="pin1" type="text" name="pin1" maxlength="3" required>-
+            <input class="field-pin" placeholder="" id="pin2" type="text" name="pin2" maxlength="3" required>
+
             <input type="submit" value="OK">
 
         </div>
     </form>
 </div>
+
+<!-- 2. Feedback  -->
+<div id="feedback-div" class="menu-div padded">
+
+    <% if ( typeof ui.data.event == 'object' && ui.data.event ) { %>
+
+        <span>Feedback</span>
+        <hr>
+        <br>
+
+        <div class="groupdiv-list">
+
+            <table class="fullw">
+
+                <tr class="darker">
+                    <td>
+                        <label>Event</label>
+                        <p>
+                            <%= ui.data.event.name %> by
+                                <%= ui.data.event.presenter %>
+                        </p>
+                        <p>
+                            <%= ui.data.event.location %>,
+                                <%=new Date(ui.data.event.start).toString().split('GMT')[0] %>
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <br>
+
+        <div class="groupdiv">
+
+            <p class="attention">
+                <b>
+                    <i>Feedback is anonymous unless you want to leave your name and/or email below</i>
+                </b>
+            </p>
+            <br>
+
+            <div class="groupdiv darker">
+
+                <br>
+                <label>Event rating</label>
+                <table>
+                    <tr>
+                        <td>
+                            <label>1</label>
+                        </td>
+                        <td>
+                            <label>2</label>
+                        </td>
+                        <td>
+                            <label>3</label>
+                        </td>
+                        <td>
+                            <label>4</label>
+                        </td>
+                        <td>
+                            <label>5</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="radio" name="event" id="event1" value="1"></input>
+                        </td>
+                        <td>
+                            <input type="radio" name="event" id="event2" value="2"></input>
+                        </td>
+                        <td>
+                            <input type="radio" name="event" id="event3" value="3"></input>
+                        </td>
+                        <td>
+                            <input type="radio" name="event" id="event4" value="4"></input>
+                        </td>
+                        <td>
+                            <input type="radio" name="event" id="event5" value="5"></input>
+                        </td>
+                    </tr>
+                </table>
+                <br>
+
+            </div>
+
+            <div class="groupdiv">
+                <br>
+                <label>Presenter rating</label>
+                <table>
+                    <tr>
+                        <td>
+                            <label>1</label>
+                        </td>
+                        <td>
+                            <label>2</label>
+                        </td>
+                        <td>
+                            <label>3</label>
+                        </td>
+                        <td>
+                            <label>4</label>
+                        </td>
+                        <td>
+                            <label>5</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="radio" name="presenter" id="presenter1" value="1"></input>
+                        </td>
+                        <td>
+                            <input type="radio" name="presenter" id="presenter2" value="2"></input>
+                        </td>
+                        <td>
+                            <input type="radio" name="presenter" id="presenter3" value="3"></input>
+                        </td>
+                        <td>
+                            <input type="radio" name="presenter" id="presenter4" value="4"></input>
+                        </td>
+                        <td>
+                            <input type="radio" name="presenter" id="presenter5" value="5"></input>
+                        </td>
+                    </tr>
+                </table>
+                <br>
+            </div>
+
+            <div class="groupdiv darker">
+                <br>
+                <label>I found this event engaging</label>
+                <table>
+                    <tr>
+                        <td>
+                            <label>1</label>
+                        </td>
+                        <td>
+                            <label>2</label>
+                        </td>
+                        <td>
+                            <label>3</label>
+                        </td>
+                        <td>
+                            <label>4</label>
+                        </td>
+                        <td>
+                            <label>5</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="radio" name="engaging" id="engaging1" value="1"></input>
+                        </td>
+                        <td>
+                            <input type="radio" name="engaging" id="engaging2" value="2"></input>
+                        </td>
+                        <td>
+                            <input type="radio" name="engaging" id="engaging3" value="3"></input>
+                        </td>
+                        <td>
+                            <input type="radio" name="engaging" id="engaging4" value="4"></input>
+                        </td>
+                        <td>
+                            <input type="radio" name="engaging" id="engaging5" value="5"></input>
+                        </td>
+                    </tr>
+                </table>
+                <br>
+            </div>
+
+        <div class="groupdiv">
+            <br>
+            <label>
+                I found this event innovative</label>
+            <table>
+                <tr>
+                    <td>
+                        <label>1</label>
+                    </td>
+                    <td>
+                        <label>2</label>
+                    </td>
+                    <td>
+                        <label>3</label>
+                    </td>
+                    <td>
+                        <label>4</label>
+                    </td>
+                    <td>
+                        <label>5</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="radio" name="innovative" id="innovative1" value="1"></input>
+                    </td>
+                    <td>
+                        <input type="radio" name="innovative" id="innovative2" value="2"></input>
+                    </td>
+                    <td>
+                        <input type="radio" name="innovative" id="innovative3" value="3"></input>
+                    </td>
+                    <td>
+                        <input type="radio" name="innovative" id="innovative4" value="4"></input>
+                    </td>
+                    <td>
+                        <input type="radio" name="innovative" id="innovative5" value="5"></input>
+                    </td>
+                </tr>
+            </table>
+            <br>
+        </div>
+
+
+
+        <div class="groupdiv darker">
+            <br>
+
+            <label>
+                I found this event inspiring</label>
+            <table>
+                <tr>
+                    <td>
+                        <label>1</label>
+                    </td>
+                    <td>
+                        <label>2</label>
+                    </td>
+                    <td>
+                        <label>3</label>
+                    </td>
+                    <td>
+                        <label>4</label>
+                    </td>
+                    <td>
+                        <label>5</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="radio" name="inspiring" id="inspiring1" value="1"></input>
+                    </td>
+                    <td>
+                        <input type="radio" name="inspiring" id="inspiring2" value="2"></input>
+                    </td>
+                    <td>
+                        <input type="radio" name="inspiring" id="inspiring" value="3"></input>
+                    </td>
+                    <td>
+                        <input type="radio" name="inspiring" id="inspiring4" value="4"></input>
+                    </td>
+                    <td>
+                        <input type="radio" name="inspiring" id="inspiring5" value="5"></input>
+                    </td>
+                </tr>
+            </table>
+            <br>
+
+
+        </div>
+</div>
+
+<label>
+    I found this event informative</label>
+<table>
+    <tr>
+        <td>
+            <label>1</label>
+        </td>
+        <td>
+            <label>2</label>
+        </td>
+        <td>
+            <label>3</label>
+        </td>
+        <td>
+            <label>4</label>
+        </td>
+        <td>
+            <label>5</label>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <input type="radio" name="informative" id="informative1" value="1"></input>
+        </td>
+        <td>
+            <input type="radio" name="informative" id="informative2" value="2"></input>
+        </td>
+        <td>
+            <input type="radio" name="informative" id="informative3" value="3"></input>
+        </td>
+        <td>
+            <input type="radio" name="informative" id="informative4" value="4"></input>
+        </td>
+        <td>
+            <input type="radio" name="informative" id="informative5" value="5"></input>
+        </td>
+    </tr>
+</table>
+<br>
+
+
+<label>Any other feedback?</label>
+<textarea class="small" placeholder="feedback goes here" id="feedback" name="feedback"></textarea>
+
+
+</div>
+
+<% } %>
+
+    <!-- debug -->
+    <% if (ui.debug) { %>
+        <br>
+        <br>
+        <label>Debug</label>
+        <textarea>
+            <%= JSON.stringify(ui,null,3) %>
+        </textarea>
+        <% } %>
+            </div>

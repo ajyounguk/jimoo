@@ -1,72 +1,75 @@
 <!DOCTYPE html>
 <html>
 
-    <head>
-        <link rel="stylesheet" type="text/css" href="/assets/styles.css" />
-        <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
-        <title>Jimoo</title>
-    </head>
+<head>
+    <link rel="stylesheet" type="text/css" href="/assets/styles.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
+    <title>Jimoo</title>
+</head>
 
-    <body class="simple-style" onLoad="activateUI('<%= ui.flow.activateDiv %>','<%= ui.flow.activateButton %>')">
+<body class="simple-style" onLoad="activateUI('<%= ui.flow.activateDiv %>','<%= ui.flow.activateButton %>')">
 
-        <div class="title groupdiv">
+    
+    <div class="title groupdiv">
+        <!--
+        <table class="title">
 
-            <table class="title">
-            
-                <tr>
-                    <td>
-                        <h1 class="title">Jimoo</h1>
-                    </td>
-                    <td class="subtitle">
-                        <span class="subtitle">easy feedback</span>
-                    </td>
-                </tr>
-            </table>
+            <tr>
+                <td>
+                    <h1 class="title">Jimoo</h1>
+                </td>
+                <td class="subtitle">
+                    <span class="subtitle">easy feedback</span>
+                </td>
+            </tr>
+        </table>
+        -->
 
-            <hr>
-            <div class="buttons">
-                <input id='create-button' class="menu-button" type="submit" value="Event" onclick="activateUI('create-div','create-button')">
-                <input id='list-button' class="menu-button" type="submit" value="Event List" onclick="activateUI('list-div','list-button')">
-            </div>
-
+        <hr>
+        <div class="buttons">
+            <input id='create-button' class="menu-button" type="submit" value="Event" onclick="activateUI('create-div','create-button')">
+            <input id='list-button' class="menu-button" type="submit" value="Event List" onclick="activateUI('list-div','list-button')">
         </div>
+    </div>
 
 
-        <!-- Form Partials -->
-        <% include ./feedback-admin-form.ejs %>
-        <% include ./feedback-form.ejs %>
+    <!-- Form Partials -->
+    <% include ./feedback-admin-form.ejs %>
+    <% include ./feedback-form.ejs %>   
 
-        <!-- navbar buttons control  -->
-        <!-- toggles div sections for the forms and the buttons) -->
-        <script>
-            function activateUI(activateDiv, activateButton) {
+    <!-- navbar buttons control  -->
+    <!-- toggles div sections for the forms and the buttons) -->
+    <script>
+        function activateUI(activateDiv, activateButton) {
 
-                // enable divs
-                var i;
+            // enable divs
+            var i;
 
-                var divs = document.getElementsByClassName("menu-div");
-                var buttons = document.getElementsByClassName("menu-button");
+            var divs = document.getElementsByClassName("menu-div");
+            var buttons = document.getElementsByClassName("menu-button");
 
-                // reset/disable all divs
-                for (i = 0; i < divs.length; i++) {
+            // reset/disable all divs
+            for (i = 0; i < divs.length; i++) {
 
-                    if (divs[i] == document.getElementById(activateDiv)) {
-                        divs[i].style.display = "block";
-                    } else {
-                        divs[i].style.display = "none";
-                    }
-                }
-
-
-                // disable all buttons
-                for (i = 0; i < buttons.length; i++) {
-                    if (buttons[i] == document.getElementById(activateButton)) {
-                        buttons[i].style.background = "rgb(0, 9, 12)";
-                    } else {
-                        buttons[i].style.background = "";
-                    }
+                if (divs[i] == document.getElementById(activateDiv)) {
+                    divs[i].style.display = "block";
+                } else {
+                    divs[i].style.display = "none";
                 }
             }
-        </script>
-    </body>
+
+
+            // disable all buttons
+            for (i = 0; i < buttons.length; i++) {
+                if (buttons[i] == document.getElementById(activateButton)) {
+                    buttons[i].style.background = "rgb(0, 9, 12)";
+                } else {
+                    buttons[i].style.background = "";
+                }
+            }
+        }
+    </script>
+
+</body>
+
 </html>
