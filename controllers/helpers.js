@@ -1,6 +1,7 @@
 
 // load UI data model 
 var ui = require('../models/uiDataModel')
+var Event = require('../models/eventModel')
 
 // Helper - reset UI data
 function resetUI() {

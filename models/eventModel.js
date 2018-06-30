@@ -21,10 +21,14 @@ var eventSchema = new Schema({
         deleted: Boolean
     },
     feedback: [{
-        starRating: Number,
-        engaging: Number,
-        inspiring: Number,
-        informative: Number,
+        rating: {
+            event: Number,
+            presenter: Number,
+            engaging: Number,
+            innovative: Number,
+            inspiring: Number,
+            informative: Number
+        },
         notes: String,
         name: String,
         email: String,

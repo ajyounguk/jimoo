@@ -138,7 +138,7 @@ module.exports = function (app) {
         var startd = new Date(ui.data.event.startdate + " " + ui.data.event.starttime)
         var endd = new Date(ui.data.event.enddate + " " + ui.data.event.endtime)
 
-        // match on PIN
+        // match on PIN 
         var query = {
             'event.pin': ui.data.event.pin,
             'event.deleted': false
@@ -155,7 +155,8 @@ module.exports = function (app) {
                 end: endd,
                 pin: ui.data.event.pin,
                 deleted: false
-            }
+            },
+            feedback:[]
         }
 
         // ui flow
@@ -281,6 +282,8 @@ module.exports = function (app) {
                 ui.data.event.pin = event.event.pin
                 ui.data.event.start = event.event.start
                 ui.data.event.end = event.event.end
+
+                ui.data.event.feedback = event.event.feedback
 
                 res.render('./index.ejs', {
                     ui: ui

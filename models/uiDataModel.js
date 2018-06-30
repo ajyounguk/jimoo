@@ -32,8 +32,9 @@ var ui = {
             end: null,
             email: null,
             notes: null,
-            pin: null
-        },
+            pin: null,
+        }, 
+        feedback: [],
         listResults: []
     }
 }
