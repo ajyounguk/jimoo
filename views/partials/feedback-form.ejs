@@ -1,4 +1,4 @@
-<!-- 1. List Events -->
+<!-- 1. Find Event by PIN -->
 <div id="pin-div" class="menu-div padded">
     <form method="POST" action="/feedback/pin">
 
@@ -20,7 +20,21 @@
     <% include ./debug.ejs %>
 </div>
 
-<!-- 2. Feedback  -->
+<!-- 1B. Find Event by PIN -->
+<div id="pin-not-found-div" class="menu-div padded">
+    <form method="GET" action="/">
+
+        <span>No event with PIN <%= ui.data.event.pin %> can be found</span>
+        <hr>
+        <br>
+
+        <input type="submit" value="OK">
+
+    </form>
+    <% include ./debug.ejs %>
+</div>
+
+<!-- 2. Capture Feedback  -->
 <div id="feedback-div" class="menu-div padded">
 
     <% if ( typeof ui.data.event == 'object' && ui.data.event ) { %>
@@ -29,45 +43,25 @@
 
 
 
-            <span>Feedback</span>
+            <span>Feedback (anonymous unless you want to leave your details below)</span>
             <hr>
             <br>
 
 
-<span>Event Details</span><br>
 
-            <div class="groupdiv-list">
 
-                <table class="fullw">
-
-                    <tr>
-                        <td>
-
-                            <label>
-                                <%= ui.data.event.name %> by
-                                    <%= ui.data.event.presenter %>
-                            </label>
-                            <label>
-                                <%= ui.data.event.location %>,
-                                    <%=new Date(ui.data.event.start).toString().split('GMT')[0] %>
-                            </label>
-                        </td>
-                    </tr>
-                </table>
+            <div class="groupdiv-list darker">
+                <p readonly><%= ui.data.event.name %> by <%= ui.data.event.presenter %></p>
+                <p readonly><%= ui.data.event.location %>, <%=new Date(ui.data.event.start).toString().split('GMT')[0] %></p>
             </div>
             <br>
             </p>
 
-              <Label>
-                    <i>Feedback is anonymous unless you want to leave your details below</i>
-                </label>
 
 
             <div class="groupdiv">
 
-              
-
-                <br><span>How would you rate:</span><br><hr>
+                <span>Overall ratings</span><br><hr>
 
                 <br>
                 <label>The event</label>
@@ -112,7 +106,7 @@
 
 
 
-                <br>
+
                 <label>The presenter</label>
                 <table>
                     <tr>
@@ -153,7 +147,7 @@
                 <br>
 
 
-                <br><span>Did you find the event:</span><br><hr>
+                <span>Did you find the event</span><br><hr>
 
                 <br>
                 <label>Engaging</label>
@@ -197,7 +191,7 @@
 
                 
                 
-                <br>
+
                 <label>Innovative</label>
                 <table>
                     <tr>
@@ -236,11 +230,11 @@
                     </tr>
                 </table>
                 <br>
-                <hr>
+
                 
                 
                 
-                <br>
+
                 <label>Inspiring</label>
                 <table>
                     <tr>
@@ -281,7 +275,7 @@
                 <br>
 
 
-                <br>
+
                 <label>Informative</label>
                 <table>
                     <tr>
@@ -323,18 +317,18 @@
 
 
 
-                <br>
-                <label>Other feedback comments (optional)</label>
+
+                <label>Other feedback or comments (optional)</label>
                 <textarea class="small" placeholder="Other feedback" id="notes" name="notes"></textarea>
  
                 <br>
                 <label>Name (optional)</label>
-                <input class="field-long" placeholder="Name" id="name" type="text" name="name" required>
+                <input class="field-long" placeholder="Name" id="name" type="text" name="name">
                 <br>
 
                 <br>
                 <label>Email (optional)</label>
-                <input class="field-long" placeholder="Email" id="email" type="text" name="email" required>
+                <input class="field-long" placeholder="Email" id="email" type="text" name="email">
                 <br>
                 <br>
 
@@ -357,10 +351,10 @@
 
 
 
-<!-- 3. Feedback Confirmation  -->
+<!-- 3. Feedback Saved, Confirmation  -->
 <div id="feedback-confirmation-div" class="menu-div padded">
     <form method="GET" action="/">
-        <span>Thanks for your feedback on this event!</span>
+        <span>Thanks for your feedback!</span>
         <hr>
         <br>
         <input type="submit" value="OK">            

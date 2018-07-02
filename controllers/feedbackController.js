@@ -59,24 +59,34 @@ module.exports = function (app) {
                 res.status(500)
                 res.send(err)
             } else {
-                res.status(200)
-                ui.data.event.id = event.id
-                ui.data.event.name = event.event.name
-                ui.data.event.location = event.event.location
-                ui.data.event.presenter = event.event.presenter
-                ui.data.event.email = event.event.email
-                ui.data.event.notes = event.event.notes
-                ui.data.event.pin = event.event.pin
-                ui.data.event.start = event.event.start
-                ui.data.event.end = event.event.end
 
-                ui.data.feedback = event.feedback
+                if (event) {
+
+                    res.status(200)
+                    ui.data.event.id = event.id
+                    ui.data.event.name = event.event.name
+                    ui.data.event.location = event.event.location
+                    ui.data.event.presenter = event.event.presenter
+                    ui.data.event.email = event.event.email
+                    ui.data.event.notes = event.event.notes
+                    ui.data.event.pin = event.event.pin
+                    ui.data.event.start = event.event.start
+                    ui.data.event.end = event.event.end
+
+                    ui.data.feedback = event.feedback
 
 
-                // ui flow
-                ui.flow.timestamp = new Date(Date.now())
-                ui.flow.activateDiv = 'feedback-div'
-                ui.flow.activateButton = 'feedback-button'
+                    ui.flow.timestamp = new Date(Date.now())
+                    ui.flow.activateDiv = 'feedback-div'
+                    ui.flow.activateButton = 'feedback-button'
+                } else { // not found
+
+                    ui.data.event.pin = pin
+                    
+                    ui.flow.timestamp = new Date(Date.now())
+                    ui.flow.activateDiv = 'pin-not-found-div'
+                    ui.flow.activateButton = 'feedback-button'
+                }
 
                 res.setHeader('Content-Type', 'text/html');
                 res.render('./index.ejs', {
