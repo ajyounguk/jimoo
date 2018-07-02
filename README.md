@@ -5,16 +5,20 @@ Jimoo is a work in progress web app, that will allow you to get feedback for an 
 
 Developed with a Node.js backend, ejs, HTML and a MongoDB database.
 
+
 ![Alt text](/screenshots/createevent.png?raw=true)
+
+![Alt text](/screenshots/feedback.png?raw=true)
 
 ![Alt text](/screenshots/listevents.png?raw=true)
 
 ## Contains:
 - app.js = main app & webserver. Launch this and access it with a browser on port 3000
-- /controllers = HTTP routes mongo access controllers for the admin and feedback functionality. Also includes a controller to setup the MongoDB with test data
+- /controllers = HTTP routes, mongo access controllers, helper functions and. Also includes a setup controller to create test data
 - /config = example mongoDB connection/config file
 - /public = stylesheet & icons
-- views = main index.ejs and form HTML
+- screenshos = screenshots
+- views = main index.ejs and form HTML partials
 
 ### Event admin functionality:
 - Create a new event
@@ -26,15 +30,13 @@ Todo:
 - Other stats (splunk?)
 
 ### Feedback functionality
-Todo:
 - Enter pin + provide feedback
-- View real time feedback
+Todo:
+- View real time feedback summary
 
 ### Further Todos:
-- Change UI, default to list screen, remove redundant buttons
 - Implement mongo TTL index for events soft deleted
-- Angular front end
-- Proper REST API to replace the messy UI controller...
+- Angular front end + REST API to replace the messy UI controller... (maybe)
 
 
 ## Installation overview
@@ -64,7 +66,7 @@ run the webserver:
 node app.js
 ```
 
-point your browser at the local/remoteIP port 3000 to load the HTML UI
+point your browser at the IP:3000/admin to load admin UI or IP:3000 for the feedback UI
 
 
 

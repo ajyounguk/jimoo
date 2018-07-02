@@ -12,7 +12,6 @@ var app = express()
 var port = process.env.PORT || 3000
 
 
-
 // configure assets, views, json encoded bodies and encoded bodies
 app.use('/assets', express.static(__dirname + '/public'))
 app.set('views', __dirname + '/views')
