@@ -71,8 +71,6 @@ module.exports = function (app) {
     })
 
 
-
-
     // 2A. Create event 
     // called from : create screen, OK button
     // displays : create event confirmation screen
@@ -343,7 +341,7 @@ module.exports = function (app) {
 
         // set timestamp & init ui flow
         ui.flow.timestamp = new Date(Date.now())
-        ui.flow.activateDiv = 'list-div'
+        ui.flow.activateDiv = 'delete-deleted-div'
         ui.flow.activateButton = 'list-button'
         ui.flow.function = 'delete'
 
@@ -358,7 +356,6 @@ module.exports = function (app) {
                 res.send(err)
             } else {
 
-                helper.resetUI()
                 res.render('./index.ejs', {
                     ui: ui
                 })

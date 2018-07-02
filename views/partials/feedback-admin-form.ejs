@@ -196,9 +196,7 @@
             <br>
 
             <label>Event Notes</label>
-            <textarea class="small" placeholder="Event Notes" id="notes" name="notes" required>
-                <%= ui.data.event.notes %>
-            </textarea>
+            <textarea class="small" placeholder="Event Notes" id="notes" name="notes" required><%= ui.data.event.notes %></textarea>
             <br>
 
             <table>
@@ -513,6 +511,102 @@
                     </td>
                     <td>
                         <input type="button" onclick="window.location.href='/admin'" value="Cancel">
+                    </td>
+                </tr>
+            </table>
+            <br>
+        </div>
+    <% } %>
+
+    <% include ./debug.ejs %>
+</div>
+
+
+
+
+<!-- 4. Event Deleted -->
+<div id="delete-deleted-div" class="menu-div padded">
+
+    <% if ( typeof ui.data.event == 'object' && ui.data.event ) { %>
+
+        <span>Event Deleted</span>
+        <hr>
+        <br>
+
+        <div class="groupdiv-list">
+
+            <table class="fullw">
+
+                <tr class="darker">
+                    <td>
+                        <label>Event</label>
+                        <p>
+                            <%= ui.data.event.name %>
+                        </p>
+                        <hr>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <label>Presenter</label>
+                        <p>
+                            <%= ui.data.event.presenter %>
+                        </p>
+                        <hr>
+                    </td>
+                </tr>
+
+                <tr class="darker">
+                    <td>
+                        <label>Email</label>
+                        <p>
+                            <%= ui.data.event.email %>
+                        </p>
+                        <hr>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <label>Location</label>
+                        <p>
+                            <%= ui.data.event.location %>
+                        </p>
+                        <hr>
+                    </td>
+                </tr>
+
+                <tr class="darker">
+                    <td>
+                        <label>Time</label>
+                        <p>
+                            <%= new Date(ui.data.event.startdate + ' ' +  ui.data.event.starttime ).toString().split('GMT')[0] %>
+                        </p>
+                        <p>
+                            <%= new Date(ui.data.event.enddate + ' ' +  ui.data.event.endtime ).toString().split('GMT')[0] %>%></p>
+                        <hr>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td>
+                        <label>Notes</label>
+                        <p>
+                            <%= ui.data.event.notes %>
+                        </p>
+                        <hr>
+                    </td>
+                </tr>
+
+            </table>
+            <br>
+
+            <table>
+                <tr>
+                    <td>
+                        <input type="button" onclick="window.location.href='/admin'" value="OK">
                     </td>
                 </tr>
             </table>

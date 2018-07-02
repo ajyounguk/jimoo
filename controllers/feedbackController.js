@@ -47,7 +47,7 @@ module.exports = function (app) {
     app.post('/feedback/pin', function (req, res) {
 
 
-        var pin = req.body.pin1.toUpperCase() + '-' + req.body.pin2.toUpperCase()
+        var pin = req.body.pin.toUpperCase() 
 
         var query = {
             'event.pin': pin,

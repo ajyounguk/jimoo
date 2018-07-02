@@ -35,12 +35,8 @@ function makePin(attempts, callback) {
     var text = ""
     var possible = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
-    for (var i = 0; i <= 6; i++) {
-        if (i == 3) {
-            text += '-'
-        } else {
+    for (var i = 0; i <= 4; i++) {
             text += possible.charAt(Math.floor(Math.random() * possible.length))
-        }
     }
 
     var query = {

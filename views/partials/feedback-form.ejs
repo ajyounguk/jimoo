@@ -11,8 +11,7 @@
             <label>PIN</label>
 
 
-            <input class="field-pin" placeholder="" id="pin1" type="text" name="pin1" maxlength="3" required>-
-            <input class="field-pin" placeholder="" id="pin2" type="text" name="pin2" maxlength="3" required>
+            <input class="field-pin" placeholder="" id="pin" type="text" name="pin" maxlength="5" required>
 
             <input type="submit" value="OK">
 
@@ -35,6 +34,8 @@
             <br>
 
 
+<span>Event Details</span><br>
+
             <div class="groupdiv-list">
 
                 <table class="fullw">
@@ -42,14 +43,14 @@
                     <tr>
                         <td>
 
-                            <p>
+                            <label>
                                 <%= ui.data.event.name %> by
                                     <%= ui.data.event.presenter %>
-                            </p>
-                            <p>
+                            </label>
+                            <label>
                                 <%= ui.data.event.location %>,
                                     <%=new Date(ui.data.event.start).toString().split('GMT')[0] %>
-                            </p>
+                            </label>
                         </td>
                     </tr>
                 </table>
@@ -57,15 +58,19 @@
             <br>
             </p>
 
-
-            <div class="groupdiv">
-
-                <Label>
+              <Label>
                     <i>Feedback is anonymous unless you want to leave your details below</i>
                 </label>
 
+
+            <div class="groupdiv">
+
+              
+
+                <br><span>How would you rate:</span><br><hr>
+
                 <br>
-                <label>Event rating</label>
+                <label>The event</label>
                 <table>
                     <tr>
                         <td>
@@ -104,11 +109,11 @@
                 </table>
                 <br>
 
-                <hr>
+
 
 
                 <br>
-                <label>Presenter rating</label>
+                <label>The presenter</label>
                 <table>
                     <tr>
                         <td>
@@ -146,11 +151,12 @@
                     </tr>
                 </table>
                 <br>
-                <hr>
 
+
+                <br><span>Did you find the event:</span><br><hr>
 
                 <br>
-                <label>I found this event engaging</label>
+                <label>Engaging</label>
                 <table>
                     <tr>
                         <td>
@@ -188,12 +194,11 @@
                     </tr>
                 </table>
                 <br>
-                <hr>
 
-
+                
+                
                 <br>
-                <label>
-                    I found this event innovative</label>
+                <label>Innovative</label>
                 <table>
                     <tr>
                         <td>
@@ -232,14 +237,11 @@
                 </table>
                 <br>
                 <hr>
-
-
-
-
+                
+                
+                
                 <br>
-
-                <label>
-                    I found this event inspiring</label>
+                <label>Inspiring</label>
                 <table>
                     <tr>
                         <td>
@@ -279,11 +281,8 @@
                 <br>
 
 
-                <hr>
-
-
-                <label>
-                    I found this event informative</label>
+                <br>
+                <label>Informative</label>
                 <table>
                     <tr>
                         <td>
@@ -321,21 +320,20 @@
                     </tr>
                 </table>
                 <br>
-                <hr>
-                <br>
 
 
-                <label>Other feedback and contact details (optional)</label>
+
                 <br>
+                <label>Other feedback comments (optional)</label>
                 <textarea class="small" placeholder="Other feedback" id="notes" name="notes"></textarea>
-
+ 
                 <br>
-                <label>Name</label>
+                <label>Name (optional)</label>
                 <input class="field-long" placeholder="Name" id="name" type="text" name="name" required>
                 <br>
 
                 <br>
-                <label>Email</label>
+                <label>Email (optional)</label>
                 <input class="field-long" placeholder="Email" id="email" type="text" name="email" required>
                 <br>
                 <br>
