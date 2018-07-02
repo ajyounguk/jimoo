@@ -1,16 +1,17 @@
-## Jimoo - an event feedback tool
+<img src="https://github.com/ajyounguk/jimoo/blob/master/public/jimoo.png" width="100" height="100">
+
+## Jimoo - The event feedback tool
 
 ## What is this?
 Jimoo is a work in progress web app, that will allow you to get feedback for an event/meeting. 
 
 Developed with a Node.js backend, ejs, HTML and a MongoDB database.
 
+![Create Event](/screenshots/createevent.png?raw=true)
 
-![Alt text](/screenshots/createevent.png?raw=true)
+![Feedback](/screenshots/feedback.png?raw=true)
 
-![Alt text](/screenshots/feedback.png?raw=true)
-
-![Alt text](/screenshots/listevents.png?raw=true)
+![List Events](/screenshots/listevents.png?raw=true)
 
 ## Contains:
 - app.js = main app & webserver. Launch this and access it with a browser on port 3000
