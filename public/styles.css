@@ -93,6 +93,13 @@ input {
     margin: 10px 10px 10px 10px;
 }
 
+.simple-style p.attention {
+    font-size: 16px;
+    margin: 10px 10px 10px 10px;
+    color: #aa1d1d
+    
+}
+
 .simple-style p.conf {
     font-size: 20px;
     margin: 10px 10px 10px 10px;
@@ -485,6 +492,13 @@ select {
 
 .simple-style input.field-small {
     width: 170PX;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+}
+
+.simple-style input.field-pin {
+    width: 15%;
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
     border-radius: 6px;

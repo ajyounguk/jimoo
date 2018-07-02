@@ -1,0 +1,364 @@
+<!-- 1. Find Event by PIN -->
+<div id="pin-div" class="menu-div padded">
+    <form method="POST" action="/feedback/pin">
+
+        <span>Event PIN</span>
+        <hr>
+        <br>
+
+        <div class="groupdiv">
+
+            <label>PIN</label>
+
+
+            <input class="field-pin" placeholder="" id="pin" type="text" name="pin" maxlength="5" required>
+
+            <input type="submit" value="OK">
+
+        </div>
+    </form>
+    <% include ./debug.ejs %>
+</div>
+
+<!-- 1B. Find Event by PIN -->
+<div id="pin-not-found-div" class="menu-div padded">
+    <form method="GET" action="/">
+
+        <span>No event with PIN <%= ui.data.event.pin %> can be found</span>
+        <hr>
+        <br>
+
+        <input type="submit" value="OK">
+
+    </form>
+    <% include ./debug.ejs %>
+</div>
+
+<!-- 2. Capture Feedback  -->
+<div id="feedback-div" class="menu-div padded">
+
+    <% if ( typeof ui.data.event == 'object' && ui.data.event ) { %>
+    
+        <form method="POST" action="/feedback">
+
+
+
+            <span>Feedback (anonymous unless you want to leave your details below)</span>
+            <hr>
+            <br>
+
+
+
+
+            <div class="groupdiv-list darker">
+                <p readonly><%= ui.data.event.name %> by <%= ui.data.event.presenter %></p>
+                <p readonly><%= ui.data.event.location %>, <%=new Date(ui.data.event.start).toString().split('GMT')[0] %></p>
+            </div>
+            <br>
+            </p>
+
+
+
+            <div class="groupdiv">
+
+                <span>Overall ratings</span><br><hr>
+
+                <br>
+                <label>The event</label>
+                <table>
+                    <tr>
+                        <td>
+                            <label>1</label>
+                        </td>
+                        <td>
+                            <label>2</label>
+                        </td>
+                        <td>
+                            <label>3</label>
+                        </td>
+                        <td>
+                            <label>4</label>
+                        </td>
+                        <td>
+                            <label>5</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="radio" name="event" id="event1" value="1" required></input>
+                        </td>
+                        <td>
+                            <input type="radio" name="event" id="event2" value="2" required></input>
+                        </td>
+                        <td>
+                            <input type="radio" name="event" id="event3" value="3" required></input>
+                        </td>
+                        <td>
+                            <input type="radio" name="event" id="event4" value="4" required></input>
+                        </td>
+                        <td>
+                            <input type="radio" name="event" id="event5" value="5" required></input>
+                        </td>
+                    </tr>
+                </table>
+                <br>
+
+
+
+
+
+                <label>The presenter</label>
+                <table>
+                    <tr>
+                        <td>
+                            <label>1</label>
+                        </td>
+                        <td>
+                            <label>2</label>
+                        </td>
+                        <td>
+                            <label>3</label>
+                        </td>
+                        <td>
+                            <label>4</label>
+                        </td>
+                        <td>
+                            <label>5</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="radio" name="presenter" id="presenter1" value="1" required></input>
+                        </td>
+                        <td>
+                            <input type="radio" name="presenter" id="presenter2" value="2" required></input>
+                        </td>
+                        <td>
+                            <input type="radio" name="presenter" id="presenter3" value="3" required></input>
+                        </td>
+                        <td>
+                            <input type="radio" name="presenter" id="presenter4" value="4" required></input>
+                        </td>
+                        <td>
+                            <input type="radio" name="presenter" id="presenter5" value="5" required></input>
+                        </td>
+                    </tr>
+                </table>
+                <br>
+
+
+                <span>Did you find the event</span><br><hr>
+
+                <br>
+                <label>Engaging</label>
+                <table>
+                    <tr>
+                        <td>
+                            <label>1</label>
+                        </td>
+                        <td>
+                            <label>2</label>
+                        </td>
+                        <td>
+                            <label>3</label>
+                        </td>
+                        <td>
+                            <label>4</label>
+                        </td>
+                        <td>
+                            <label>5</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="radio" name="engaging" id="engaging1" value="1" required></input>
+                        </td>
+                        <td>
+                            <input type="radio" name="engaging" id="engaging2" value="2" required></input>
+                        </td>
+                        <td>
+                            <input type="radio" name="engaging" id="engaging3" value="3" required></input>
+                        </td>
+                        <td>
+                            <input type="radio" name="engaging" id="engaging4" value="4" required></input>
+                        </td>
+                        <td>
+                            <input type="radio" name="engaging" id="engaging5" value="5" required></input>
+                        </td>
+                    </tr>
+                </table>
+                <br>
+
+                
+                
+
+                <label>Innovative</label>
+                <table>
+                    <tr>
+                        <td>
+                            <label>1</label>
+                        </td>
+                        <td>
+                            <label>2</label>
+                        </td>
+                        <td>
+                            <label>3</label>
+                        </td>
+                        <td>
+                            <label>4</label>
+                        </td>
+                        <td>
+                            <label>5</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="radio" name="innovative" id="innovative1" value="1" required></input>
+                        </td>
+                        <td>
+                            <input type="radio" name="innovative" id="innovative2" value="2" required></input>
+                        </td>
+                        <td>
+                            <input type="radio" name="innovative" id="innovative3" value="3" required></input>
+                        </td>
+                        <td>
+                            <input type="radio" name="innovative" id="innovative4" value="4" required></input>
+                        </td>
+                        <td>
+                            <input type="radio" name="innovative" id="innovative5" value="5" required></input>
+                        </td>
+                    </tr>
+                </table>
+                <br>
+
+                
+                
+                
+
+                <label>Inspiring</label>
+                <table>
+                    <tr>
+                        <td>
+                            <label>1</label>
+                        </td>
+                        <td>
+                            <label>2</label>
+                        </td>
+                        <td>
+                            <label>3</label>
+                        </td>
+                        <td>
+                            <label>4</label>
+                        </td>
+                        <td>
+                            <label>5</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="radio" name="inspiring" id="inspiring1" value="1" required></input>
+                        </td>
+                        <td>
+                            <input type="radio" name="inspiring" id="inspiring2" value="2" required></input>
+                        </td>
+                        <td>
+                            <input type="radio" name="inspiring" id="inspiring" value="3" required></input>
+                        </td>
+                        <td>
+                            <input type="radio" name="inspiring" id="inspiring4" value="4" required></input>
+                        </td>
+                        <td>
+                            <input type="radio" name="inspiring" id="inspiring5" value="5" required></input>
+                        </td>
+                    </tr>
+                </table>
+                <br>
+
+
+
+                <label>Informative</label>
+                <table>
+                    <tr>
+                        <td>
+                            <label>1</label>
+                        </td>
+                        <td>
+                            <label>2</label>
+                        </td>
+                        <td>
+                            <label>3</label>
+                        </td>
+                        <td>
+                            <label>4</label>
+                        </td>
+                        <td>
+                            <label>5</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="radio" name="informative" id="informative1" value="1" required></input>
+                        </td>
+                        <td>
+                            <input type="radio" name="informative" id="informative2" value="2" required></input>
+                        </td>
+                        <td>
+                            <input type="radio" name="informative" id="informative3" value="3" required></input>
+                        </td>
+                        <td>
+                            <input type="radio" name="informative" id="informative4" value="4" required></input>
+                        </td>
+                        <td>
+                            <input type="radio" name="informative" id="informative5" value="5" required></input>
+                        </td>
+                    </tr>
+                </table>
+                <br>
+
+
+
+
+                <label>Other feedback or comments (optional)</label>
+                <textarea class="small" placeholder="Other feedback" id="notes" name="notes"></textarea>
+ 
+                <br>
+                <label>Name (optional)</label>
+                <input class="field-long" placeholder="Name" id="name" type="text" name="name">
+                <br>
+
+                <br>
+                <label>Email (optional)</label>
+                <input class="field-long" placeholder="Email" id="email" type="text" name="email">
+                <br>
+                <br>
+
+
+                <table>
+                    <tr>
+                        <td>
+                            <input type="submit" value="OK">
+                        </td>
+                        <td>
+                            <input type="button" onclick="window.location.href='/'" value="Cancel">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </form>
+    <% } %>
+    <% include ./debug.ejs %>
+</div>
+
+
+
+<!-- 3. Feedback Saved, Confirmation  -->
+<div id="feedback-confirmation-div" class="menu-div padded">
+    <form method="GET" action="/">
+        <span>Thanks for your feedback!</span>
+        <hr>
+        <br>
+        <input type="submit" value="OK">            
+    </form>
+    <% include ./debug.ejs %>
+</div>
+

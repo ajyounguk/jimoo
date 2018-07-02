@@ -1,321 +1,4 @@
-<!-- 1a. Create Event -->
-<div id="create-div" class="menu-div padded">
-    <form method="POST" action="/admin/event/create-ok">
-
-        <span>Event</span>
-        <hr>
-        <br>
-
-        <div class="groupdiv">
-
-            <label>Event Name</label>
-            <input class="field-long" placeholder="Event Name" id="name" type="text" name="name" value="<%= ui.data.event.name %>" required>
-            <br>
-            <br>
-
-            <label>Location</label>
-            <input class="field-long" placeholder="Event Location" id="location" type="text" name="location" value="<%= ui.data.event.location %>"
-                required>
-            <br>
-            <br>
-
-            <label>Presenter</label>
-            <input class="field-long" placeholder="Event Presenter" id="presenter" type="text" name="presenter" value="<%= ui.data.event.presenter %>"
-                required>
-            <br>
-            <br>
-
-            <label>Contact Email</label>
-            <input class="field-long" placeholder="Contact Email" id="email" type="text" name="email" value="<%= ui.data.event.email %>"
-                required>
-            <br>
-            <br>
-
-            <table class="fullw">
-                <tr>
-                    <td class="halfw">
-                        <label>Start Date &amp; Time</label>
-                    </td>
-                    <td class="halfw">
-                        <label>End Date &amp; Time</label>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input id="startdate" type="date" name="startdate" value="<%= ui.dates.todayDate %>" required>
-                    </td>
-                    <td>
-                        <input id="enddate" type="date" name="enddate" value="<%= ui.dates.todayDate %>" required>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input id="starttime" type="time" name="starttime" value="<%= ui.dates.todayTime %>" required>
-                    </td>
-                    <td>
-                        <input id="endtime" type="time" name="endtime" value="<%= ui.dates.todayTime %>" required>
-                    </td>
-                </tr>
-            </table>
-            <br>
-
-            <label>Event Notes</label>
-            <textarea class="small" placeholder="Event Notes" id="notes" name="notes" required><%= ui.data.event.notes %></textarea>
-            <br>
-
-            <table>
-                <tr>
-                    <td>
-                        <input type="submit" value="OK">
-                    </td>
-                    <td>
-                        <input type="button" onclick="location.href='/'" value="Cancel">
-                    </td>
-                </tr>
-            </table>
-            
-
-        </div>
-    </form>
-
-    <!-- debug -->
-    <% if (ui.debug) { %>
-        <br>
-        <br>
-        <label>Debug</label>
-        <textarea>
-            <%= JSON.stringify(ui,null,3) %>
-        </textarea>
-        <% } %>
-</div>
-
-
-<!-- 1b. Confirm Event -->
-<div id="create-confirmation-div" class="menu-div padded">
-
-    <% if ( typeof ui.data.event == 'object' && ui.data.event ) { %>
-
-        <span>Confirm Event Details</span>
-        <hr>
-        <br>
-
-        <div class="groupdiv-list">
-
-            <table class="fullw">
-
-                <tr class="darker">
-                    <td>
-                        <label>Event</label>
-                        <p>
-                            <%= ui.data.event.name %>
-                        </p>
-                        <hr>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        <label>Presenter</label>
-                        <p>
-                            <%= ui.data.event.presenter %>
-                        </p>
-                        <hr>
-                    </td>
-                </tr>
-
-                <tr class="darker">
-                    <td>
-                        <label>Email</label>
-                        <p>
-                            <%= ui.data.event.email %>
-                        </p>
-                        <hr>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        <label>Location</label>
-                        <p>
-                            <%= ui.data.event.location %>
-                        </p>
-                        <hr>
-                    </td>
-                </tr>
-
-                <tr class="darker">
-                    <td>
-                        <label>Time</label>
-                        <p>
-                            <%= new Date(ui.data.event.startdate + ' ' +  ui.data.event.starttime ).toString().split('GMT')[0] %>
-                        </p>
-                        <p>
-                            <%= new Date(ui.data.event.enddate + ' ' +  ui.data.event.endtime ).toString().split('GMT')[0] %>
-                        </p>
-                        <hr>
-                    </td>
-                </tr>
-
-
-                <tr>
-                    <td>
-                        <label>Notes</label>
-                        <p>
-                            <%= ui.data.event.notes %>
-                        </p>
-                        <hr>
-                    </td>
-                </tr>
-
-            </table>
-            <br>
-
-            <table>
-                <tr>
-                    <td>
-                        <input type="button" onclick="location.href='/admin/event/create-confirm-ok'" value="Ok">
-                    </td>
-                    <td>
-                        <input type="button" onclick="location.href='/admin/event/create-confirm-back'" value="Cancel">
-                    </td>
-                </tr>
-            </table>
-            <br>
-        </div>
-
-    <% } %>
-
-    <!-- debug -->
-    <% if (ui.debug) { %>
-        <br>
-        <br>
-        <label>Debug</label>
-        <textarea>
-            <%= JSON.stringify(ui,null,3) %>
-        </textarea>
-    <% } %>
-</div>
-
-
-<!-- 1c. Event Created  -->
-<div id="event-created-div" class="menu-div padded">
-
-    <% if (  ui.data.event.pin != null ) { %>
-
-        <form method="GET" action="/">
-
-            <span>Event Details</span>
-            <hr>
-            <br>
-
-
-            <div class="groupdiv-list">
-                <table class="fullw">
-                    <tr class="darker">
-                        <td>
-                            <label>Please make a note of your feedback PIN</label>
-                            <h2 class="pin">
-                                <b>
-                                    <%= ui.data.event.pin %>
-                                </b>
-                            </h2>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <br>
-
-            <div class="groupdiv-list">
-
-                <table class="fullw">
-
-                    <tr class="darker">
-                        <td>
-                            <label>Event</label>
-                            <p>
-                                <%= ui.data.event.name %>
-                            </p>
-                            <hr>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <label>Presenter</label>
-                            <p>
-                                <%= ui.data.event.presenter %>
-                            </p>
-                            <hr>
-                        </td>
-                    </tr>
-
-                    <tr class="darker">
-                        <td>
-                            <label>Email</label>
-                            <p>
-                                <%= ui.data.event.email %>
-                            </p>
-                            <hr>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <label>Location</label>
-                            <p>
-                                <%= ui.data.event.location %>
-                            </p>
-                            <hr>
-                        </td>
-                    </tr>
-
-                    <tr class="darker">
-                        <td>
-                            <label>Time</label>
-                            <p>
-                                <%= new Date(ui.data.event.startdate + ' ' +  ui.data.event.starttime ).toString().split('GMT')[0] %>
-                            </p>
-                            <p>
-                                <%= new Date(ui.data.event.enddate + ' ' +  ui.data.event.endtime ).toString().split('GMT')[0] %>%></p>
-                            <hr>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <label>Notes</label>
-                            <p>
-                                <%= ui.data.event.notes %>
-                            </p>
-                            <hr>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <br>
-                            <input type="submit" value="OK">
-                    </tr>
-                    </td>
-
-                </table>
-            </div>
-        </form>
-    <% } %>
-
-    <!-- debug -->
-    <% if (ui.debug) { %>
-        <br>
-        <br>
-        <label>Debug</label>
-        <textarea>
-            <%= JSON.stringify(ui,null,3) %>
-        </textarea>
-    <% } %>
-
-</div>
-
-
-<!-- 2. List Events -->
+<!-- 1. List Events -->
 <div id="list-div" class="menu-div padded">
     <form method="POST" action="/admin/event/list">
 
@@ -437,8 +120,8 @@
                         <tr class="darker">
                             <td>
                                 <br>
-                                <input type="button" onclick="location.href='/admin/event/modify/<%= ui.data.listResults[i]._id %>'" value="Modify">
-                                <input type="button" onclick="location.href='/admin/event/delete/<%= ui.data.listResults[i]._id %>'" value="Delete">
+                                <input type="button" onclick="window.location.href='/admin/event/modify/<%= ui.data.listResults[i]._id %>'" value="Modify">
+                                <input type="button" onclick="window.location.href='/admin/event/delete/<%= ui.data.listResults[i]._id %>'" value="Delete">
 
                     </table>
                 </div>
@@ -447,16 +130,298 @@
             <% } %>
         <% } %>
     </form>
+    <% include ./debug.ejs %>
+</div>
 
-    <!-- debug -->
-    <% if (ui.debug) { %>
+
+<!-- 2A. Create Event -->
+<div id="create-div" class="menu-div padded">
+    <form method="POST" action="/admin/event/create-ok">
+
+        <span>Event</span>
+        <hr>
         <br>
+
+        <div class="groupdiv">
+
+            <label>Event Name</label>
+            <input class="field-long" placeholder="Event Name" id="name" type="text" name="name" value="<%= ui.data.event.name %>" required>
+            <br>
+            <br>
+
+            <label>Location</label>
+            <input class="field-long" placeholder="Event Location" id="location" type="text" name="location" value="<%= ui.data.event.location %>"
+                required>
+            <br>
+            <br>
+
+            <label>Presenter</label>
+            <input class="field-long" placeholder="Event Presenter" id="presenter" type="text" name="presenter" value="<%= ui.data.event.presenter %>"
+                required>
+            <br>
+            <br>
+
+            <label>Contact Email</label>
+            <input class="field-long" placeholder="Contact Email" id="email" type="text" name="email" value="<%= ui.data.event.email %>"
+                required>
+            <br>
+            <br>
+
+            <table class="fullw">
+                <tr>
+                    <td class="halfw">
+                        <label>Start Date &amp; Time</label>
+                    </td>
+                    <td class="halfw">
+                        <label>End Date &amp; Time</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="startdate" type="date" name="startdate" value="<%= ui.dates.todayDate %>" required>
+                    </td>
+                    <td>
+                        <input id="enddate" type="date" name="enddate" value="<%= ui.dates.todayDate %>" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="starttime" type="time" name="starttime" value="<%= ui.dates.todayTime %>" required>
+                    </td>
+                    <td>
+                        <input id="endtime" type="time" name="endtime" value="<%= ui.dates.todayTime %>" required>
+                    </td>
+                </tr>
+            </table>
+            <br>
+
+            <label>Event Notes</label>
+            <textarea class="small" placeholder="Event Notes" id="notes" name="notes" required><%= ui.data.event.notes %></textarea>
+            <br>
+
+            <table>
+                <tr>
+                    <td>
+                        <input type="submit" value="OK">
+                    </td>
+                    <td>
+                        <input type="button" onclick="window.location.href='/admin'" value="Cancel">
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+    </form>
+    <% include ./debug.ejs %>
+</div>
+
+
+<!-- 2B. Confirm Event -->
+<div id="create-confirmation-div" class="menu-div padded">
+
+    <% if ( typeof ui.data.event == 'object' && ui.data.event ) { %>
+
+        <span>Confirm Event Details</span>
+        <hr>
         <br>
-        <label>Debug</label>
-        <textarea>
-            <%= JSON.stringify(ui,null,3) %>
-        </textarea>
+
+        <div class="groupdiv-list">
+
+            <table class="fullw">
+
+                <tr class="darker">
+                    <td>
+                        <label>Event</label>
+                        <p>
+                            <%= ui.data.event.name %>
+                        </p>
+                        <hr>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <label>Presenter</label>
+                        <p>
+                            <%= ui.data.event.presenter %>
+                        </p>
+                        <hr>
+                    </td>
+                </tr>
+
+                <tr class="darker">
+                    <td>
+                        <label>Email</label>
+                        <p>
+                            <%= ui.data.event.email %>
+                        </p>
+                        <hr>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <label>Location</label>
+                        <p>
+                            <%= ui.data.event.location %>
+                        </p>
+                        <hr>
+                    </td>
+                </tr>
+
+                <tr class="darker">
+                    <td>
+                        <label>Time</label>
+                        <p>
+                            <%= new Date(ui.data.event.startdate + ' ' +  ui.data.event.starttime ).toString().split('GMT')[0] %>
+                        </p>
+                        <p>
+                            <%= new Date(ui.data.event.enddate + ' ' +  ui.data.event.endtime ).toString().split('GMT')[0] %>
+                        </p>
+                        <hr>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td>
+                        <label>Notes</label>
+                        <p>
+                            <%= ui.data.event.notes %>
+                        </p>
+                        <hr>
+                    </td>
+                </tr>
+
+            </table>
+            <br>
+
+            <table>
+                <tr>
+                    <td>
+                        <input type="button" onclick="window.location.href='/admin/event/create-confirm-ok'" value="Ok">
+                    </td>
+                    <td>
+                        <input type="button" onclick="window.location.href='/admin/event/create-confirm-cancel'" value="Cancel">
+                    </td>
+                </tr>
+            </table>
+            <br>
+        </div>
+
     <% } %>
+
+    <% include ./debug.ejs %>
+</div>
+
+
+<!-- 2C. Event Created  -->
+<div id="event-created-div" class="menu-div padded">
+
+    <% if (  ui.data.event.pin != null ) { %>
+
+        <form method="GET" action="/admin">
+
+            <span>Event Details</span>
+            <hr>
+            <br>
+
+
+            <div class="groupdiv-list">
+                <table class="fullw">
+                    <tr class="darker">
+                        <td>
+                            <label>Please make a note of your feedback PIN</label>
+                            <h2 class="pin">
+                                <b>
+                                    <%= ui.data.event.pin %>
+                                </b>
+                            </h2>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <br>
+
+            <div class="groupdiv-list">
+
+                <table class="fullw">
+
+                    <tr class="darker">
+                        <td>
+                            <label>Event</label>
+                            <p>
+                                <%= ui.data.event.name %>
+                            </p>
+                            <hr>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <label>Presenter</label>
+                            <p>
+                                <%= ui.data.event.presenter %>
+                            </p>
+                            <hr>
+                        </td>
+                    </tr>
+
+                    <tr class="darker">
+                        <td>
+                            <label>Email</label>
+                            <p>
+                                <%= ui.data.event.email %>
+                            </p>
+                            <hr>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <label>Location</label>
+                            <p>
+                                <%= ui.data.event.location %>
+                            </p>
+                            <hr>
+                        </td>
+                    </tr>
+
+                    <tr class="darker">
+                        <td>
+                            <label>Time</label>
+                            <p>
+                                <%= new Date(ui.data.event.startdate + ' ' +  ui.data.event.starttime ).toString().split('GMT')[0] %>
+                            </p>
+                            <p>
+                                <%= new Date(ui.data.event.enddate + ' ' +  ui.data.event.endtime ).toString().split('GMT')[0] %>%></p>
+                            <hr>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <label>Notes</label>
+                            <p>
+                                <%= ui.data.event.notes %>
+                            </p>
+                            <hr>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <br>
+                            <input type="submit" value="OK">
+                    </tr>
+                    </td>
+
+                </table>
+            </div>
+        </form>
+    <% } %>
+
+    <% include ./debug.ejs %>
+
 </div>
 
 
@@ -542,10 +507,10 @@
             <table>
                 <tr>
                     <td>
-                        <input type="button" onclick="location.href='/admin/event/delete-confirm-ok'" value="Delete This Event">
+                        <input type="button" onclick="window.location.href='/admin/event/delete-confirm-ok'" value="Delete This Event">
                     </td>
                     <td>
-                        <input type="button" onclick="location.href='/'" value="Cancel">
+                        <input type="button" onclick="window.location.href='/admin'" value="Cancel">
                     </td>
                 </tr>
             </table>
@@ -553,13 +518,99 @@
         </div>
     <% } %>
 
-    <!-- debug -->
-    <% if (ui.debug) { %>
+    <% include ./debug.ejs %>
+</div>
+
+
+<!-- 4. Event Deleted -->
+<div id="delete-deleted-div" class="menu-div padded">
+
+    <% if ( typeof ui.data.event == 'object' && ui.data.event ) { %>
+
+        <span>Event Deleted</span>
+        <hr>
         <br>
-        <br>
-        <label>Debug</label>
-        <textarea>
-            <%= JSON.stringify(ui,null,3) %>
-        </textarea>
+
+        <div class="groupdiv-list">
+
+            <table class="fullw">
+
+                <tr class="darker">
+                    <td>
+                        <label>Event</label>
+                        <p>
+                            <%= ui.data.event.name %>
+                        </p>
+                        <hr>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <label>Presenter</label>
+                        <p>
+                            <%= ui.data.event.presenter %>
+                        </p>
+                        <hr>
+                    </td>
+                </tr>
+
+                <tr class="darker">
+                    <td>
+                        <label>Email</label>
+                        <p>
+                            <%= ui.data.event.email %>
+                        </p>
+                        <hr>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <label>Location</label>
+                        <p>
+                            <%= ui.data.event.location %>
+                        </p>
+                        <hr>
+                    </td>
+                </tr>
+
+                <tr class="darker">
+                    <td>
+                        <label>Time</label>
+                        <p>
+                            <%= new Date(ui.data.event.startdate + ' ' +  ui.data.event.starttime ).toString().split('GMT')[0] %>
+                        </p>
+                        <p>
+                            <%= new Date(ui.data.event.enddate + ' ' +  ui.data.event.endtime ).toString().split('GMT')[0] %>%></p>
+                        <hr>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td>
+                        <label>Notes</label>
+                        <p>
+                            <%= ui.data.event.notes %>
+                        </p>
+                        <hr>
+                    </td>
+                </tr>
+
+            </table>
+            <br>
+
+            <table>
+                <tr>
+                    <td>
+                        <input type="button" onclick="window.location.href='/admin'" value="OK">
+                    </td>
+                </tr>
+            </table>
+            <br>
+        </div>
     <% } %>
+
+    <% include ./debug.ejs %>
 </div>
