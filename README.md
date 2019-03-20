@@ -18,7 +18,7 @@ Developed with a Node.js backend, ejs, HTML and a MongoDB database.
 - /controllers = HTTP routes, mongo access controllers, helper functions and. Also includes a setup controller to create test data
 - /config = example mongoDB connection/config file
 - /public = stylesheet & icons
-- screenshos = screenshots
+- screenshots = screenshots
 - views = main index.ejs and form HTML partials
 
 ### Event admin functionality:
