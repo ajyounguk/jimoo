@@ -38,6 +38,6 @@ var eventSchema = new Schema({
 
 
 // person schema for mongo 
-var Event = mongoose.model('Event', eventSchema)
+var Event = mongoose.model('jimoo_events', eventSchema)
 
 module.exports = Event
