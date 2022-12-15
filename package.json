@@ -17,12 +17,12 @@
   },
   "homepage": "https://github.com/ajyounguk/jimoo#readme",
   "dependencies": {
-    "ejs": "^2.7.4",
-    "express": "^4.17.1",
-    "mongoose": "^5.9.4",
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "mongoose": "^5.13.15",
     "serve-favicon": "^2.5.0"
   },
   "devDependencies": {
-    "ejs-lint": "^1.2.0"
+    "ejs-lint": "^1.2.2"
   }
 }
