@@ -135,6 +135,22 @@ v2 (2026) is a rewrite of the 2018 app. The data format is unchanged, but:
 - The create flow has no separate confirmation step: creating takes you to the event page with its PIN.
 - The event list defaults to this month and next (computed per request, not at server start), and is paginated.
 
+### Upgrading v1 data
+
+v1 could give two live events the same PIN (its collision check looked at the wrong field), and seeding twice always did. v2 adds a unique index on the PIN of live events; if your data has duplicates, the index can't be built and the app logs `index build failed on jimoo_events ... E11000 duplicate key` at startup. Everything still works, but PIN uniqueness then relies on a lookup before each insert rather than the database.
+
+To fix it, find the duplicates in `mongosh`:
+
+```js
+db.jimoo_events.aggregate([
+  { $match: { "event.deleted": false } },
+  { $group: { _id: "$event.pin", n: { $sum: 1 }, ids: { $push: "$_id" } } },
+  { $match: { n: { $gt: 1 } } }
+])
+```
+
+Delete the ones you don't need in the app (or Setup → Purge if it's only old seed data), then restart: the index is built on startup.
+
 ## Tests
 
 ```sh

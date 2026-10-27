@@ -13,7 +13,8 @@ const { createEventsRepo } = require('./lib/events')
 const { createResultStore } = require('./lib/results')
 const { securityHeaders, sameOrigin } = require('./lib/security')
 const dates = require('./lib/dates')
-const { RATINGS } = require('./models/eventModel')
+const Event = require('./models/eventModel')
+const { RATINGS } = Event
 const pageController = require('./controllers/pageController')
 const feedbackController = require('./controllers/feedbackController')
 const eventAdminController = require('./controllers/eventAdminController')
@@ -74,6 +75,12 @@ function connectWithRetry(uri, { delayMs = 5000 } = {}) {
     mongoose.set('bufferCommands', false) // fail fast instead of hanging requests
     mongoose.set('strictQuery', true)
     mongoose.set('sanitizeFilter', true)
+
+    // Index builds fail silently otherwise, e.g. the unique PIN index when
+    // v1 data has the same PIN on two live events. The app still works.
+    Event.on('index', err => {
+        if (err) console.warn(`index build failed on ${Event.collection.name} (${err.name}: ${redact(err.message)}); PINs stay unique by lookup only. See README "Upgrading v1 data".`)
+    })
 
     const attempt = () => mongoose.connect(uri, { serverSelectionTimeoutMS: 5000 })
         .then(() => console.log('connected to MongoDB'))
