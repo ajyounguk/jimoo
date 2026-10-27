@@ -1,0 +1,19 @@
+<section class="card">
+    <h2>Edit event</h2>
+    <% if (!event) { %>
+    <p class="muted">Pick an event to edit from the <a href="/?view=events">event list</a>.</p>
+    <% } else { %>
+    <p class="muted">PIN <span class="pin-chip"><%= event.event.pin %></span> and existing feedback are kept.</p>
+    <%- include('notice', { r: result }) %>
+    <%- include('event-form', {
+        editing: true,
+        f: (result && result.input) ? { ...result.input, id: String(event._id) } : {
+            id: String(event._id),
+            name: event.event.name, presenter: event.event.presenter, location: event.event.location,
+            email: event.event.email, notes: event.event.notes,
+            startdate: dates.toDateInput(new Date(event.event.start)), starttime: dates.toTimeInput(new Date(event.event.start)),
+            enddate: dates.toDateInput(new Date(event.event.end)), endtime: dates.toTimeInput(new Date(event.event.end))
+        }
+    }) %>
+    <% } %>
+</section>

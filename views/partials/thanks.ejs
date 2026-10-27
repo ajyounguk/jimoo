@@ -1,0 +1,7 @@
+<section class="card card-narrow thanks">
+    <h2>Thanks for your feedback!</h2>
+    <% if (result && result.ok) { %>
+    <p>Your feedback on <strong><%= result.data.event.name %></strong> has been saved.</p>
+    <% } %>
+    <a class="btn" href="/">Done</a>
+</section>

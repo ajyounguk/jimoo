@@ -1,0 +1,23 @@
+<section class="card">
+    <h2>Setup</h2>
+
+    <div class="admin-row">
+        <div>
+            <h3>Seed sample data</h3>
+            <p class="muted">Adds four sample events (dated from today) with some feedback, each with a new PIN.</p>
+        </div>
+        <form method="POST" action="/admin/setup/seed">
+            <button type="submit" class="btn">Seed data</button>
+        </form>
+    </div>
+
+    <div class="admin-row">
+        <div>
+            <h3>Purge collection</h3>
+            <p class="muted">Permanently deletes <strong>every</strong> document in <code>jimoo_events</code>, including soft-deleted events and all feedback.</p>
+        </div>
+        <form method="POST" action="/admin/setup/purge" data-confirm="Permanently delete every event and all feedback? This can't be undone.">
+            <button type="submit" class="btn btn-danger">Purge all</button>
+        </form>
+    </div>
+</section>

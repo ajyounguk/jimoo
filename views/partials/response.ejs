@@ -1,0 +1,21 @@
+<section class="card response" aria-live="polite">
+    <div class="card-head">
+        <h2>Response</h2>
+        <% if (panel) { %>
+        <span class="status-badge <%= panel.ok ? 'status-ok' : 'status-err' %>"><%= panel.status %></span>
+        <span class="muted"><%= panel.action %></span>
+        <button type="button" class="btn btn-small btn-ghost copy-btn" data-copy-target="response-json">Copy</button>
+        <% } %>
+    </div>
+
+    <% if (panel) { %>
+    <pre class="json" id="response-json"><%= JSON.stringify(panel.ok ? panel.data : { error: panel.error }, null, 2) %></pre>
+    <footer class="response-foot">
+        <span>Request ID <code><%= panel.requestId %></code></span>
+        <span><%= panel.durationMs %> ms</span>
+        <span><%= panel.at %></span>
+    </footer>
+    <% } else { %>
+    <p class="muted">Run an operation to see the response here.</p>
+    <% } %>
+</section>

@@ -1,58 +1,116 @@
-// Jimoo - Easy Feedback Tool
+// Jimoo - easy event feedback
+//
+// createApp() builds the Express app around an injectable events repository,
+// so tests can run it against a fake or an in-memory MongoDB. The server only
+// connects and listens when this file is run directly.
 
-// load modules
-var mongoose = require('mongoose')
-var express = require('express')
-var fs = require('fs')
-var favicon = require('serve-favicon');
-var bodyParser = require('body-parser');
+const path = require('node:path')
+const express = require('express')
+const mongoose = require('mongoose')
 
-// express setup
-var app = express()
-var port = process.env.PORT || 3000
+const { loadConfig, describeUri, redact } = require('./lib/config')
+const { createEventsRepo } = require('./lib/events')
+const { createResultStore } = require('./lib/results')
+const { securityHeaders, sameOrigin } = require('./lib/security')
+const dates = require('./lib/dates')
+const Event = require('./models/eventModel')
+const { RATINGS } = Event
+const pageController = require('./controllers/pageController')
+const feedbackController = require('./controllers/feedbackController')
+const eventAdminController = require('./controllers/eventAdminController')
+const setupController = require('./controllers/setupController')
 
+const STATE_NAMES = ['disconnected', 'connected', 'connecting', 'disconnecting']
 
-// configure assets, views, json encoded bodies and encoded bodies
-app.use('/assets', express.static(__dirname + '/public'))
-app.set('views', __dirname + '/views')
-app.set('view engine', 'ejs')
-app.use(favicon(__dirname + '/public/favicon.ico'));
-app.use(bodyParser.json()); 
-app.use(bodyParser.urlencoded({
-    extended: true
-})); 
+function createApp({
+    events = createEventsRepo(),
+    db = describeUri(loadConfig().uri),
+    dbState = () => STATE_NAMES[mongoose.connection.readyState] || 'unknown',
+    results = createResultStore(),
+    now = () => new Date()
+} = {}) {
+    const app = express()
 
-// load & set mongo config
-var mongoConfig = JSON.parse(fs.readFileSync(__dirname + '/config/mongo-config.json', 'utf8'));
-var mongourl = mongoConfig.mongourl
+    app.disable('x-powered-by')
+    app.set('views', path.join(__dirname, 'views'))
+    app.set('view engine', 'ejs')
+    app.locals.dates = dates
+    app.locals.RATINGS = RATINGS
 
-// connect to mongo
-mongoose.connect(mongourl, function (err) {
-    if (err) {
-        console.log('MongoDB connection error')
-        console.log( JSON.stringify(err),null,3)
-        throw err
-    } else {
-        console.log("Jimoo connected to MongoDB")
+    app.use(securityHeaders)
+    app.use('/assets', express.static(path.join(__dirname, 'public')))
+    app.get('/favicon.ico', (req, res) => res.sendFile(path.join(__dirname, 'public', 'favicon.ico')))
+    app.use(express.urlencoded({ extended: false, limit: '20kb' }))
+    app.use(sameOrigin)
+
+    // shown in the header badge on every page
+    app.use((req, res, next) => {
+        res.locals.db = db
+        res.locals.dbState = dbState()
+        res.locals.now = now()
+        next()
+    })
+
+    app.use(pageController({ events, results }))
+    app.use(feedbackController({ events, results }))
+    app.use(eventAdminController({ events, results }))
+    app.use(setupController({ events, results }))
+
+    app.use((req, res) => {
+        res.status(404).type('text/plain').send('Not found')
+    })
+
+    // eslint-disable-next-line no-unused-vars
+    app.use((err, req, res, next) => {
+        console.error('unhandled error:', redact(err.stack || err))
+        const status = err.status || err.statusCode || 500
+        res.status(status).type('text/plain').send(status === 500 ? 'Internal server error' : err.message)
+    })
+
+    return app
+}
+
+// Connect with retry: the app stays up (showing 503s) while MongoDB is down
+function connectWithRetry(uri, { delayMs = 5000 } = {}) {
+    mongoose.set('bufferCommands', false) // fail fast instead of hanging requests
+    mongoose.set('strictQuery', true)
+    mongoose.set('sanitizeFilter', true)
+
+    // Index builds fail silently otherwise, e.g. the unique PIN index when
+    // v1 data has the same PIN on two live events. The app still works.
+    Event.on('index', err => {
+        if (err) console.warn(`index build failed on ${Event.collection.name} (${err.name}: ${redact(err.message)}); PINs stay unique by lookup only. See README "Upgrading v1 data".`)
+    })
+
+    const attempt = () => mongoose.connect(uri, { serverSelectionTimeoutMS: 5000 })
+        .then(() => console.log('connected to MongoDB'))
+        .catch(err => {
+            console.error(`MongoDB connection failed (${err.name}: ${redact(err.message)}); retrying in ${delayMs / 1000}s`)
+            setTimeout(attempt, delayMs).unref()
+        })
+    mongoose.connection.on('disconnected', () => console.warn('MongoDB disconnected'))
+    return attempt()
+}
+
+if (require.main === module) {
+    const { uri, source } = loadConfig()
+    const db = describeUri(uri)
+    const host = process.env.HOST || '127.0.0.1'
+    const port = Number(process.env.PORT) || 3000
+
+    connectWithRetry(uri)
+    const app = createApp({ db })
+    const server = app.listen(port, host, () => {
+        console.log(`Jimoo on http://${host}:${port}`)
+        console.log(`database: ${db.label}/${db.db} (${db.kind}, from ${source})`)
+    })
+
+    const shutdown = () => {
+        server.close()
+        mongoose.disconnect().finally(() => process.exit(0))
     }
-})
+    process.on('SIGINT', shutdown)
+    process.on('SIGTERM', shutdown)
+}
 
-
-
-// load the controllers
-var feedbackAdminController = require('./controllers/feedbackAdminController')
-var feedbackController = require('./controllers/feedbackController')
-var setupController = require('./controllers/setupController')
-
-
-feedbackAdminController(app)
-feedbackController(app)
-setupController(app, mongoose)
-
-
-// Start server.
-console.log('Jimoo web server listening on port', port);
-
-app.listen(port)
-
-// done -eol
+module.exports = { createApp, connectWithRetry }

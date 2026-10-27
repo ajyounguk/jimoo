@@ -1,0 +1,29 @@
+<%
+    // edit/delete/event detail all live under Events
+    const section = { feedback: 'pin', thanks: 'pin', event: 'events', edit: 'events', delete: 'events' }[view] || view
+    const groups = [
+        { title: 'Attendees', items: [
+            { view: 'pin', href: '/', label: 'Give feedback', hint: 'Enter an event PIN' }
+        ] },
+        { title: 'Organisers', items: [
+            { view: 'events', href: '/?view=events', label: 'Events', hint: 'List, edit, delete' },
+            { view: 'create', href: '/?view=create', label: 'New event', hint: 'Create and get a PIN' },
+            { view: 'setup', href: '/?view=setup', label: 'Setup', hint: 'Seed or purge' }
+        ] }
+    ]
+%>
+<nav class="sidebar" aria-label="Main">
+    <% for (const group of groups) { %>
+    <p class="nav-group"><%= group.title %></p>
+    <ul>
+        <% for (const item of group.items) { %>
+        <li>
+            <a href="<%= item.href %>" class="<%= item.view === section ? 'active' : '' %>"<% if (item.view === section) { %> aria-current="page"<% } %>>
+                <span class="nav-label"><%= item.label %></span>
+                <span class="nav-hint"><%= item.hint %></span>
+            </a>
+        </li>
+        <% } %>
+    </ul>
+    <% } %>
+</nav>
