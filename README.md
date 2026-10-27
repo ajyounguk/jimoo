@@ -25,7 +25,7 @@ PINs use `A–Z` and `2–9` without `I`, `O`, `0` and `1`, so they're easy to r
 Attendees only see an event's name, presenter, location and time: never the organiser's email, the event notes or other people's feedback.
 
 <p>
-  <img src="screenshots/feedback.png" alt="Feedback form" width="640">
+  <img src="screenshots/feedback-form.png" alt="Feedback form" width="640">
   <img src="screenshots/feedback-narrow.png" alt="Feedback form on a phone" width="180">
 </p>
 
