@@ -1,0 +1,56 @@
+<% if (!event) { %>
+<section class="card">
+    <h2>Event</h2>
+    <p class="muted">Couldn't load this event. See the response below. <a href="/?view=events">Back to events</a></p>
+</section>
+<% } else { %>
+<section class="card">
+    <div class="card-head">
+        <h2><%= event.event.name %></h2>
+        <a class="btn btn-small btn-ghost head-action" href="/?view=edit&amp;id=<%= encodeURIComponent(event._id) %>">Edit</a>
+        <a class="btn btn-small btn-ghost btn-danger-text" href="/?view=delete&amp;id=<%= encodeURIComponent(event._id) %>">Delete</a>
+    </div>
+    <div class="pin-panel">
+        <span class="muted">Feedback PIN</span>
+        <span class="pin-big" id="event-pin"><%= event.event.pin %></span>
+        <span class="muted">Attendees enter it on the Give feedback page</span>
+    </div>
+    <%- include('event-details') %>
+</section>
+
+<section class="card">
+    <div class="card-head">
+        <h2>Feedback</h2>
+        <span class="muted"><%= event.summary.count %> response<%= event.summary.count === 1 ? '' : 's' %></span>
+    </div>
+    <% if (event.summary.count === 0) { %>
+    <p class="muted">No feedback yet.</p>
+    <% } else { %>
+    <div class="scores">
+        <% for (const r of RATINGS) { const avg = event.summary.averages[r] %>
+        <div class="score">
+            <span class="score-label"><%= r %></span>
+            <meter class="score-bar" min="0" max="5" low="2.5" high="3.9" optimum="5" value="<%= avg == null ? 0 : avg %>"></meter>
+            <span class="score-value"><%= avg == null ? '–' : avg %></span>
+        </div>
+        <% } %>
+    </div>
+    <div class="table-wrap">
+        <table class="table">
+            <thead><tr><th>When</th><th>Ratings</th><th>Comments</th><th>From</th></tr></thead>
+            <tbody>
+                <% for (const f of event.feedback) { %>
+                <tr>
+                    <td class="nowrap"><%= dates.formatWhen(f.date) %></td>
+                    <td class="mono nowrap"><%= RATINGS.map(r => (f.rating && f.rating[r]) || '–').join(' ') %></td>
+                    <td class="prewrap"><%= f.notes || '' %></td>
+                    <td><%= [f.name, f.email].filter(Boolean).join(', ') || 'anonymous' %></td>
+                </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+    <p class="muted small">Ratings column order: <%= RATINGS.join(', ') %>.</p>
+    <% } %>
+</section>
+<% } %>

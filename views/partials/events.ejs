@@ -1,0 +1,64 @@
+<section class="card">
+    <div class="card-head">
+        <h2>Events</h2>
+        <% if (list) { %>
+        <span class="muted"><%= list.total %> between <%= list.from %> and <%= list.to %></span>
+        <% } %>
+        <a class="btn btn-small head-action" href="/?view=create">New event</a>
+    </div>
+
+    <form method="GET" action="/" class="form form-range">
+        <input type="hidden" name="view" value="events">
+        <div class="field">
+            <label for="list-from">From</label>
+            <input type="date" id="list-from" name="from" value="<%= list ? list.from : '' %>" required>
+        </div>
+        <div class="field">
+            <label for="list-to">To</label>
+            <input type="date" id="list-to" name="to" value="<%= list ? list.to : '' %>" required>
+        </div>
+        <div class="actions">
+            <button type="submit" class="btn btn-ghost">Show</button>
+        </div>
+    </form>
+
+    <% if (!list) { %>
+    <p class="muted">Couldn't load the list. See the response below.</p>
+    <% } else if (list.items.length === 0) { %>
+    <p class="muted">No events in this range. <a href="/?view=create">Create one</a>, or use <a href="/?view=setup">Setup</a> to seed sample data.</p>
+    <% } else { %>
+    <div class="table-wrap">
+        <table class="table">
+            <thead>
+                <tr><th>When</th><th>Event</th><th>PIN</th><th>Feedback</th><th><span class="visually-hidden">Actions</span></th></tr>
+            </thead>
+            <tbody>
+                <% for (const e of list.items) { %>
+                <tr>
+                    <td class="nowrap"><%= dates.formatWhen(e.event.start) %></td>
+                    <td>
+                        <a href="/?view=event&amp;id=<%= encodeURIComponent(e._id) %>"><strong><%= e.event.name %></strong></a>
+                        <span class="muted block"><%= e.event.presenter %> · <%= e.event.location %></span>
+                    </td>
+                    <td><span class="pin-chip"><%= e.event.pin %></span></td>
+                    <td class="nowrap"><%= e.feedbackCount %> <span class="muted">response<%= e.feedbackCount === 1 ? '' : 's' %><% if (e.averageRating != null) { %> · avg <%= e.averageRating %>/5<% } %></span></td>
+                    <td class="row-actions">
+                        <a class="btn btn-small btn-ghost" href="/?view=edit&amp;id=<%= encodeURIComponent(e._id) %>">Edit</a>
+                        <a class="btn btn-small btn-ghost btn-danger-text" href="/?view=delete&amp;id=<%= encodeURIComponent(e._id) %>">Delete</a>
+                    </td>
+                </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+    <% } %>
+
+    <% if (list) { %>
+    <div class="pager">
+        <a class="btn btn-small btn-ghost" href="/?view=events&amp;from=<%= list.from %>&amp;to=<%= list.to %>">First page</a>
+        <% if (list.next) { %>
+        <a class="btn btn-small" href="/?view=events&amp;from=<%= list.from %>&amp;to=<%= list.to %>&amp;limit=<%= list.limit %>&amp;after=<%= encodeURIComponent(list.next) %>">Next page</a>
+        <% } %>
+    </div>
+    <% } %>
+</section>

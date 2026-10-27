@@ -1,0 +1,4 @@
+<% /* friendly error line for a failed result: locals.r */ %>
+<% if (r && !r.ok) { %>
+<p class="notice notice-err" role="alert"><strong><%= r.status %></strong> <%= r.error.message %></p>
+<% } %>

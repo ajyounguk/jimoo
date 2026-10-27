@@ -1,0 +1,48 @@
+<%
+    // f: values to pre-fill (strings), editing: bool
+    const v = k => f[k] == null ? '' : f[k]
+    const p = editing ? 'edit' : 'create'
+%>
+<form method="POST" action="<%= editing ? '/admin/events/update' : '/admin/events' %>" class="form">
+    <% if (editing) { %>
+    <input type="hidden" name="id" value="<%= v('id') %>">
+    <% } %>
+    <div class="field">
+        <label for="<%= p %>-name">Event name</label>
+        <input type="text" id="<%= p %>-name" name="name" value="<%= v('name') %>" maxlength="200" required>
+    </div>
+    <div class="field">
+        <label for="<%= p %>-presenter">Presenter</label>
+        <input type="text" id="<%= p %>-presenter" name="presenter" value="<%= v('presenter') %>" maxlength="200" required>
+    </div>
+    <div class="field">
+        <label for="<%= p %>-location">Location</label>
+        <input type="text" id="<%= p %>-location" name="location" value="<%= v('location') %>" maxlength="200" required>
+    </div>
+    <div class="field">
+        <label for="<%= p %>-email">Contact email</label>
+        <input type="email" id="<%= p %>-email" name="email" value="<%= v('email') %>" maxlength="200" required>
+    </div>
+    <div class="field">
+        <label for="<%= p %>-startdate">Start</label>
+        <div class="datetime">
+            <input type="date" id="<%= p %>-startdate" name="startdate" value="<%= v('startdate') %>" required>
+            <input type="time" id="<%= p %>-starttime" name="starttime" value="<%= v('starttime') %>" aria-label="Start time" required>
+        </div>
+    </div>
+    <div class="field">
+        <label for="<%= p %>-enddate">End</label>
+        <div class="datetime">
+            <input type="date" id="<%= p %>-enddate" name="enddate" value="<%= v('enddate') %>" required>
+            <input type="time" id="<%= p %>-endtime" name="endtime" value="<%= v('endtime') %>" aria-label="End time" required>
+        </div>
+    </div>
+    <div class="field wide">
+        <label for="<%= p %>-notes">Notes <span class="muted">(optional)</span></label>
+        <textarea id="<%= p %>-notes" name="notes" rows="3" maxlength="2000"><%= v('notes') %></textarea>
+    </div>
+    <div class="actions">
+        <button type="submit" class="btn"><%= editing ? 'Save changes' : 'Create event' %></button>
+        <a class="btn btn-ghost" href="<%= editing ? '/?view=event&id=' + encodeURIComponent(v('id')) : '/?view=events' %>">Cancel</a>
+    </div>
+</form>

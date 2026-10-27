@@ -1,0 +1,11 @@
+<dl class="details">
+    <div><dt>Event</dt><dd><%= event.event.name %></dd></div>
+    <div><dt>Presenter</dt><dd><%= event.event.presenter %></dd></div>
+    <div><dt>Contact</dt><dd><%= event.event.email %></dd></div>
+    <div><dt>Location</dt><dd><%= event.event.location %></dd></div>
+    <div><dt>Starts</dt><dd><%= dates.formatWhen(event.event.start) %></dd></div>
+    <div><dt>Ends</dt><dd><%= dates.formatWhen(event.event.end) %></dd></div>
+    <% if (event.event.notes) { %>
+    <div class="wide"><dt>Notes</dt><dd class="prewrap"><%= event.event.notes %></dd></div>
+    <% } %>
+</dl>

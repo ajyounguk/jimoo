@@ -1,0 +1,15 @@
+<section class="card card-narrow">
+    <h2>Give feedback</h2>
+    <p class="muted">Enter the 5-character PIN your organiser gave you.</p>
+    <%- include('notice', { r: result || lookup }) %>
+    <form method="GET" action="/" class="form form-inline">
+        <input type="hidden" name="view" value="feedback">
+        <div class="field grow">
+            <label for="pin-input">Event PIN</label>
+            <input type="text" id="pin-input" name="pin" class="pin-input" value="<%= pin %>" maxlength="5" pattern="[A-Za-z0-9]{5}" autocomplete="off" autocapitalize="characters" spellcheck="false" required autofocus>
+        </div>
+        <div class="actions">
+            <button type="submit" class="btn">Continue</button>
+        </div>
+    </form>
+</section>

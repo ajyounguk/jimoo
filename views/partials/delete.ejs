@@ -1,0 +1,16 @@
+<section class="card">
+    <h2>Delete event</h2>
+    <% if (!event) { %>
+    <p class="muted">Pick an event to delete from the <a href="/?view=events">event list</a>.</p>
+    <% } else { %>
+    <%- include('event-details') %>
+    <p>The event and its <strong><%= event.summary.count %></strong> feedback response<%= event.summary.count === 1 ? '' : 's' %> will be hidden, and PIN <span class="pin-chip"><%= event.event.pin %></span> will stop working. The document is soft-deleted (kept in MongoDB with <code>event.deleted: true</code>).</p>
+    <form method="POST" action="/admin/events/delete" class="form" data-confirm="Delete this event? Attendees will no longer be able to use its PIN.">
+        <input type="hidden" name="id" value="<%= String(event._id) %>">
+        <div class="actions">
+            <button type="submit" class="btn btn-danger">Delete event</button>
+            <a class="btn btn-ghost" href="/?view=event&amp;id=<%= encodeURIComponent(event._id) %>">Cancel</a>
+        </div>
+    </form>
+    <% } %>
+</section>

@@ -1,0 +1,58 @@
+<%
+    const groups = [
+        { title: 'Overall', items: [['event', 'The event'], ['presenter', 'The presenter']] },
+        { title: 'Did you find it…', items: [['engaging', 'Engaging'], ['innovative', 'Innovative'], ['inspiring', 'Inspiring'], ['informative', 'Informative']] }
+    ]
+%>
+<% if (!event) { %>
+<%- include('pin') %>
+<% } else { %>
+<section class="card card-narrow">
+    <h2>Feedback</h2>
+    <div class="event-summary">
+        <p class="event-title"><%= event.name %></p>
+        <p class="muted">by <%= event.presenter %> · <%= event.location %> · <%= dates.formatWhen(event.start) %></p>
+    </div>
+    <%- include('notice', { r: result }) %>
+
+    <form method="POST" action="/feedback" class="feedback-form">
+        <input type="hidden" name="pin" value="<%= event.pin %>">
+        <% for (const group of groups) { %>
+        <h3><%= group.title %></h3>
+        <% for (const [key, label] of group.items) { %>
+        <fieldset class="rating">
+            <legend><%= label %></legend>
+            <div class="rating-scale">
+                <% for (let n = 1; n <= 5; n++) { %>
+                <input type="radio" name="<%= key %>" id="rate-<%= key %>-<%= n %>" value="<%= n %>" required>
+                <label for="rate-<%= key %>-<%= n %>"><%= n %></label>
+                <% } %>
+            </div>
+        </fieldset>
+        <% } %>
+        <% } %>
+        <p class="muted scale-hint">1 = poor, 5 = excellent</p>
+
+        <h3>Anything else? <span class="muted">(optional)</span></h3>
+        <div class="field">
+            <label for="fb-notes">Comments</label>
+            <textarea id="fb-notes" name="notes" rows="4" maxlength="2000"></textarea>
+        </div>
+        <p class="muted">Feedback is anonymous unless you add your details.</p>
+        <div class="form">
+            <div class="field">
+                <label for="fb-name">Name</label>
+                <input type="text" id="fb-name" name="name" maxlength="100" autocomplete="name">
+            </div>
+            <div class="field">
+                <label for="fb-email">Email</label>
+                <input type="email" id="fb-email" name="email" maxlength="200" autocomplete="email">
+            </div>
+        </div>
+        <div class="actions">
+            <button type="submit" class="btn">Send feedback</button>
+            <a class="btn btn-ghost" href="/">Cancel</a>
+        </div>
+    </form>
+</section>
+<% } %>

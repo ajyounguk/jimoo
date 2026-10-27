@@ -1,0 +1,17 @@
+<%
+    // default: today, starting at the next full hour, one hour long
+    const start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours() + 1)
+    const end = new Date(start.getTime() + 60 * 60 * 1000)
+%>
+<section class="card">
+    <h2>New event</h2>
+    <p class="muted">A feedback PIN is generated when you create the event.</p>
+    <%- include('notice', { r: result }) %>
+    <%- include('event-form', {
+        editing: false,
+        f: (result && result.input) || {
+            startdate: dates.toDateInput(start), starttime: dates.toTimeInput(start),
+            enddate: dates.toDateInput(end), endtime: dates.toTimeInput(end)
+        }
+    }) %>
+</section>
